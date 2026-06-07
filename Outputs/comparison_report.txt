@@ -1,0 +1,339 @@
+Document Comparison Summary
+
+Total docs: 18
+Total unique normalized entries: 584
+
+Per-document stats:
+- Underfill_Factory_Level.docx: entries=2, unique=2, shared=0, exclusive=2
+- Underfill_Final.docx: entries=9, unique=9, shared=0, exclusive=9
+- Underfill_Final_Official.docx: entries=25, unique=25, shared=1, exclusive=24
+- Underfill_Final_Official_Complete.docx: entries=43, unique=43, shared=11, exclusive=32
+- Underfill_Global_Tech_Summary_Whitepaper.docx: entries=42, unique=42, shared=0, exclusive=42
+- Underfill_Operator_Process_Guide_Final_Relocated.docx: entries=48, unique=48, shared=43, exclusive=5
+- Underfill_Operator_Process_Guide_Integrated_Visuals.docx: entries=48, unique=48, shared=43, exclusive=5
+- Underfill_Operator_Process_Guide_International_Summary - 複製.docx: entries=98, unique=98, shared=98, exclusive=0
+- Underfill_Operator_Process_Guide_International_Summary.docx: entries=98, unique=98, shared=98, exclusive=0
+- Underfill_Pure_Integrated.docx: entries=2, unique=2, shared=0, exclusive=2
+- Underfill_Pure_Integrated_V2.docx: entries=2, unique=2, shared=0, exclusive=2
+- Underfill_TRUE_ULTIMATE_MASTER_HANDBOOK.docx: entries=76, unique=76, shared=2, exclusive=74
+- Underfill_Ultimate_Standard_V10_Consolidated.docx: entries=71, unique=71, shared=4, exclusive=67
+- Underfill_Ultimate_Standard_V3.docx: entries=48, unique=48, shared=1, exclusive=47
+- Underfill_WI_Full_Integrated.docx: entries=59, unique=59, shared=5, exclusive=54
+- Underfill_WI_Graphic_Rich.docx: entries=33, unique=33, shared=3, exclusive=30
+- Underfill_WI_UF3808_Enhanced.docx: entries=47, unique=47, shared=2, exclusive=45
+- Underfill_WI_V2_Henkel_Standard.docx: entries=42, unique=42, shared=7, exclusive=35
+
+High-overlap pairs (Jaccard >= 0.85):
+- Underfill_Operator_Process_Guide_International_Summary - 複製.docx <-> Underfill_Operator_Process_Guide_International_Summary.docx: 1.000
+
+Exclusive entries sample per doc (up to 25):
+
+## Underfill_Factory_Level.docx (2 exclusive)
+- Underfill 作業標準書（工廠級完整版）
+- 1. 目的 確保 SMT Underfill 製程在機械強度、熱循環與可靠度符合 IPC 與客戶要求。 2. 適用範圍 適用於 SMT 產線 BGA / CSP / FlipChip 製程。 3. 職責與權限 (RACI) - 操作員：執行點膠與設備操作 - 製程工程師：參數設定與優化 - 品質工程師：檢驗與判定 - QA主管：異常裁決與放行 4. 材料與設備 - 膠材：Loctite UF3808 - 設備：點膠機 / 烘箱 / X-Ray / CSAM 5. 製程流程 1) 冷凍儲存 (-40~-15°C) 2) 回溫 (1~2hr) 3) PCB預熱 (70~90°C) 4) 點膠 (依L型路徑) 5) 固化 (130°C/8min) 6) 檢驗 6. 製程參數 - 針頭：23~25G - 壓力：0.1~0.3MPa - 高度：0.2~0.5mm 7. 品質判定標準 - Fillet：50~75% - Void：<25% - 無污染 / 無位移 8. 檢驗流程 - 100% 外觀檢查 - 抽樣 X-Ray - 高可靠產品 CSAM 9. 異常處理 - Void → PCB預烤 - 滲透不全 → 提高預熱 - 氣泡 → 延長回溫 10. 異常升級機制 - Level1：工程師處理 - Level2：QA判定 - Level3：主管決策 11. 追溯與保存 - 製程參數記錄 - 檢驗結果 - 保存期限：3年 12. 返修流程 240°C 加熱 → 移除 → IPA 清潔 13. 相關標準 IPC-A-610 / IPC-7095 / IPC-7711
+
+## Underfill_Final.docx (9 exclusive)
+- Underfill 作業標準書（整合完整版）
+- 1. 目的與適用範圍 規範 Loctite UF3808 底填膠製程，適用 SMT BGA/CSP/FlipChip。
+- 2. 材料規格 單組份環氧樹脂，黏度348 cP，Tg 113°C，CTE 55/171 ppm。
+- 3. 儲存與回溫 -40~-15°C 冷凍，回溫1~2hr，禁止強制加熱。
+- 4. 製程流程 預熱PCB 70~90°C → 點膠 → 固化 130°C/8min。
+- 5. 點膠參數 針頭23~25G，壓力0.1~0.3MPa，高度0.2~0.5mm。
+- 6. 品質標準 Fillet 50~75%，Void <25%，依 IPC-A-610。
+- 7. 異常與對策 氣泡→預烤，滲透不足→提高預熱。
+- 8. 返修流程 240°C加熱移除，IPA清潔。
+
+## Underfill_Final_Official.docx (24 exclusive)
+- Underfill 作業標準書（正式發行版）
+- 整合 Loctite UF3808 底填膠之材料特性、製程控制與品質標準，適用於 SMT BGA/CSP/FlipChip。
+- 2. 材料規格
+- 單組份環氧樹脂；黏度348 mPa·s；Tg 113°C；CTE 55/171 ppm；模量2.8 GPa；吸濕<0.5%；工作壽命24hr；儲存-40~-15°C。
+- 3. 儲存與回溫
+- 冷凍儲存FIFO；回溫60~120分鐘；禁止強制加熱。
+- 4. 製程流程
+- 冷凍→回溫→PCB預熱70~90°C→點膠→毛細流動→固化→檢驗。
+- 5. 點膠參數
+- 針頭23~27G；壓力0.1~0.35MPa；高度0.2~0.5mm；需預熱。
+- 6. 點膠路徑
+- I型：小尺寸；L型：推薦（對角排氣）；U型：大型元件。
+- 7. 元件矩陣
+- BGA/WLCSP/FlipChip/QFN依尺寸與Pitch判定使用。
+- 8. 品質標準
+- Fillet 50~75%；Void<25%；不可污染Top；不可溢出。
+- 9. 檢驗
+- Visual 100%；X-Ray抽樣；CSAM高可靠。
+- 10. 異常對策
+- Void→預烤；氣泡→回溫；滲透不全→預熱；分層→清洗。
+- 11. 返修
+- 150°C預熱→240~250°C加熱→移除→IPA清潔。
+- 12. IPC標準
+- IPC-A-610 / IPC-7095 / IPC-J-STD-030 / IPC-7711
+
+## Underfill_Final_Official_Complete.docx (32 exclusive)
+- Underfill Operator Process Guide - Ultimate Edition
+- Standardize the operation of Loctite UF 3808 to ensure board-level reliability.
+- Consolidated Henkel TDS/SDS and IPC International standards.
+- Technical details for Henkel Loctite ECCOBOND UF 3808:
+- Storage (-20C) -> Thaw (RT, 2h) -> Pre-heat PCB (85C) -> Dispense -> Cure (Oven) -> Inspect
+- Standard Settings for Needle and Path:
+- Heat locally to 240°C. Remove component using vacuum. Clean pads while hot.
+- [ ] Expiry Check [ ] Thawing Time (2h) [ ] Board Temp (85C)
+- IPC-J-STD-030 | Standard for Selection and Application of Board Level Underfill Materials. Defines flow rates and curing profiles.
+- IPC-A-610 | Acceptability of Electronic Assemblies. Section 8 defines visual fillet requirements and surface contamination.
+- IPC-7095 | Design and Assembly Process for BGAs. Specifies that total void area should be < 25% of the solder joint area.
+- IPC-7711/7721 | Rework and Repair. Defines the thermal profile required (typically > 240°C) for reworkable epoxy removal.
+- IPC-SM-785 | Guidelines for Accelerated Reliability Testing. Used for defining thermal cycle parameters.
+- Storage Temperature | -40°C to -15°C (Shelf Life: 12 Months)
+- Thawing Time | 60 - 120 Minutes (Vertical orientation, needle down)
+- Work Life (Pot Life) | 24 Hours @ 25°C room temperature
+- Viscosity | 348 mPa·s (cP) @ 25°C, 1,000 s⁻¹
+- Curing Profile | 130°C for 8 minutes OR 150°C for 5 minutes
+- Tg (by TMA) | 113°C
+- CTE (Below / Above Tg) | 55 ppm/°C / 171 ppm/°C
+- Storage Modulus | 2.8 GPa @ 25°C
+- Category | Die Size (mm) | Ball Pitch (mm) | Ball Size (mm) | Suitability
+- BGA | 15~45 | 0.65~1.27 | 0.35~0.60 | Recommended (Structural)
+- WLCSP | 1.5~10 | 0.30~0.50 | 0.15~0.25 | Mandatory (Drop Test)
+- Flip Chip | 2~12 | 0.15~0.30 | 0.05~0.15 | Critical (Gap ≤ 80um)
+
+## Underfill_Global_Tech_Summary_Whitepaper.docx (42 exclusive)
+- Underfill (底填膠) 技術全球通論與產業標準白皮書
+- Global Technology Overview, Industry Guidelines & Reliability Standards
+- 1. 技術基礎與物理原理
+- 底填技術的核心在於解決半導體封裝中「熱膨脹係數 (CTE) 失配」的問題。
+- 主要物理目標：
+- 應力緩衝：建立矽晶圓 (CTE ~2.6 ppm) 與有機基板 (CTE ~17 ppm) 之間的剛性連接，減少錫球焊點的剪切應力。
+- 毛細作用 (Capillary Action)：利用液體在窄縫中的表面張力自動填充，受 Washburn 方程支配。
+- 環境保護：封裝焊點以防止濕氣、化學污染及離子遷移。
+- 2. 產業主流技術分類
+- 3. 材料科學關鍵指標
+- 選擇底填膠時，必須平衡流動性與機械性能。
+- 4. 全球產業標準與規範
+- IPC J-STD-030：底填材料選擇與工藝應用的權威指導書。
+- IPC-A-610：針對終端組件目視檢查的全球標準。
+- JEDEC Standard：針對溫度循環 (TCT) 與落下測試 (Drop Test) 的規範。
+- 5. 常見失效模式與可靠性分析
+- 6. 進階檢測工法與技術
+- 由於底填膠被遮蓋，傳統目檢失效，需依賴：
+- CSAM (超音波掃描)：偵測界面分層與微小空洞的最靈敏手段。
+- 3D X-Ray：觀察焊點形狀與底填膠大規模填充異常。
+- Cross-Section (切片)：破壞性檢測，用於精確觀察填充高度與界面微觀結構。
+- 7. 先進封裝趨勢
+- 隨著 AI 與 HPC (高效能運算) 發展，底填技術正面臨：
+- 高導熱底填 (Thermal Underfill)：具備散熱路徑功能的材料。
+- 低介電常數 (Low-k) 兼容：保護脆弱的 Low-k 結構不被剝離。
+
+## Underfill_Operator_Process_Guide_Final_Relocated.docx (5 exclusive)
+- 視覺圖解：點膠路徑 (L型路徑推薦)
+- 視覺圖解：針頭與針筒設定基準
+- 品質標準：Fillet 高度要求 (50-75%)
+- 品質標準：內部空洞 (X-Ray 判定)
+- 品質標準：分層與剝離 (CSAM 檢驗)
+
+## Underfill_Operator_Process_Guide_Integrated_Visuals.docx (5 exclusive)
+- Figure: Dispensing Path (L-Pattern Recommended)
+- Figure: Needle and Syringe Setup
+- Figure: Fillet Height Criteria (50-75%)
+- Figure: Underfill Voiding (X-Ray Check)
+- Figure: Delamination Check (CSAM)
+
+## Underfill_Operator_Process_Guide_International_Summary - 複製.docx (0 exclusive)
+
+## Underfill_Operator_Process_Guide_International_Summary.docx (0 exclusive)
+
+## Underfill_Pure_Integrated.docx (2 exclusive)
+- Underfill 作業標準書（純整合版）
+- 【來源說明】 本文件完全依據使用者提供之五份文件整合，未新增任何文件未提及內容。 1. 目的與適用範圍 整合 Loctite UF3808 底填膠之製程、材料特性與品質標準，適用於 SMT BGA / CSP / FlipChip 製程。 2. 材料規格（Loctite UF3808） - 單組份環氧樹脂 - 粘度：348 cP @25°C - Tg：113°C - CTE：55 / 171 ppm - 固化條件：130°C/8min 或 150°C/5min - 工作壽命：24hr - 儲存：-40°C ~ -15°C 3. 儲存與回溫 - 冷凍保存，FIFO - 回溫 60~120分鐘（不可強制加熱） 4. 製程流程 1) 冷凍存儲 2) 回溫 3) PCB預熱（70~90°C） 4) 點膠 5) 固化 6) 檢驗 5. 點膠參數 - 針頭：23G~27G - 壓力：0.1~0.35MPa - 高度：0.2~0.5mm 6. 點膠路徑 - I型：小尺寸 - L型：推薦（兩側推進） - U型：大型元件 7. 元件矩陣 BGA / WLCSP / FlipChip / QFN （依尺寸與Pitch對應適用） 8. 品質標準 - Fillet：50~75% - Void：<25% - 不得污染Top Surface - 不得溢出1~1.5mm 9. 檢驗方式 - 100% Visual - X-Ray抽樣 - CSAM（高可靠） 10. 異常與對策 - Void → PCB預烤 - 滲透不全 → 提高預熱 - 氣泡 → 回溫不足 - 分層 → PCB污染 11. 返修 - 預熱150°C - 加熱240~250°C - 移除+IPA清潔 12. IPC標準 IPC-A-610 / IPC-7095 / IPC-J-STD-030 / IPC-7711
+
+## Underfill_Pure_Integrated_V2.docx (2 exclusive)
+- Underfill 作業標準書（純整合強化版-完整內容）
+- 【說明】 本文件僅依據提供之5份文件內容進行完整整合與展開，未新增任何文件未提及之流程或規範。 -------------------------------------------------- 1. 目的與適用範圍 整合 Loctite ECCOBOND UF3808 底填膠之材料特性、製程控制、點膠路徑、品質標準與異常對策， 適用於 SMT 製程中 BGA、CSP、WLCSP、Flip Chip、QFN 等封裝元件之底填製程， 目的在提升產品於跌落、衝擊與熱循環環境下之可靠度。 -------------------------------------------------- 2. 材料規格與特性（UF3808） 化學基礎：單組份環氧樹脂 黏度：348 mPa·s（25°C） Tg：113°C CTE：55 ppm/°C（低溫） / 171 ppm/°C（高溫） 模量：2.8 GPa 硬度：Shore D 88 吸濕率：<0.5% 工作壽命：24 小時（25°C） 儲存條件：-40°C ~ -15°C 保存期限：12個月 固化條件： - 130°C / 8 分鐘 - 150°C / 5 分鐘 特性： - 高流動性（適用細間距） - 可返修 - 高抗震與熱循環穩定性 - 與清洗劑及助焊劑相容 -------------------------------------------------- 3. 儲存與回溫管理 冷凍儲存： - 溫度：-40°C ~ -15°C - 管控方式：FIFO 回溫條件： - 環境：25°C - 時間：60~120分鐘 - 姿態：垂直或斜放 - 禁止強制加熱 -------------------------------------------------- 4. 製程流程 1. 冷凍儲存 2. 回溫 3. PCB預熱（70~90°C） 4. 點膠 5. 固化 6. 品質檢驗（Visual / X-Ray / CSAM） -------------------------------------------------- 5. 點膠設備與參數 針頭： - 23G（一般BGA） - 25G~27G（Fine Pitch） 點膠壓力： - 手動：0.1 MPa - 自動：0.25~0.35 MPa 點膠高度： - 元件頂部下 0.2~0.5 mm PCB預熱： - 70~90°C（確保流動） -------------------------------------------------- 6. 點膠路徑設計 I型（Single Edge）： - 適用：<10mm 元件 L型（Two Edge）： - 推薦模式 - 空氣由對角排出（135°） - 空洞率最低 U型（Three Edge）： - 適用：>25mm 元件 - 需注意氣泡殘留 -------------------------------------------------- 7. 元件應用矩陣 BGA： - 15~45mm - Pitch：0.65~1.27 - 建議使用 WLCSP： - 1.5~8mm - Pitch：0.3~0.5 - 強制使用 Flip Chip： - 2~15mm - Pitch：0.1~0.3 - 核心應用 QFN： - <12mm - 條件使用（需確認排氣） Passive： - 不建議使用 -------------------------------------------------- 8. 品質允收標準（IPC） Fillet： - 高度：50%~75% - 必須連續包覆 Void： - 總面積 <25% - 不可跨焊點 Reject條件： - 膠污染元件頂部 - 溢出 >1~1.5mm - 元件位移 >0.1mm -------------------------------------------------- 9. 檢驗方法 Visual： - 100%檢查 X-Ray： - 抽樣檢測 - Void 判定 CSAM： - 高可靠度產品使用 -------------------------------------------------- 10. 異常與對策 Fillet不連續： - 原因：回溫不足 - 對策：2小時回溫 Void： - 原因：PCB受潮 - 對策：100°C預烤 滲透不全： - 原因：預熱不足 - 對策：提高至85°C 分層： - 原因：污染 - 對策：清洗 -------------------------------------------------- 11. 返修流程 1. 預熱：150°C 2. 加熱：240~250°C 3. 移除：吸嘴或工具 4. 清理：IPA或清洗劑 -------------------------------------------------- 12. IPC相關標準 IPC-A-610 IPC-7095 IPC-J-STD-030 IPC-7711/7721 --------------------------------------------------
+
+## Underfill_TRUE_ULTIMATE_MASTER_HANDBOOK.docx (74 exclusive)
+- Underfill Technology Master Handbook
+- 【究極整合版：工藝理論、材料規格與作業指導】
+- Industrial White Paper + Material TDS + Standard Operating Procedure
+- PART 1: 全球底填技術概論與物理原理
+- 1.1 基本物理目標
+- CTE Mismatch 應力管理：緩解矽晶圓(2.6ppm)與基板(17ppm)間的熱脹冷縮失配。
+- 毛細流動物理 (Capillary Science)：受 Washburn 方程支配的滲透行為。
+- 結構強化：提升焊點疲勞壽命與機械抗衝擊能力 (Drop Test)。
+- 1.2 產業主流技術分類對照
+- PART 2: Loctite ECCOBOND UF 3808 深度材料規格
+- 本章節整合 Henkel 原廠最新物理與化學技術指標：
+- PART 3: 底填膠標準作業流程與參數指導
+- 3.1 生產前置準備 (Preparation)
+- 進料檢驗 (IQC)：查核 CoA 報告、粘度與批次日期。
+- 冷凍存儲：-15C 以下。取出後針頭朝下垂直靜置 2 小時進行回溫。
+- PCB 預烤：100°C / 1.5H。確保無水汽殘留在過孔或基板層中。
+- 基板預熱：點膠平台須預熱至 75°C - 90°C，以利膠材迅速鋪展。
+- 3.2 點膠參數設計與路徑 (Engineering Setup)
+- 圖 1: 針頭設定指標 (23G-27G, 高度 0.3mm)
+- 圖 2: L型推薦路徑圖解 (引導氣體排出最佳效果)
+- 點膠壓力：0.15 - 0.35 MPa。
+- 點膠延遲 (Delay)：150 - 500 ms (防止拉絲污染元件表面)。
+- 點膠高度：距離元件邊緣 0.5 - 0.8 mm。
+- 3.3 應用元件尺寸矩陣 (Applicability Matrix)
+- PART 4: 品質檢驗允收標準 (IPC Standard)
+
+## Underfill_Ultimate_Standard_V10_Consolidated.docx (67 exclusive)
+- Underfill (底填膠) 全工藝標準作業指導書 (Ultimate SOP)
+- 本文件整合 Henkel 原廠 TDS 規格、IPC 國際通用組裝標準與工業界最佳實踐。旨在提供 SMT 操作員與工程師關於底填膠從進料檢驗(IQC)、存儲、回溫、點膠參數設計、固化後品質檢驗至返修(Rework)的全生命週期標準化指導，確保電子組件具備極高的可靠度與抗應力能力。
+- 2. 膠材規格與物理性質 (Loctite UF 3808)
+- UF 3808 是業界領先的單組份環氧樹脂底填膠，專為移動設備與高密度電路設計。
+- 3. 國際規範與品質檢驗標準 (IPC Mapping)
+- 4. 流程管控與回溫環境標準
+- IQC 進料檢驗：核對保存期限、批次號、粘度檢驗報告 (CoA)。
+- 冷凍存儲：-15°C 至 -40°C。嚴禁儲存在非低溫環境超過 1 小時。
+- 垂直回溫：取出後針頭朝下垂直靜置 1-2 小時。嚴禁用吹風機或烘箱強行回溫。
+- PCB 預烤：建議 100°C / 1.5 小時以移除水份，防止固化過程中產生大氣泡。
+- 板材預熱：點膠前將 PCB 加熱至 75°C - 90°C，可使膠材流動速度提升 3-5 倍。
+- 5. 點膠參數設計與路徑優化
+- 圖 1: 針頭與元件邊距、點膠高度設定基準 (H=0.3mm, D=0.8mm)
+- 圖 2: 推薦 L 型路徑 (引導空氣對角排除，氣鎖率最低)
+- 6. 應用元件類別與物理尺寸矩陣對應表
+- 7. 品質檢驗允收標準 (Acceptance Criteria)
+- 7.1 Fillet (外溢膠) 目視標準
+- 圖 3: Fillet 高度合格帶 (50% - 75% 元件側厚)
+- 7.2 內部空洞 (Voiding) 與分層 (Delamination)
+- 允收：溢膠寬度 (Fillet Width) 應為元件邊長的 10% 以上，但不超過 1.5mm。
+- 允收：Fillet 圍繞元件周長 100% 完整，無斷裂或嚴重內陷。
+- 拒收：膠材爬升至元件頂部表面 (污染散熱鰭片接觸面)。
+- 拒收：底填膠內部大空洞與相鄰兩錫球同時接觸 (Risk of bridge)。
+- 拒收：元件發生超過 0.1mm 的非預期偏移或抬升。
+- 8. 異常預防與故障排除對策表
+
+## Underfill_Ultimate_Standard_V3.docx (47 exclusive)
+- 1. 材料規格與特性分析 (Loctite UF 3808)
+- Loctite UF 3808 是業界標竿的可返修型底填膠，具備極佳的熱循環穩定性。
+- 2. 設備設定與點膠參數
+- 精密點膠需要嚴格控制針頭位置與工作壓力。下圖為標準針頭設定基準。
+- 圖 1: 點膠針頭與元件邊距、高度設定基準
+- 針頭規格：建議 23G (普通 BGA) 或 25G-27G (Fine Pitch)。
+- 點膠壓力：手動泵 0.1MPa / 自動閥 0.25MPa。
+- 基板預熱：70°C - 90°C (必須！確保膠材能均勻滲透中心區)。
+- 針頭高度：元件頂部下 0.2mm - 0.5mm 處。
+- 3. 點膠路徑設計與流動引導
+- 依據元件尺寸選擇路徑，核心目標是「空氣完全排出」。
+- 圖 2: L型推薦點膠路徑示意圖 (兩側推進，對角排氣)
+- 3.1 元件尺寸對應矩陣表
+- 4. 品質允收標準與檢驗規範 (IPC Standards)
+- 4.1 Fillet (膠側) 視覺判定
+- 側邊包封 (Fillet) 應連續且飽滿，高度依據 IPC-A-610 規範定義。
+- 圖 3: Fillet 高度合格標準 (50% - 75% Component Height)
+- 4.2 內部空洞 (Voiding) - X-Ray 判定
+- 圖 4: X-Ray 掃描空洞判定 (總空洞面積 < 25%)
+- 4.3 分層檢測 (Delamination) - CSAM 檢驗
+- 對於高可靠度產品 (Class 3)，須進行超音波掃描以偵測界面分層。
+- 圖 5: CSAM 檢驗合格對比 (對比分層缺陷)
+- 5. 異常分析與返修規範
+- UF 3808 具備良好的可修復性 (Reworkable)。 返修條件： - 設備：熱風 BGA 返修台 - 溫度：組件需加熱至 230°C - 245°C (Reflow Peak temp) - 拆卸：使用專用不銹鋼刮刀在軟化時緩慢移除殘膠，嚴禁暴力撬起。 - 清理：使用異丙基酒精 (IPA) 或原廠推薦清洗劑進行殘存環氧樹脂清理。
+- 膠材型號 | Loctite ECCOBOND UF 3808 | 製訂日期 | 2026-04-09
+
+## Underfill_WI_Full_Integrated.docx (54 exclusive)
+- Underfill 全工藝作業標準說明書 (Comprehensive WI)
+- 本文件整合了 Loctite UF 3808 的原廠化學物理特性、精密點膠路徑設計、多維度元件矩陣對應及 IPC 國際品質允收標準。適用於 SMT 產線所有涉及封裝底填之製程管控，旨在提升產品在衝擊、跌落與熱循環下的可靠性。
+- 2. 膠材技術參數與原廠規範
+- 3. 流程與環境管控標準
+- A. 冷凍存儲：專用冷凍櫃，溫度維持在 -15°C 以下，並落實 FIFO 管理。
+- B. 解凍流程：斜放或垂直站立於 25°C 環境 60-120 分鐘。嚴禁用強制加熱方式解凍。
+- C. PCB 預熱：為確保膠材流動性，板材表面溫度建議預熱至 70°C - 90°C。
+- D. 真空除泡：若有手動裝填需求，須經由離心脫泡機排除剩餘微小氣泡。
+- 4. 點膠路徑設計與工藝參數
+- 建議參數設定： - 針頭規格: 23G 至 25G (依間隙 Stand-off 調整) - 點膠壓力: 0.1Mpa - 0.35Mpa - 點膠高度: 0.2mm - 0.5mm (視元件厚度)
+- 5. 元件類別尺寸矩陣對應表
+- 6. 品質檢驗標準與 IPC 規範
+- 6.1 IPC 專項細則
+- 6.2 判定準則 (Accept / Reject)
+- 允收：Fillet 完整包裹四周元件腳位，高度達元件側壁 2/3。
+- 允收：表面平整、無肉眼可見的大型空洞或斷膠。
+- 拒收：膠材爬升至元件頂部表面 (Top Surface Contamination)。
+- 拒收：膠材溢出範位超過周邊 1.5mm，或污染鄰近測試點。
+- 拒收：元件發生超過 0.1mm 的明顯水平位移或單邊抬升。
+- 7. 常見異常原因與對策
+- 8. 返工程序 (Rework Procedure)
+- 1. 預加熱：將組件放置於 BGA 返修台，均勻預熱底部至 150°C。
+- 2. 局部加熱：上方噴嘴加熱至 240°C-250°C (膠材與焊點同時弱化)。
+- 3. 移除：使用真空吸嘴或鑷子移除元件。
+- 4. 清理：在高溫下使用專用刮刀刮除殘餘環氧樹脂，並配合溶劑清理焊盤。
+
+## Underfill_WI_Graphic_Rich.docx (30 exclusive)
+- Underfill 全工藝作業標準說明書 (圖文強化版)
+- 本文件定義 Loctite UF 3808 之封裝底填工藝標準，旨在透過視覺化圖示與嚴格參數，確保產線人員能正確執行點膠與品質判定。
+- 2. 膠材技術參數 (Loctite UF 3808)
+- 3. 點膠路徑與模式示意圖
+- 正確的路徑是確保無空洞填滿的核心。推薦優先使用 L 型點膠。
+- 圖 1: 點膠模式示意圖 (推薦 L 型路徑)
+- 4. 應用元件矩陣表 (尺寸/間距)
+- 5. 品質檢驗與 IPC 允收標準
+- 5.1 Fillet (膠側包封) 高度要求
+- 依據 IPC-A-610，膠側包封高度需介於元件厚度的 50% 至 75% 之間。
+- 圖 2: Fillet 高度合格標準示意圖 (50%-75% Height)
+- 5.2 內部空洞 (Voiding) 判定
+- 利用 X-Ray 進行非破壞性檢驗。總空洞面積不可超過填膠區域的 25%。
+- 圖 3: X-Ray 下空洞判定 (Voids < 25%)
+- 6. 常見異常原因與對策
+- 7. 工廠現場作業參考照片 (預留)
+- [請工程人員在此插入實機操作照片: 針頭設定、泵壓控管、烘箱 Profile 控制圖表]
+- 粘度 (Viscosity) | 348 cP @ 25°C - 高流動性
+- Tg / CTE | 113°C / 55-171 ppm
+- 儲存週期 | 12 個月 (@ -40°C 至 -15°C)
+- 工作壽命 | 24 小時 (@ 25°C)
+- 優點 | 高附著力、優異抗震性、可返修
+- BGA | > 25mm | 0.8~1.27 | 0.45~0.60 | 推薦
+- WLCSP | < 10mm | 0.3~0.5 | 0.15~0.25 | 強制
+- Flip Chip | 2~15mm | 0.1~0.25 | 0.05~0.15 | 核心
+
+## Underfill_WI_UF3808_Enhanced.docx (45 exclusive)
+- Underfill 作業指導書 (Standard Operating Instruction)
+- 規範 Loctite ECCOBOND UF 3808 底填膠的標準作業流程，確保 BGA/CSP 元件在組裝後的機械強度與熱可靠度，防止跌落、衝撃或熱循環導致的焊點裂紋。
+- 2. 膠材規格與特性 (Loctite UF 3808)
+- UF 3808 是一款專為移動通訊設計的高流速、可返修快乾型封裝底填膠。
+- 3. 標準流程控管
+- 1. 冷凍存儲: -15°C 至 -40°C，嚴格控管先進先出 (FIFO)。
+- 2. 常溫回溫: 針頭朝下垂直放置 1-2 小時，嚴禁用烘箱加熱。
+- 3. PCB 預烤: 100°C / 2 hrs (選配)，移除板材水份防止固化空洞。
+- 4. 針管預熱: 選配，若流速慢可設定加熱套至 30-40°C。
+- 5. 精準點膠: 依標準路徑進行，監控膠材重量與流出寬度。
+- 6. 烘烤固化: 輸送帶烘箱，實測板面溫度須達 130-150°C 區間。
+- 7. 品質檢驗: 100% 目視檢查及抽樣 X-Ray 檢測。
+- 4. 點膠工藝參數與路徑
+- 良好的底填效果取決於「空氣排出」的路徑設計。
+- 建議參數設置： - 針頭規格: 23G - 25G (依元件間隙調整) - 點膠壓力: 0.1 - 0.3 MPa - 基板預熱: 70 - 90°C (提升浸潤速度) - 針頭距離: 元件邊緣 0.5 - 0.8 mm
+- 5. 應用元件類別矩陣表
+- 6. 品質檢驗標準 (Quality Standards)
+- 依據 IPC 國際通用規範進行判定：
+- IPC-J-STD-030: 核心標準，詳述 Underfill 點膠、流動與固化的工藝規範。
+- IPC-A-610: 針對 SMT 元件的外觀接受性標準（斷裂、溢流、污染）。
+- IPC-7095: BGA 設計與組裝，規定內部空洞總面積需 < 25%。
+- IPC-7711/7721: 規範底填膠元件的返修流程（加熱至 240°C+ 進行移除）。
+- 允收標準： 1. 溢膠包封 (Fillet) 高度應介於元件厚度的 50%-75% 之間。 2. 元件頂部表面不可有任何膠材污染。 3. X-Ray 抽測單顆錫球下方的空洞不可超過該錫球投影面積的 25%。
+- 7. 常見異常與對策
+- 文件編號 | WI-SMT-UF001 | 文件版本 | V1.0
+
+## Underfill_WI_V2_Henkel_Standard.docx (35 exclusive)
+- Underfill 管理與作業標準書 (Work Instruction)
+- 本文件旨在詳細規範 Loctite ECCOBOND UF 3808 在自動化與半自動化點膠製程中的技術參數。透過標準化 Ball Pitch、Ball Size 及 Die Size 的對應關係，確保焊點在極端溫差與機械應力下的穩定性，並符合 IPC 最高等級之電子組件可靠度標準。
+- 2. 膠材原廠規範與物理特性
+- Loctite UF 3808 是一款專為「高生產率」與「可維修性」設計的單組份底填膠。
+- 3. 應用元件類別與物理尺寸矩陣表
+- 本表定義了膠材流動性與元件幾何尺寸的兼容性基準。
+- 4. 品質檢驗標準與 IPC 規範細則
+- 4.1 IPC 規範具體條文參考
+- 4.2 具體允收/拒收標準 (Criteria)
+- 1. 包封高度 (Fillet Height): 理想值為元件高度的 50%-75%。拒收：若包封高度超過元件頂部 (Top Surface)，視為污染。
+- 2. 溢流區域 (Bleed-out): 膠材邊緣擴散不得超過元件周邊 1.0mm 以上。拒收：若膠材侵入相鄰元件 Pad 或測試針點。
+- 3. 表面缺陷: 允收：Fillet 表面平滑且無肉眼可見的大型氣泡。拒收：Fillet 存在裂縫或嚴重斷開 (Void at edge)。
+- 4. 內部空洞 (Voids by X-Ray): 所有錫球下方的空洞總合須 < 總體積的 25%。拒收：關鍵信號 (Signal Pins) 下方有貫穿性空洞。
+- 5. 元件傾斜: 允收：元件水平傾斜度 < 5 度。拒收：膠材不均導致元件單側抬升。
+- 5. 作業注意事項與返修規範
+- 文件編號 | WI-SMT-UF3808-PRO | 文件版本 | V2.0
+- 膠材型號 | Loctite ECCOBOND UF 3808 | 存儲溫度 | -15°C to -40°C
+- 制訂部門 | SMT 工程部 | 生效日期 | 2026-04-09
+- 機密等級 | 內部公開 | 審核 | Approved
+- 顏色 (Color) | 黑色 (Black)
+- 粘度 (Viscosity @ 25°C) | 348 mPa·s (cP) @ 1,000 s⁻¹ - 具備極佳浸潤性
+- 儲能模量 (Storage Modulus) | 2.8 GPa (@ 25°C)
+- 硬度 (Hardness, Shore D) | 88
+- 固化推薦 (Recommend Cure) | 130°C / 8 mins 或 150°C / 5 mins
+- 化學抗性 (Chemical Resistance) | 優異的抗溶劑性與低吸濕率，可通過鉛封與鹽霧測試

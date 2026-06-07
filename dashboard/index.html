@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Underfill Smart Dispensing & Quality Control Dashboard</title>
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Material Icons Round -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header: System Status Bar -->
+    <header class="system-header">
+        <div class="header-left">
+            <span class="status-dot pulsing"></span>
+            <h1 class="logo-title">Stitch-Underfill-IoT <span class="version-badge">v1.2</span></h1>
+        </div>
+        <div class="header-center">
+            <div class="material-status-card">
+                <span class="status-label">Active Material:</span>
+                <span class="status-value">Loctite UF 3808</span>
+                <span class="status-divider">|</span>
+                <span class="spec-tag">Viscosity: 348 cP</span>
+                <span class="status-divider">|</span>
+                <span class="spec-tag">Temp: -40°C ~ -15°C</span>
+                <span class="status-divider">|</span>
+                <span class="spec-tag life-tag">Life: 24h</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="checklist-progress-container">
+                <span class="progress-label">Checklist Progress:</span>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="header-progress-bar" style="width: 0%"></div>
+                </div>
+                <span class="progress-text" id="header-progress-text">0/4</span>
+            </div>
+            <div class="system-clock" id="system-clock">00:00:00</div>
+        </div>
+    </header>
+
+    <!-- Main 3-Column Responsive Grid Layout -->
+    <main class="dashboard-grid">
+        <!-- Column 1: Material Spec & Component Selection Matrix (Left) -->
+        <section class="grid-column col-left">
+            <!-- Material Specs Card -->
+            <div class="dashboard-card card-spec">
+                <div class="card-header">
+                    <span class="material-icons-round header-icon">science</span>
+                    <h2>Material Specifications</h2>
+                </div>
+                <div class="card-body">
+                    <div class="pill-spec-badge">
+                        <span class="spec-badge-title">Viscosity</span>
+                        <span class="spec-badge-value">348 cP @ 25°C</span>
+                    </div>
+                    <div class="cure-options">
+                        <label class="section-subtitle">Cure Temperature Options</label>
+                        <div class="cure-grid">
+                            <div class="cure-card active">
+                                <span class="cure-temp">130°C</span>
+                                <span class="cure-time">8 mins</span>
+                            </div>
+                            <div class="cure-card">
+                                <span class="cure-temp">150°C</span>
+                                <span class="cure-time">5 mins</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Component Selection Matrix -->
+            <div class="dashboard-card card-component">
+                <div class="card-header">
+                    <span class="material-icons-round header-icon">layers</span>
+                    <h2>Component Matrix</h2>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="component-type">Component Type</label>
+                        <div class="select-wrapper">
+                            <select id="component-type">
+                                <option value="bga" selected>BGA (Ball Grid Array)</option>
+                                <option value="wlcsp">WLCSP (Wafer Level CSP)</option>
+                                <option value="flipchip">Flip Chip</option>
+                                <option value="qfn">QFN (Quad Flat No-lead)</option>
+                            </select>
+                            <span class="material-icons-round select-arrow">expand_more</span>
+                        </div>
+                    </div>
+
+                    <!-- Component Specs Details (Populated by JS) -->
+                    <div class="component-specs-display">
+                        <div class="spec-row">
+                            <span class="spec-label">Die Size:</span>
+                            <span class="spec-val" id="spec-die-size">> 25mm</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Ball Pitch:</span>
+                            <span class="spec-val" id="spec-ball-pitch">0.8mm</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Action Requirement:</span>
+                            <span class="spec-val action-tag status-mandatory" id="spec-action">Mandatory</span>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Param Sliders -->
+                    <div class="parameter-sliders">
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <label for="preheat-temp">Preheat Temperature</label>
+                                <span class="slider-value-display"><span id="val-preheat">85</span>°C</span>
+                            </div>
+                            <input type="range" id="preheat-temp" min="70" max="100" value="85" step="1" class="custom-range">
+                            <div class="slider-limits">
+                                <span>70°C</span>
+                                <span class="optimal-marker">Opt: 85°C</span>
+                                <span>100°C</span>
+                            </div>
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <label for="line-speed">Line Speed</label>
+                                <span class="slider-value-display"><span id="val-speed">15</span> mm/s</span>
+                            </div>
+                            <input type="range" id="line-speed" min="5" max="30" value="15" step="1" class="custom-range">
+                            <div class="slider-limits">
+                                <span>5 mm/s</span>
+                                <span class="optimal-marker">Opt: 15 mm/s</span>
+                                <span>30 mm/s</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Column 2: Live Dispensing Path Simulator (Center) -->
+        <section class="grid-column col-center">
+            <div class="dashboard-card card-simulator">
+                <div class="card-header">
+                    <span class="material-icons-round header-icon">grid_view</span>
+                    <h2>Live Dispensing Simulator</h2>
+                    <div class="simulator-status-indicator">
+                        <span class="status-text" id="sim-status">STANDBY</span>
+                    </div>
+                </div>
+                <div class="card-body simulator-body">
+                    <!-- Path Tabs -->
+                    <div class="path-tabs">
+                        <button class="tab-btn active" data-path="L">L-Shape <span class="tab-badge">Rec.</span></button>
+                        <button class="tab-btn" data-path="I">I-Shape</button>
+                        <button class="tab-btn" data-path="U">U-Shape</button>
+                    </div>
+
+                    <!-- Visual Path Canvas Area -->
+                    <div class="canvas-container">
+                        <canvas id="dispense-canvas" width="450" height="350"></canvas>
+                        <div class="canvas-controls">
+                            <button id="btn-play-sim" class="btn-primary">
+                                <span class="material-icons-round">play_arrow</span> Start Dispense
+                            </button>
+                            <button id="btn-reset-sim" class="btn-secondary">
+                                <span class="material-icons-round">replay</span> Reset
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Control Sliders -->
+                    <div class="parameter-sliders simulator-sliders">
+                        <div class="slider-grid-row">
+                            <div class="slider-group">
+                                <div class="slider-header">
+                                    <label for="needle-height">Needle Height</label>
+                                    <span class="slider-value-display"><span id="val-needle">0.10</span> mm</span>
+                                </div>
+                                <input type="range" id="needle-height" min="0.05" max="0.5" value="0.10" step="0.01" class="custom-range">
+                                <div class="slider-limits">
+                                    <span>0.05mm</span>
+                                    <span class="optimal-marker">Opt: 0.1mm</span>
+                                    <span>0.5mm</span>
+                                </div>
+                            </div>
+
+                            <div class="slider-group">
+                                <div class="slider-header">
+                                    <label for="dispense-pressure">Dispense Pressure</label>
+                                    <span class="slider-value-display"><span id="val-pressure">0.30</span> MPa</span>
+                                </div>
+                                <input type="range" id="dispense-pressure" min="0.1" max="0.5" value="0.30" step="0.01" class="custom-range">
+                                <div class="slider-limits">
+                                    <span>0.1 MPa</span>
+                                    <span class="optimal-marker">Opt: 0.3 MPa</span>
+                                    <span>0.5 MPa</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Column 3: Quality Acceptance & X-Ray Analysis (Right) -->
+        <section class="grid-column col-right">
+            <!-- Fillet Height Inspector -->
+            <div class="dashboard-card card-fillet">
+                <div class="card-header">
+                    <span class="material-icons-round header-icon">height</span>
+                    <h2>Fillet Height Inspector</h2>
+                    <div class="badge-status-container">
+                        <span id="fillet-badge" class="quality-badge status-pass">PASS</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Side-by-Side Fillet Illustrators -->
+                    <div class="fillet-visual-preview">
+                        <div class="preview-panel">
+                            <div class="preview-title">Good Fillet (50%-75%)</div>
+                            <div class="fillet-icon-container good-fillet-css">
+                                <div class="die-block"></div>
+                                <div class="fillet-slope pass"></div>
+                                <div class="substrate-block"></div>
+                            </div>
+                        </div>
+                        <div class="preview-panel">
+                            <div class="preview-title">Real-time Fillet</div>
+                            <div class="fillet-icon-container dynamic-fillet-css">
+                                <div class="die-block"></div>
+                                <div class="fillet-slope dynamic" id="dynamic-fillet-slope"></div>
+                                <div class="substrate-block"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Double-slider / Height Slider -->
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <label for="fillet-height">Fillet Height Ratio</label>
+                            <span class="slider-value-display"><span id="val-fillet">65</span>%</span>
+                        </div>
+                        <input type="range" id="fillet-height" min="0" max="100" value="65" step="1" class="custom-range">
+                        <div class="slider-limits">
+                            <span>0% (Starved)</span>
+                            <span class="optimal-marker">Pass: 50% - 75%</span>
+                            <span>100% (Overflow)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- X-Ray Voiding Analyzer -->
+            <div class="dashboard-card card-xray">
+                <div class="card-header">
+                    <span class="material-icons-round header-icon">blur_on</span>
+                    <h2>X-Ray Voiding Analyzer</h2>
+                    <div class="badge-status-container">
+                        <span id="xray-badge" class="quality-badge status-pass">PASS</span>
+                    </div>
+                </div>
+                <div class="card-body xray-body">
+                    <!-- Voiding Visual Overlay -->
+                    <div class="xray-visual-container">
+                        <div class="xray-die-mock">
+                            <div class="bubble-grid" id="bubble-container">
+                                <!-- Dynamic bubbles generated by JS -->
+                            </div>
+                            <div class="xray-laser-scan"></div>
+                        </div>
+                        <div class="xray-desc">
+                            <span class="xray-standard">Standard: IPC-A-610 ≤ 25%</span>
+                        </div>
+                    </div>
+
+                    <!-- Slider for Voiding Area Percentage -->
+                    <div class="slider-group">
+                        <div class="slider-header">
+                            <label for="voiding-ratio">Voiding Area Percentage</label>
+                            <span class="slider-value-display"><span id="val-voiding">12</span>%</span>
+                        </div>
+                        <input type="range" id="voiding-ratio" min="0" max="50" value="12" step="1" class="custom-range">
+                        <div class="slider-limits">
+                            <span>0%</span>
+                            <span class="optimal-marker">Threshold: 25%</span>
+                            <span>50%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bottom: Trouble-Shooting Search & Daily Checklist -->
+    <footer class="dashboard-footer">
+        <!-- Daily Checklist -->
+        <div class="dashboard-card footer-card card-checklist">
+            <div class="card-header">
+                <span class="material-icons-round header-icon">playlist_add_check</span>
+                <h2>Daily Checklist</h2>
+            </div>
+            <div class="card-body">
+                <div class="checklist-items">
+                    <label class="chk-container">
+                        <input type="checkbox" class="chk-item" id="chk-nozzle">
+                        <span class="chk-checkmark"></span>
+                        <span class="chk-label">Clean nozzle & verify needle offset</span>
+                    </label>
+                    <label class="chk-container">
+                        <input type="checkbox" class="chk-item" id="chk-preheat">
+                        <span class="chk-checkmark"></span>
+                        <span class="chk-label">Pre-heat substrate to 85°C</span>
+                    </label>
+                    <label class="chk-container">
+                        <input type="checkbox" class="chk-item" id="chk-temp">
+                        <span class="chk-checkmark"></span>
+                        <span class="chk-label">Measure UF 3808 temp (room temp, 2 hours defrost)</span>
+                    </label>
+                    <label class="chk-container">
+                        <input type="checkbox" class="chk-item" id="chk-xray">
+                        <span class="chk-checkmark"></span>
+                        <span class="chk-label">Conduct X-Ray test on first 5 dummy boards</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Troubleshooting TS-Log Finder -->
+        <div class="dashboard-card footer-card card-troubleshoot">
+            <div class="card-header">
+                <span class="material-icons-round header-icon">search</span>
+                <h2>TS-Log Finder (Troubleshooting)</h2>
+            </div>
+            <div class="card-body ts-body">
+                <div class="search-bar-container">
+                    <input type="text" id="ts-search-input" placeholder="Search problems (e.g. incomplete, bubble, height, voiding)..." aria-label="Search troubleshooting logs">
+                    <button class="btn-icon" id="btn-ts-search" aria-label="Search button">
+                        <span class="material-icons-round">search</span>
+                    </button>
+                </div>
+                <div class="ts-results-container" id="ts-results">
+                    <div class="ts-empty-state">
+                        <span class="material-icons-round">info</span>
+                        <span>Type a symptom to fetch troubleshooting solutions.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

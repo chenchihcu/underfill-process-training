@@ -1,0 +1,68 @@
+[Underfill_Factory_Level.docx] media_files=0
+[Underfill_Final.docx] media_files=0
+[Underfill_Final_Official.docx] media_files=0
+[Underfill_Final_Official_Complete.docx] media_files=5
+[Underfill_Global_Tech_Summary_Whitepaper.docx] media_files=0
+[Underfill_Operator_Process_Guide_Final_Relocated.docx] media_files=5
+[Underfill_Operator_Process_Guide_Integrated_Visuals.docx] media_files=5
+[Underfill_Operator_Process_Guide_International_Summary - 複製.docx] media_files=5
+[Underfill_Operator_Process_Guide_International_Summary.docx] media_files=5
+[Underfill_Pure_Integrated.docx] media_files=0
+[Underfill_Pure_Integrated_V2.docx] media_files=0
+[Underfill_TRUE_ULTIMATE_MASTER_HANDBOOK.docx] media_files=5
+[Underfill_Ultimate_Standard_V10_Consolidated.docx] media_files=5
+[Underfill_Ultimate_Standard_V3.docx] media_files=5
+[Underfill_WI_Full_Integrated.docx] media_files=0
+[Underfill_WI_Graphic_Rich.docx] media_files=3
+[Underfill_WI_UF3808_Enhanced.docx] media_files=0
+[Underfill_WI_V2_Henkel_Standard.docx] media_files=0
+
+Unique images deduped: 5
+- 0a3034f9f869db42.jpeg <- 9 source(s)
+  - Underfill_Final_Official_Complete.docx:word/media/image4.jpeg
+  - Underfill_Operator_Process_Guide_Final_Relocated.docx:word/media/image4.jpeg
+  - Underfill_Operator_Process_Guide_Integrated_Visuals.docx:word/media/image4.png
+  - Underfill_Operator_Process_Guide_International_Summary - 複製.docx:word/media/image3.jpeg
+  - Underfill_Operator_Process_Guide_International_Summary.docx:word/media/image3.jpeg
+  - Underfill_TRUE_ULTIMATE_MASTER_HANDBOOK.docx:word/media/image4.png
+  - Underfill_Ultimate_Standard_V10_Consolidated.docx:word/media/image4.jpeg
+  - Underfill_Ultimate_Standard_V3.docx:word/media/image4.png
+  - Underfill_WI_Graphic_Rich.docx:word/media/image3.png
+- 0f6309f386845c12.jpeg <- 8 source(s)
+  - Underfill_Final_Official_Complete.docx:word/media/image2.jpeg
+  - Underfill_Operator_Process_Guide_Final_Relocated.docx:word/media/image1.jpeg
+  - Underfill_Operator_Process_Guide_Integrated_Visuals.docx:word/media/image2.png
+  - Underfill_Operator_Process_Guide_International_Summary - 複製.docx:word/media/image1.jpeg
+  - Underfill_Operator_Process_Guide_International_Summary.docx:word/media/image1.jpeg
+  - Underfill_TRUE_ULTIMATE_MASTER_HANDBOOK.docx:word/media/image1.png
+  - Underfill_Ultimate_Standard_V10_Consolidated.docx:word/media/image2.jpeg
+  - Underfill_Ultimate_Standard_V3.docx:word/media/image1.png
+- 6dd8d839e0a81de5.jpeg <- 9 source(s)
+  - Underfill_Final_Official_Complete.docx:word/media/image5.jpeg
+  - Underfill_Operator_Process_Guide_Final_Relocated.docx:word/media/image5.jpeg
+  - Underfill_Operator_Process_Guide_Integrated_Visuals.docx:word/media/image3.png
+  - Underfill_Operator_Process_Guide_International_Summary - 複製.docx:word/media/image4.jpeg
+  - Underfill_Operator_Process_Guide_International_Summary.docx:word/media/image4.jpeg
+  - Underfill_TRUE_ULTIMATE_MASTER_HANDBOOK.docx:word/media/image3.png
+  - Underfill_Ultimate_Standard_V10_Consolidated.docx:word/media/image5.jpeg
+  - Underfill_Ultimate_Standard_V3.docx:word/media/image3.png
+  - Underfill_WI_Graphic_Rich.docx:word/media/image2.png
+- b0cd52d8eb73527c.jpeg <- 8 source(s)
+  - Underfill_Final_Official_Complete.docx:word/media/image3.jpeg
+  - Underfill_Operator_Process_Guide_Final_Relocated.docx:word/media/image3.jpeg
+  - Underfill_Operator_Process_Guide_Integrated_Visuals.docx:word/media/image5.png
+  - Underfill_Operator_Process_Guide_International_Summary - 複製.docx:word/media/image2.jpeg
+  - Underfill_Operator_Process_Guide_International_Summary.docx:word/media/image2.jpeg
+  - Underfill_TRUE_ULTIMATE_MASTER_HANDBOOK.docx:word/media/image5.png
+  - Underfill_Ultimate_Standard_V10_Consolidated.docx:word/media/image3.jpeg
+  - Underfill_Ultimate_Standard_V3.docx:word/media/image5.png
+- c374f2d369ccbf97.jpeg <- 9 source(s)
+  - Underfill_Final_Official_Complete.docx:word/media/image1.jpeg
+  - Underfill_Operator_Process_Guide_Final_Relocated.docx:word/media/image2.jpeg
+  - Underfill_Operator_Process_Guide_Integrated_Visuals.docx:word/media/image1.png
+  - Underfill_Operator_Process_Guide_International_Summary - 複製.docx:word/media/image5.jpeg
+  - Underfill_Operator_Process_Guide_International_Summary.docx:word/media/image5.jpeg
+  - Underfill_TRUE_ULTIMATE_MASTER_HANDBOOK.docx:word/media/image2.png
+  - Underfill_Ultimate_Standard_V10_Consolidated.docx:word/media/image1.jpeg
+  - Underfill_Ultimate_Standard_V3.docx:word/media/image2.png
+  - Underfill_WI_Graphic_Rich.docx:word/media/image1.png

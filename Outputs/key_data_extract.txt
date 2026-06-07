@@ -1,0 +1,159 @@
+Key Data Coverage by Document
+
+## Underfill_Factory_Level.docx
+- cure: 130°C/8min
+- void: <25%
+- needle: 25G
+
+- pressure: 0.1~0.3MPa
+- ipc: IPC-7095; IPC-7711; IPC-A-610; ipChip
+
+## Underfill_Final.docx
+- cure: 130°C/8min
+- viscosity: 348 cP
+- tg: Tg 113°C
+- cte: 171 ppm
+- void: <25%
+- needle: 25G
+- pressure: 0.1~0.3MPa
+- ipc: IPC-A-610; ipChip
+
+## Underfill_Final_Official.docx
+- viscosity: 348 mPa·s
+- tg: Tg 113°C
+- cte: 171 ppm
+- void: <25%
+- needle: 27G
+- pressure: 0.1~0.35MPa
+- ipc: IPC-7095; IPC-7711; IPC-A-610; IPC-J-STD-030; ipChip; ipChip/QFN
+
+## Underfill_Final_Official_Complete.docx
+- storage_temp: -40°C to -15°C
+- viscosity: 348 mPa·s
+- cte: 171 ppm/°C; 55 ppm/°C
+- void: < 25%
+- ipc: IPC International; IPC-7095; IPC-7711/7721; IPC-A-610; IPC-J-STD-030; IPC-SM-785
+
+## Underfill_Global_Tech_Summary_Whitepaper.docx
+- cte: 17 ppm; 6 ppm
+- ipc: IPC J-STD-030; IPC-A-610
+
+## Underfill_Operator_Process_Guide_Final_Relocated.docx
+- ipc: IPC-based
+
+## Underfill_Operator_Process_Guide_Integrated_Visuals.docx
+- ipc: IPC-based
+
+## Underfill_Operator_Process_Guide_International_Summary - 複製.docx
+- storage_temp: -40°C to -15°C
+- viscosity: 348 cP
+- cte: 171 ppm/°C; 55 ppm/°C
+- needle: 23G ; 25G ; 27G; 27G 
+- pressure: 0.1 MPa; 0.25 MPa; 0.35 MPa
+- ipc: IPC references; IPC-7095; IPC-7351; IPC-7711/7721; IPC-A-610; IPC-J-STD-030; IPC-based
+
+## Underfill_Operator_Process_Guide_International_Summary.docx
+- storage_temp: -40°C to -15°C
+- viscosity: 348 cP
+- cte: 171 ppm/°C; 55 ppm/°C
+- needle: 23G ; 25G ; 27G; 27G 
+- pressure: 0.1 MPa; 0.25 MPa; 0.35 MPa
+- ipc: IPC references; IPC-7095; IPC-7351; IPC-7711/7721; IPC-A-610; IPC-J-STD-030; IPC-based
+
+## Underfill_Pure_Integrated.docx
+- storage_temp: -40°C ~ -15°C
+- cure: 130°C/8min; 150°C/5min
+- viscosity: 348 cP
+- tg: Tg：113°C
+- cte: 171 ppm
+- void: <25%
+- needle: 23G~27G
+- pressure: 0.1~0.35MPa
+- ipc: IPC-7095; IPC-7711; IPC-A-610; IPC-J-STD-030; ipChip
+
+## Underfill_Pure_Integrated_V2.docx
+- storage_temp: -40°C ~ -15°C
+- cure: 130°C / 8 分鐘; 150°C / 5 分鐘
+- viscosity: 348 mPa·s
+- tg: Tg：113°C
+- cte: 171 ppm/°C; 55 ppm/°C
+- void: <25%
+- fillet: 50%~75%
+- needle: 23G; 25G~27G
+- pressure: 0.1 MPa; 0.25~0.35 MPa
+- ipc: IPC-7095; IPC-7711/7721; IPC-A-610; IPC-J-STD-030
+
+## Underfill_TRUE_ULTIMATE_MASTER_HANDBOOK.docx
+- storage_temp: -15°C ~ -40°C; -15°C 至 -40°C; 75°C - 90°C
+- cure: 130°C / 8 min; 150°C / 5 min
+- viscosity: 348 mPa·s
+- tg: 113°C (by TMA)
+- cte: 171 ppm/°C; 17ppm; 55 ppm/°C; 6ppm
+- void: < 25%
+- fillet: 50%-75%
+- needle: 23G-27G
+- pressure: 0.15 - 0.35 MPa
+- ipc: IPC Standard; IPC-7095; IPC-A-610; IPC-J-STD-030
+
+## Underfill_Ultimate_Standard_V10_Consolidated.docx
+- storage_temp: -15C to -40C; -15°C 至 -40°C; 240°C-250°C; 75°C - 90°C
+- cure: 130°C / 8 min; 150°C / 5 min
+- viscosity: 348 mPa·s
+- tg: 113°C (by TMA)
+- cte: 171 ppm/°C; 55 ppm/°C
+- void: < 25%
+- fillet: 50% - 75%; 50%-75%
+- needle: 23G ; 25G 
+- pressure: 0.1-0.2 MPa; 0.2-0.35 MPa
+- ipc: IPC Mapping; IPC-7095; IPC-7711/7721; IPC-A-610; IPC-J-STD-030; IPC-SM-785
+
+## Underfill_Ultimate_Standard_V3.docx
+- storage_temp: 230°C - 245°C; 70°C - 90°C
+- cure: 130°C / 8 min; 150°C / 5 min
+- viscosity: 348 mPa·s
+- cte: 171 ppm/°C; 55 ppm/°C
+- void: < 25%
+- fillet: 50% - 75%
+- needle: 23G ; 25G-27G
+- pressure: 0.1MPa; 0.25MPa
+- ipc: IPC Standards; IPC-A-610; ipChip
+
+## Underfill_WI_Full_Integrated.docx
+- storage_temp: -40°C 至 -15°C; 240°C-250°C; 70°C - 90°C
+- cure: 130°C / 8 min; 150°C / 5 min
+- viscosity: 348 mPa·s
+- tg: 113°C (by TMA)
+- cte: 171 ppm/°C; 55 ppm/°C
+- void: < 25%
+- needle: 23G 至 25G
+- pressure: 0.1Mpa; 0.35Mpa
+- ipc: IPC-7095; IPC-A-610; IPC-J-STD-030; ipChip
+
+## Underfill_WI_Graphic_Rich.docx
+- storage_temp: -40°C 至 -15°C
+- cure: 130°C / 8 min; 150°C / 5 min
+- viscosity: 348 cP
+- cte: 171 ppm
+- void: < 25%
+- fillet: 50% 至 75%; 50%-75%
+- ipc: IPC-A-610
+
+## Underfill_WI_UF3808_Enhanced.docx
+- storage_temp: -15°C 至 -40°C
+- cure: 130°C / 8 min; 150°C / 5 min
+- viscosity: 348 cP
+- cte: 171 ppm/°C; 55 ppm/°C
+- void: < 25%
+- fillet: 50%-75%
+- needle: 23G - 25G
+- pressure: 0.1 - 0.3 MPa
+- ipc: IPC-7095; IPC-7711/7721; IPC-A-610; IPC-J-STD-030
+
+## Underfill_WI_V2_Henkel_Standard.docx
+- storage_temp: -15°C to -40°C; -40°C 至 -15°C
+- cure: 130°C / 8 min; 150°C / 5 min
+- viscosity: 348 mPa·s
+- tg: 113°C (by TMA)
+- cte: 171 ppm/°C; 55 ppm/°C
+- fillet: 50%-75%
+- ipc: IPC-7095; IPC-7351; IPC-A-610; IPC-J-STD-030

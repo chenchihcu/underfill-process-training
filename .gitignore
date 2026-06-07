@@ -1,0 +1,13 @@
+# Office temporary files
+~$*
+~*
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# OS generated files
+Thumbs.db
+Desktop.ini
+.DS_Store
