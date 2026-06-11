@@ -46,10 +46,9 @@ $null = New-Item -ItemType Directory -Path $simJsDst -Force
 # Copy CSS
 Copy-Item -Path $simCssSrc -Destination $simCssDst -Force
 
-# Copy JS recursively using robocopy
-robocopy $simJsSrc $simJsDst /E /NDL /NJH /NJS /NP /NS 2>$null
-# robocopy exit code 1 means success (files copied), treat as 0
-if ($LASTEXITCODE -ge 2) { Write-Error "robocopy failed with exit $LASTEXITCODE"; exit 1 }
+# Copy JS recursively
+Copy-Item -Path "$simJsSrc\*" -Destination $simJsDst -Recurse -Force
 
 Write-Output "Built: $outFile ($([math]::Round((Get-Item $outFile).Length/1KB, 1)) KB)"
 Write-Output "Copied: simulation.html + assets"
+exit 0
