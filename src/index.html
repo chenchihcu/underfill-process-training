@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Underfill 製程訓練 (Underfill Process Training)</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ============ HEADER ============ -->
+  <header class="header">
+    <h1>Underfill 製程訓練</h1>
+    <p class="subtitle">材料規格 (UF3808) → 製程流程 → 參數控制 (KPI) → 點膠 Pattern (I/L/U) → 檢驗標準 (Visual/X-Ray/CSAM) → 實戰案例</p>
+    <div class="progress"><div id="bar" class="progress-bar"></div></div>
+  </header>
+
+  <!-- ============ LAYOUT ============ -->
+  <div class="layout">
+    <nav id="nav" class="nav" aria-label="章節導覽"></nav>
+
+    <main class="main">
+
+      <!-- 0. 教學目標 -->
+      <section class="section active" data-title="0. 教學目標">
+        <div class="card">
+          <h2>0. 教學目標</h2>
+          <p>本訓練提供第一次接觸 Underfill 製程的工程師與品管人員，目標是理解完整的製程架構、關鍵參數與檢驗標準，並能實際應用於生產線。</p>
+          <div class="card-grid">
+            <div class="card">
+              <h3>你會學到</h3>
+              <ul>
+                <li>Underfill 材料規格 (UF3808) 與特性</li>
+                <li>完整製程流程：IQC → 回溫 → Plasma → 點膠 → 固化 → 檢驗</li>
+                <li>關鍵參數 (KPI) 與控制方法</li>
+                <li>點膠 Pattern 決策：I / L / U 型</li>
+                <li>檢驗標準：Visual / X-Ray / CSAM</li>
+                <li>常見問題與對策 (Air Trap / Void / Warpage)</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>建議學習方式</h3>
+              <ol>
+                <li>先閱讀各章概念</li>
+                <li>依照互動任務逐步操作</li>
+                <li>每完成一項勾選檢核</li>
+                <li>最後完成實戰案例測驗</li>
+              </ol>
+            </div>
+          </div>
+          <div class="callout callout--success">建議初次學習時搭配實際生產線 SOP 對照，加深製程參數的理解。</div>
+        </div>
+      </section>
+
+      <!-- 1. 製程概論 -->
+      <section class="section" data-title="1. 製程概論">
+        <div class="card">
+          <h2>1. Underfill 製程概論</h2>
+          <p>Underfill 是應用於 BGA / Flip Chip 封裝的底部填充製程，主要目的在於分散晶片與基板間的熱應力 (Thermal Stress)，提升可靠度 (Reliability)。</p>
+          <div class="card-grid">
+            <div class="card">
+              <h3>製程目的</h3>
+              <ul>
+                <li>分散焊接點 (Solder Joint) 應力</li>
+                <li>降低衝擊/彎曲導致的失效風險 (Drop/Mechanical Shock)</li>
+                <li>提升溫度循環 (TCT) 壽命</li>
+                <li>防止濕氣/污染物侵入</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>適用範圍</h3>
+              <span class="pill">BGA</span><span class="pill">Flip Chip</span><span class="pill">CSP</span><span class="pill">PoP</span>
+              <p style="margin-top:var(--space-3)">涵蓋消費性電子、車用電子、網通設備等高可靠度應用。</p>
+            </div>
+          </div>
+          <div class="callout">核心觀念：Underfill 不是單純的膠水填充，而是與焊點共同承擔機械與熱應力的結構材料。</div>
+        </div>
+      </section>
+
+      <!-- 2. 材料規格 UF3808 -->
+      <section class="section" data-title="2. 材料規格 UF3808">
+        <div class="card">
+          <h2>2. 材料規格 (UF3808)</h2>
+          <p>UF3808 為環氧樹脂 (Epoxy) 系 Underfill，需建立完整材料特性資料庫以作為製程參數設定依據。</p>
+          <div class="param-grid">
+            <dl class="param-item">
+              <dt>Tg (Glass Transition Temperature)</dt>
+              <dd>120&ndash;140&deg;C</dd>
+            </dl>
+            <dl class="param-item">
+              <dt>CTE (&alpha;1 / &alpha;2)</dt>
+              <dd>30 / 110 ppm</dd>
+            </dl>
+            <dl class="param-item">
+              <dt>Modulus (儲能模數)</dt>
+              <dd>6&ndash;8 GPa</dd>
+            </dl>
+            <dl class="param-item">
+              <dt>Curing Shrinkage</dt>
+              <dd>&lt; 0.5%</dd>
+            </dl>
+          </div>
+          <h3>材料篩選重點</h3>
+          <ul>
+            <li><strong>Tg / CTE 匹配：</strong> Tg 需高於最高操作溫度；CTE 需與 solder ball / substrate 匹配，避免殘留應力 (Residual Stress) 導致 Warpage</li>
+            <li><strong>Curing Shrinkage：</strong> 過高的固化收縮率會誘發 Warpage 與 Die Crack 風險</li>
+            <li><strong>Flowability (流動性)：</strong> 影響 Fine Pitch / 小 Gap 的填充能力</li>
+            <li><strong>Filler Content：</strong> 影響 Modulus 與 CTE 平衡</li>
+          </ul>
+          <div class="callout callout--warning">Tg 以下為玻璃態 (Glass State)，剛性高但較脆；Tg 以上為橡膠態 (Rubbery State)，CTE 顯著增加，需綜合評估可靠度需求。</div>
+        </div>
+      </section>
+
+      <!-- 3. 製程流程總覽 -->
+      <section class="section" data-title="3. 製程流程">
+        <div class="card">
+          <h2>3. 製程流程總覽</h2>
+          <p>完整的 Underfill 製程涵蓋以下階段：</p>
+          <div class="flow-steps">
+            <div class="flow-step"><strong>IQC</strong>入料檢驗</div>
+            <div class="flow-step"><strong>儲存</strong>冷凍/回溫</div>
+            <div class="flow-step"><strong>PCB 預備</strong>Bake 100&deg;C/1.5h</div>
+            <div class="flow-step"><strong>預熱</strong>75&ndash;90&deg;C</div>
+            <div class="flow-step"><strong>Plasma</strong>清洗</div>
+            <div class="flow-step"><strong>點膠</strong>Dispensing</div>
+            <div class="flow-step"><strong>固化</strong>Curing</div>
+            <div class="flow-step"><strong>檢驗</strong>Visual/X-Ray</div>
+          </div>
+          <div class="card-grid">
+            <div class="card">
+              <h3>IQC (進料檢驗)</h3>
+              <p>批號、效期、CoA、外觀/顏色確認、IGBT 測試（視需求）</p>
+            </div>
+            <div class="card">
+              <h3>儲存與回溫</h3>
+              <p>冷凍儲存 (0&deg;C 以下)；回溫 (Thawing) 依 A 級供應商規範執行並記錄；回溫後不可再冷凍</p>
+            </div>
+            <div class="card">
+              <h3>Staging Time</h3>
+              <p>Plasma 清洗後至點膠前的最大容許時間（一般 4&ndash;8 小時），逾期需重工 Plasma</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Plasma 清洗 -->
+      <section class="section" data-title="4. Plasma 清洗">
+        <div class="card">
+          <h2>4. Plasma 清洗與表面處理</h2>
+          <p>Plasma Cleaning 為 Underfill 關鍵的前處理步驟，目的在清除有機汙染物並活化表面，提升流動性與附著力。</p>
+          <div class="card-grid">
+            <div class="card">
+              <h3>Plasma 參數</h3>
+              <ul>
+                <li>氣體：Ar / O₂ / Ar+O₂ 混合</li>
+                <li>功率：100&ndash;300W</li>
+                <li>處理時間：60&ndash;300s</li>
+                <li>壓力：0.1&ndash;1.0 Torr</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>適用場景</h3>
+              <ul>
+                <li>Fine Pitch (&lt; 150&mu;m) 必需</li>
+                <li>小 Gap (&lt; 50&mu;m) 推薦</li>
+                <li>Flow Striation 異常時優先排查</li>
+                <li>新 PCB 板廠導入時驗證</li>
+              </ul>
+            </div>
+          </div>
+          <div class="callout callout--warning">Plasma 後的 Staging Time 必須嚴格管控。超過時間未點膠，表面會重新吸附汙染物，導致 Flow Issue 與 Void。</div>
+          <h3>Staging Time 管理</h3>
+          <table>
+            <thead><tr><th>條件</th><th>建議上限</th><th>超過處理</th></tr></thead>
+            <tbody>
+              <tr><td>一般環境 (Class 100K)</td><td>4 小時</td><td>重工 Plasma</td></tr>
+              <tr><td>低濕控制 (&lt; 40%RH)</td><td>8 小時</td><td>重工 Plasma</td></tr>
+              <tr><td>充氮保存</td><td>12 小時</td><td>評估後決定</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 5. 點膠製程 -->
+      <section class="section" data-title="5. 點膠製程">
+        <div class="card">
+          <h2>5. 點膠製程 (Dispensing)</h2>
+          <p>點膠為製程核心，需依據產品尺寸、Pitch、Gap 決定 Pattern 與參數。</p>
+          <div class="card-grid">
+            <div class="card">
+              <h3>關鍵參數</h3>
+              <table>
+                <thead><tr><th>參數</th><th>影響</th></tr></thead>
+                <tbody>
+                  <tr><td>預熱溫度</td><td>黏度、流動速度</td></tr>
+                  <tr><td>針頭尺寸 (Gauge)</td><td>出膠量、fillet 形狀</td></tr>
+                  <tr><td>Valve Pressure</td><td>出膠穩定性</td></tr>
+                  <tr><td>Needle Gap (Z)</td><td>膠條寬度、Racing Effect</td></tr>
+                  <tr><td>Dispensing Speed</td><td>Fillet 均勻性</td></tr>
+                  <tr><td>Substrate Temp</td><td>流變行為</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card">
+              <h3>品質指標 (KPI)</h3>
+              <ul>
+                <li>重量 Cpk &ge; 1.33（目標 &plusmn;0.3mg）</li>
+                <li>Fillet 寬度符合 50%&ndash;75% 元件邊緣</li>
+                <li>無 Air Trap / Void</li>
+                <li>連續點膠無塞針</li>
+              </ul>
+            </div>
+          </div>
+          <div class="callout">點膠參數的起點設定應從材料 TDS 建議值開始，再依據實際產品進行 DOE 驗證與調整。</div>
+        </div>
+      </section>
+
+      <!-- 6. 固化製程 -->
+      <section class="section" data-title="6. 固化製程">
+        <div class="card">
+          <h2>6. 固化製程 (Curing)</h2>
+          <p>固化使 Underfill 達到最終機械強度。固化 schedule 需依材料供應商建議設定。</p>
+          <div class="param-grid">
+            <dl class="param-item">
+              <dt>Cure Temp</dt>
+              <dd>150&ndash;165&deg;C</dd>
+            </dl>
+            <dl class="param-item">
+              <dt>Cure Time</dt>
+              <dd>30&ndash;60 min</dd>
+            </dl>
+            <dl class="param-item">
+              <dt>Ramp Rate</dt>
+              <dd>&le; 3&deg;C/s</dd>
+            </dl>
+            <dl class="param-item">
+              <dt>Cool Down</dt>
+              <dd>自然冷卻或受控</dd>
+            </dl>
+          </div>
+          <h3>固化注意事項</h3>
+          <ul>
+            <li>升溫速率過快可能導致 Thermal Shock 與 Void 生成，需控制 Ramp Rate</li>
+            <li>烘箱 (Oven) 溫度均勻性需定期驗證（&plusmn;3&deg;C）</li>
+            <li>若採用 In-line Curing，需確認鍊速與溫度曲線的對應關係</li>
+            <li>固化後不可急冷，避免 Warpage 增加</li>
+          </ul>
+          <div class="callout callout--warning">Curing Shrinkage 與 Residual Stress 為一體兩面，製程窗口需在固化度與殘留應力間取得平衡。</div>
+        </div>
+      </section>
+
+      <!-- 7. 參數控制與 KPI -->
+      <section class="section" data-title="7. 參數控制">
+        <div class="card">
+          <h2>7. 參數控制與 KPI 監控</h2>
+          <p>建立完整的參數起始值 (Nominal) 與管制界線 (UCL/LCL)，以 SPC 監控製程穩定性。</p>
+          <div class="card-grid">
+            <div class="card">
+              <h3>參數起始值設定</h3>
+              <table>
+                <thead><tr><th>參數</th><th>起始值</th><th>管制範圍</th></tr></thead>
+                <tbody>
+                  <tr><td>Dispense Weight</td><td>依產品</td><td>&plusmn;0.3 mg</td></tr>
+                  <tr><td> substrate Temp</td><td>80&deg;C</td><td>75&ndash;90&deg;C</td></tr>
+                  <tr><td>Needle Gap</td><td>依 Pattern</td><td>&plusmn;0.05 mm</td></tr>
+                  <tr><td>Valve Pressure</td><td>依 TDS</td><td>Cpk &ge; 1.33</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card">
+              <h3>KPI 監控項目</h3>
+              <ul>
+                <li><strong>Cpk 監控：</strong> 重量 Cpk &ge; 1.33，目標 1.67</li>
+                <li><strong>Void Rate：</strong> 單顆 BGA &le; 5% 面積</li>
+                <li><strong>Fillet 尺寸：</strong> 50%&ndash;75% 元件邊緣覆蓋</li>
+                <li><strong>Flow Striation：</strong> 無明顯條紋</li>
+              </ul>
+            </div>
+          </div>
+          <div class="callout">超出管制界限時，依 &ldquo;Stop─Investigate─Correct─Confirm&rdquo; 流程處理，不可調整後直接量產。</div>
+          <h3>SPC 管制界限 (Control Limit) 範例</h3>
+          <table>
+            <thead><tr><th>指標 (Metric)</th><th>UCL</th><th>LCL</th><th>目標 (Target)</th></tr></thead>
+            <tbody>
+              <tr><td>Dispense Weight (mg)</td><td>Target + 0.3</td><td>Target - 0.3</td><td>Nominal</td></tr>
+              <tr><td>Substrate Temp (&deg;C)</td><td>90</td><td>75</td><td>80</td></tr>
+              <tr><td>Cpk</td><td>&mdash;</td><td>1.33</td><td>&ge; 1.67</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 8. 點膠 Pattern 與決策 -->
+      <section class="section" data-title="8. Pattern 決策">
+        <div class="card">
+          <h2>8. 點膠 Pattern 與應用決策樹</h2>
+          <p>依據產品設計選擇適當的點膠 Pattern：I 型、L 型、U 型。</p>
+          <div class="pattern-fig">
+            <div class="pattern-card">
+              <svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="10" y="10" width="50" height="40" rx="3" fill="var(--brand-50)" stroke="var(--brand-500)"/>
+                <line x1="30" y1="10" x2="30" y2="50" stroke="var(--color-warning)" stroke-width="4"/>
+              </svg>
+              <div class="label">I 型</div>
+              <div class="desc">單邊直線<br/>小尺寸/簡單應用</div>
+            </div>
+            <div class="pattern-card">
+              <svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="10" y="10" width="50" height="40" rx="3" fill="var(--brand-50)" stroke="var(--brand-500)"/>
+                <line x1="30" y1="10" x2="60" y2="10" stroke="var(--color-warning)" stroke-width="4"/>
+                <line x1="60" y1="10" x2="60" y2="50" stroke="var(--color-warning)" stroke-width="4"/>
+              </svg>
+              <div class="label">L 型</div>
+              <div class="desc">雙邊轉角<br/>標準應用（推薦）</div>
+            </div>
+            <div class="pattern-card">
+              <svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="10" y="10" width="50" height="40" rx="3" fill="var(--brand-50)" stroke="var(--brand-500)"/>
+                <line x1="25" y1="10" x2="55" y2="10" stroke="var(--color-warning)" stroke-width="4"/>
+                <line x1="25" y1="50" x2="55" y2="50" stroke="var(--color-warning)" stroke-width="4"/>
+                <line x1="55" y1="10" x2="55" y2="50" stroke="var(--color-warning)" stroke-width="4"/>
+              </svg>
+              <div class="label">U 型</div>
+              <div class="desc">三邊 U 型<br/>大尺寸/高速充填</div>
+            </div>
+          </div>
+          <h3>決策流程</h3>
+          <table>
+            <thead><tr><th>條件</th><th>建議 Pattern</th><th>說明</th></tr></thead>
+            <tbody>
+              <tr><td>Die Size &lt; 10mm &times; 10mm</td><td>I 型</td><td>簡單流道，單邊即可</td></tr>
+              <tr><td>10&ndash;20mm / Pitch 中等</td><td>L 型</td><td>雙邊轉角，避免 Air Lock</td></tr>
+              <tr><td>Die Size &gt; 20mm / Gap &lt; 50&mu;m</td><td>U 型 + Dwell</td><td>三邊充填，需加 Dwell Time</td></tr>
+              <tr><td>Void 敏感 / 低 Gap</td><td>L 型 + 多段點膠</td><td>搭配 Dwell Time 降低 Air Trap</td></tr>
+            </tbody>
+          </table>
+          <div class="callout callout--warning">Air Lock 是最常見的 Void 成因。選擇 Pattern 時需確保膠體有連續流動路徑，避免封閉區域造成氣泡。</div>
+        </div>
+      </section>
+
+      <!-- 9. 檢驗標準 -->
+      <section class="section" data-title="9. 檢驗標準">
+        <div class="card">
+          <h2>9. 檢驗標準 (Visual / X-Ray / CSAM)</h2>
+          <p>檢驗分為三個層級，依產品可靠度要求決定檢驗項目與抽樣頻率。</p>
+          <div class="card-grid">
+            <div class="card">
+              <h3>Visual (外觀)</h3>
+              <ul>
+                <li>Fillet 連續性：100% 連續，無斷膠/缺口</li>
+                <li>Fillet 寬度：50%&ndash;75% 元件邊緣</li>
+                <li>無膠體溢出至元件上方</li>
+                <li>無明顯 Flow Striation</li>
+                <li>檢驗方式：100% 顯微鏡</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>X-Ray/AXI</h3>
+              <ul>
+                <li>Void Rate：單顆 &le; 5% 面積，整體 &le; 3%</li>
+                <li>無 Cluster Void</li>
+                <li>無 Interface Void（焊點界面）</li>
+                <li>檢驗方式：取樣/全檢（依客戶規範）</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>CSAM (超音波)</h3>
+              <ul>
+                <li>適用於高可靠度/車用產品</li>
+                <li>檢測 Delamination 分層</li>
+                <li>檢測 Die Crack</li>
+                <li>檢測 Interface Separation</li>
+                <li>抽樣頻率：依客戶規範</li>
+              </ul>
+            </div>
+          </div>
+          <h3>判定標準 (Accept / Reject)</h3>
+          <table>
+            <thead><tr><th>缺陷類型</th><th>允收 (Accept)</th><th>拒收 (Reject)</th></tr></thead>
+            <tbody>
+              <tr><td>Void 面積</td><td>&le; 5% 單顆，總和 &le; 3%</td><td>超過上述值或 Cluster Void</td></tr>
+              <tr><td>Interface Void</td><td>無</td><td>任何 Interface Void</td></tr>
+              <tr><td>Fillet 不連續</td><td>無</td><td>任何斷膠</td></tr>
+              <tr><td>Crack / Delamination</td><td>無</td><td>任何 Crack 或 Delam</td></tr>
+              <tr><td>Fillet 溢膠</td><td>無</td><td>溢膠至元件上方</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 10. 常見問題與對策 -->
+      <section class="section" data-title="10. 常見問題">
+        <div class="card">
+          <h2>10. 常見問題與對策</h2>
+          <table>
+            <thead><tr><th>問題</th><th>可能原因</th><th>對策</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Void / Air Trap</td>
+                <td>Pattern 設計不良、Plasma 不足、Staging Time 過長、參數偏移</td>
+                <td>檢討 I/L/U 決策，確認 Plasma 參數與 Staging 時限，調整 Dispense Speed 與 Dwell Time</td>
+              </tr>
+              <tr>
+                <td>Flow Striation</td>
+                <td>Plasma 表面能不足、材料變質、溫度不均</td>
+                <td>確認 Plasma 處理後 Water Contact Angle，檢查材料效期與儲存條件，校正加熱平台溫度</td>
+              </tr>
+              <tr>
+                <td>Fillet 不均勻</td>
+                <td>Needle Gap 變異、Speed 不穩、Valve 異常</td>
+                <td>校正 Z 軸高度，檢查 Valve 氣壓穩定度，確認 Dispense 路徑直線度</td>
+              </tr>
+              <tr>
+                <td>Warpage 過大</td>
+                <td>Curing Shrinkage &times; CTE mismatch、降溫過快</td>
+                <td>調整 Cure Schedule、材料 CTE 匹配，控制 Ramp Down Rate</td>
+              </tr>
+              <tr>
+                <td>塞針 (Needle Clog)</td>
+                <td>Staging Time 過長導致材料在針頭固化</td>
+                <td>縮短停機時間，建立 Purge 頻率，檢查針頭加熱溫度</td>
+              </tr>
+              <tr>
+                <td>Racing Effect</td>
+                <td>黏度不足 + 壓力過大會使膠體先沿兩側流動</td>
+                <td>降低 Presure，提高基板溫度以加速固化，確認 Needle Gap</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="callout callout--warning">發現問題時依 &ldquo;Stop &rarr; Investigate &rarr; Correct &rarr; Confirm&rdquo; 四步驟排查，不可直接調整參數後連續生產。</div>
+        </div>
+      </section>
+
+      <!-- 11. 實戰案例 -->
+      <section class="section" data-title="11. 實戰案例">
+        <div class="card">
+          <h2>11. 實戰案例</h2>
+          <p>以下為三個典型案例，模擬從參數設定到異常排查的完整流程。</p>
+          <div class="card">
+            <h3>案例 A：新產品導入 (NPI)</h3>
+            <p><strong>情境：</strong> 導入 15mm &times; 15mm BGA，Pitch 0.4mm，Standoff 80&mu;m</p>
+            <p><strong>決策：</strong></p>
+            <ol>
+              <li>選用 L 型 Pattern（中等尺寸，標準應用）</li>
+              <li>設定基板溫度 80&deg;C，Needle Gap 0.1mm</li>
+              <li>DOE 驗證 Dispense Speed 與 Pressure，確認重量 Cpk</li>
+              <li>Visual 確認 Fillet 覆蓋率 &ge; 60%</li>
+              <li>X-Ray 抽樣 5pcs，Void &le; 3%</li>
+            </ol>
+          </div>
+          <div class="card">
+            <h3>案例 B：Void 異常排查</h3>
+            <p><strong>情境：</strong> 產線回報某批次 Void Rate 從 2% 升至 8%</p>
+            <p><strong>排查步驟：</strong></p>
+            <ol>
+              <li>確認 Plasma 參數（功率/時間/氣體流量）無異常</li>
+              <li>確認 Staging Time 記錄是否在 4h 內</li>
+              <li>針對 Void 位置做 X-Ray 定位分析</li>
+              <li>發現 Void 集中於遠端角落 &rarr; 判定為 Air Trap</li>
+              <li>對策：增加前段 Dwell Time 2s，調整 Dispense Speed -10%</li>
+              <li>追蹤 3 批次驗證 Void Rate 回降至 1.5%</li>
+            </ol>
+            <div class="callout callout--success">Void 分析時需區分&ldquo;製程性 Void&rdquo;（Air Trap、Flow Issue）與&ldquo;材料性 Void&rdquo;（Outgassing、Moisture），對策方向不同。</div>
+          </div>
+          <div class="card">
+            <h3>案例 C：Flow Striation 改善</h3>
+            <p><strong>情境：</strong> 新 PCB 板廠導入後出現 Fillet 表面條紋</p>
+            <p><strong>排查：</strong></p>
+            <ol>
+              <li>Water Contact Angle 量測：表面能偏低 (55&deg;)</li>
+              <li>確認新板廠清洗製程變更，殘留汙染物增加</li>
+              <li>對策：增加 Plasma 處理時間 30%，Ar/O₂ 比例調整</li>
+              <li>WCA 降至 &lt; 20&deg;，條紋消失</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- 12. 完成檢查 -->
+      <section class="section" data-title="12. 完成檢查">
+        <div class="card">
+          <h2>12. 完成檢查</h2>
+          <p>勾選以下項目表示你已完成 Underfill 製程訓練：</p>
+          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>我了解 Underfill 的製程目的與適用範圍</label>
+          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>我能說出 UF3808 的關鍵材料參數 (Tg/CTE/Modulus)</label>
+          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>我熟悉從 IQC 到檢驗的完整製程流程</label>
+          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>我知道 Plasma 清洗的目的與 Staging Time 管理</label>
+          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>我能列出點膠製程的關鍵參數與 KPI</label>
+          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>我了解固化製程的溫度/時間與注意事項</label>
+          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>我能根據產品條件選擇 I/L/U 點膠 Pattern</label>
+          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>我了解 Visual/X-Ray/CSAM 的檢驗標準與判定</label>
+          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>我能針對常見問題 (Void/Striation) 提出排查方向</label>
+          <div style="margin-top:var(--space-4)">
+            <div class="progress"><div id="check-progress" class="progress-bar"></div></div>
+          </div>
+          <div class="callout callout--success" style="margin-top:var(--space-4)">完成後即可將所學應用於實際生產線。建議定期回訓並更新 SPC 資料庫。</div>
+        </div>
+      </section>
+
+      <!-- 13. 個人筆記 -->
+      <section class="section" data-title="13. 個人筆記">
+        <div class="card">
+          <h2>13. 個人筆記</h2>
+          <p>記錄學習心得、實際遇到的問題與解決方案。內容保存在瀏覽器 localStorage。</p>
+          <textarea id="notes" placeholder="範例：今天在 Plasma 參數調整時發現功率從 200W 增加到 250W 後 Flow Striation 明顯改善..."></textarea>
+          <div class="actions">
+            <button class="btn btn--primary" onclick="AppNotesSave()">儲存筆記</button>
+            <button class="btn btn--ghost" onclick="AppNotesClear()">清除筆記</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    本訓練為本機 HTML 文件，可離線開啟。資料來源：UF3808 TDS + Underfill 作業標準書。
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
