@@ -123,7 +123,7 @@
         dom.pressureSlider = $('dispense-pressure');
         dom.valPressure = $('val-pressure');
         dom.canvas = $('dispense-canvas');
-        dom.ctx = dom.canvas ? dom.canvas.getContext('2d') : null;
+        dom.ctx = null; // 3D: acquired lazily if 2D fallback needed
         dom.simStatus = $('sim-status');
         dom.btnPlay = $('btn-play-sim');
         dom.btnReset = $('btn-reset-sim');
@@ -150,7 +150,7 @@
         dom.btnSetBatch = $('btn-set-batch');
         dom.batchDisplay = $('batch-display');
         dom.historyCanvas = $('history-chart');
-        dom.historyCtx = dom.historyCanvas ? dom.historyCanvas.getContext('2d') : null;
+        dom.historyCtx = null; // 3D
         dom.langToggle = $('lang-toggle');
         dom.defectPass = $('defect-pass-count');
         dom.defectReject = $('defect-reject-count');
@@ -163,7 +163,7 @@
         dom.sidebarToggle = $('sidebar-toggle');
         dom.navItems = $$('.nav-item');
         dom.capCanvas = $('capillary-canvas');
-        dom.capCtx = dom.capCanvas ? dom.capCanvas.getContext('2d') : null;
+        dom.capCtx = null; // 3D
         dom.capGap = $('cap-gap');
         dom.capVisc = $('cap-visc');
         dom.valGap = $('val-gap');
@@ -183,9 +183,9 @@
         dom.predFillet = $('pred-fillet');
         dom.predVoid = $('pred-void');
         dom.heatmapCanvas = $('heatmap-canvas');
-        dom.heatmapCtx = dom.heatmapCanvas ? dom.heatmapCanvas.getContext('2d') : null;
+        dom.heatmapCtx = null; // 3D
         dom.sensitivityCanvas = $('sensitivity-canvas');
-        dom.sensitivityCtx = dom.sensitivityCanvas ? dom.sensitivityCanvas.getContext('2d') : null;
+        dom.sensitivityCtx = null; // 3D
         dom.defectCards = $$('.defect-card');
         dom.quizQuestion = $('quiz-question');
         dom.quizOptions = $('quiz-options');
@@ -722,7 +722,7 @@
         });
         if (state.history.length > CONFIG.HISTORY_MAX) state.history.shift();
         saveState();
-        drawHistoryChart();
+        if (hist3D) draw3DHistory(); else drawHistoryChart();
     }
 
     function drawHistoryChart() {
@@ -780,14 +780,14 @@
     }
 
     function initHistory() {
-        drawHistoryChart();
+        if (hist3D) draw3DHistory(); else drawHistoryChart();
         dom.preheatSlider.addEventListener('change', recordHistoryPoint);
         dom.speedSlider.addEventListener('change', recordHistoryPoint);
         if (dom.btnClearHistory) {
             dom.btnClearHistory.addEventListener('click', function() {
                 state.history = [];
                 saveState();
-                drawHistoryChart();
+                if (hist3D) draw3DHistory(); else drawHistoryChart();
                 log('History cleared');
             });
         }
@@ -876,11 +876,13 @@
             switch (e.key) {
                 case ' ':
                     e.preventDefault();
-                    if (!SIM.running) runSimulation();
+                    if (disp3D && !D3D.running) run3DDispense();
+                    else if (!SIM.running) runSimulation();
                     break;
                 case 'r':
                 case 'R':
-                    resetSimulation();
+                    if (disp3D) reset3DDispense();
+                    else resetSimulation();
                     break;
                 case 's':
                 case 'S':
@@ -1102,25 +1104,15 @@
                 this.classList.add('active');
             });
         });
-        // Activate first stage by default
         if (dom.flowStages.length) dom.flowStages[0].classList.add('active');
 
-        // Capillary controls
-        if (dom.capGap) {
-            dom.capGap.addEventListener('input', function() {
-                dom.valGap.textContent = this.value;
-                if (!CAP.running) drawCapillaryFrame(CAP.progress);
-            });
-        }
-        if (dom.capVisc) {
-            dom.capVisc.addEventListener('input', function() {
-                dom.valVisc.textContent = this.value;
-                if (!CAP.running) drawCapillaryFrame(CAP.progress);
-            });
-        }
-        // Auto-run capillary
-        setTimeout(runCapillaryAnim, 500);
-        dom.capCanvas?.addEventListener('click', runCapillaryAnim);
+        // Capillary label controls (3D rendering handled by init3DCapillary)
+        if (dom.capGap) dom.capGap.addEventListener('input', function() {
+            dom.valGap.textContent = this.value;
+        });
+        if (dom.capVisc) dom.capVisc.addEventListener('input', function() {
+            dom.valVisc.textContent = this.value;
+        });
 
         // Flip cards
         dom.propCards.forEach(card => {
@@ -1156,8 +1148,8 @@
             const voidPass = voidPct <= CONFIG.VOID_THRESHOLD;
             dom.predVoid.innerHTML = voidPct + '% <span class="pred-status ' + (voidPass ? 'pass' : 'fail') + '">' + (voidPass ? t('pass') : t('reject')) + '</span>';
 
-            drawHeatmap();
-            drawSensitivity();
+            if (!heat3D) drawHeatmap();
+            if (!sens3D) drawSensitivity();
         };
 
         dom.slPreheat.addEventListener('input', updateSimlab);
@@ -1398,6 +1390,888 @@
     }
 
     // ======================================================================
+    // 24. THREE.JS 3D ENGINE
+    // ======================================================================
+    const T3D = {};
+
+    async function ensure3D(canvasId, opts = {}) {
+        if (T3D[canvasId]) return T3D[canvasId];
+        let THREE;
+        try { THREE = await import('three'); } catch (e) { console.warn('Three.js not available, using 2D fallback'); return null; }
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return null;
+        const w = canvas.clientWidth || canvas.width || 400;
+        const h = canvas.clientHeight || canvas.height || 300;
+        canvas.width = w; canvas.height = h;
+
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0D0D11);
+
+        const camera = new THREE.PerspectiveCamera(opts.fov || 40, w / h, 0.1, 100);
+        if (opts.camPos) camera.position.set(...opts.camPos);
+        else camera.position.set(0, 4, 7);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setSize(w, h);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
+
+        scene.add(new THREE.AmbientLight(0x404060, 0.6));
+        const dl = new THREE.DirectionalLight(0xffffff, 1.8);
+        dl.position.set(5, 12, 8); dl.castShadow = true;
+        dl.shadow.mapSize.width = 1024; dl.shadow.mapSize.height = 1024;
+        scene.add(dl);
+        const fl = new THREE.DirectionalLight(0x00F2FE, 0.5);
+        fl.position.set(-4, 3, -6); scene.add(fl);
+        const hl = new THREE.PointLight(0x00FF87, 0.3, 20);
+        hl.position.set(0, 5, 0); scene.add(hl);
+
+        const eng = { THREE, scene, camera, renderer, canvas, objects: [], animId: null, clock: new THREE.Clock() };
+        T3D[canvasId] = eng;
+        return eng;
+    }
+
+    function startLoop(eng, fn) {
+        function loop(t) { fn(t, eng.clock.getElapsedTime()); eng.renderer.render(eng.scene, eng.camera); eng.animId = requestAnimationFrame(loop); }
+        eng.clock.start(); eng.animId = requestAnimationFrame(loop);
+    }
+    function stopLoop(eng) { if (eng.animId) { cancelAnimationFrame(eng.animId); eng.animId = null; } }
+
+    function dispose3D(eng) {
+        stopLoop(eng);
+        eng.objects.forEach(o => { if (o.geometry) o.geometry.dispose(); if (o.material) o.material.dispose(); });
+        eng.renderer.dispose();
+        delete T3D[eng.canvas.id];
+    }
+
+    // ---- 3D Dispense Simulator ----
+    let disp3D = null;
+    const D3D = { pathType: 'L', progress: 0, running: false, startTime: 0, flowMesh: null, needleMesh: null, beadGroup: null };
+
+    async function init3DDispense() {
+        const canvas = document.getElementById('dispense-canvas');
+        if (!canvas) return;
+        disp3D = await ensure3D('dispense-canvas', { fov: 35, camPos: [-1, 6, 9] });
+        const T = disp3D.THREE, sc = disp3D.scene, cam = disp3D.camera;
+
+        // Substrate plane
+        const subGeo = new T.BoxGeometry(8, 0.2, 8);
+        const subMat = new T.MeshStandardMaterial({ color: 0x2a2a3a, metalness: 0.3, roughness: 0.8 });
+        const sub = new T.Mesh(subGeo, subMat); sub.receiveShadow = true;
+        sc.add(sub); disp3D.objects.push(sub);
+
+        // Die
+        const dieGeo = new T.BoxGeometry(3.6, 0.3, 3.6);
+        const dieMat = new T.MeshPhysicalMaterial({ color: 0x3a3a4a, metalness: 0.2, roughness: 0.6, transparent: true, opacity: 0.7 });
+        const die = new T.Mesh(dieGeo, dieMat); die.position.y = 0.45; die.castShadow = true;
+        sc.add(die); disp3D.objects.push(die);
+
+        // BGA balls
+        const ballMat = new T.MeshStandardMaterial({ color: 0xffb300, metalness: 0.7, roughness: 0.3 });
+        for (let i = 0; i < 6; i++) {
+            for (let j = 0; j < 6; j++) {
+                const ball = new T.Mesh(new T.SphereGeometry(0.12, 12, 12), ballMat);
+                ball.position.set(-1.5 + i * 0.6, 0.3, -1.5 + j * 0.6);
+                ball.castShadow = true;
+                sc.add(ball); disp3D.objects.push(ball);
+            }
+        }
+
+        // Flow fill mesh (underfill)
+        const flowGeo = new T.BoxGeometry(0.01, 0.15, 3.4);
+        const flowMat = new T.MeshPhysicalMaterial({
+            color: 0x00F2FE, transparent: true, opacity: 0.35, metalness: 0.1, roughness: 0.2
+        });
+        const flow = new T.Mesh(flowGeo, flowMat);
+        flow.position.set(-1.8, 0.3, 0);
+        sc.add(flow); disp3D.objects.push(flow);
+        D3D.flowMesh = flow;
+
+        // Needle
+        const nMat = new T.MeshStandardMaterial({ color: 0x888899, metalness: 0.8, roughness: 0.2 });
+        const needle = new T.Mesh(new T.CylinderGeometry(0.06, 0.08, 0.6, 8), nMat);
+        needle.position.set(-1.8, 1.2, 0);
+        sc.add(needle); disp3D.objects.push(needle);
+        D3D.needleMesh = needle;
+
+        // Bead path group
+        const bg = new T.Group();
+        sc.add(bg); disp3D.objects.push(bg);
+        D3D.beadGroup = bg;
+
+        // Grid helper
+        const grid = new T.GridHelper(8, 16, 0x333355, 0x222244);
+        grid.position.y = -0.1;
+        sc.add(grid);
+
+        cam.position.set(-1, 6, 9); cam.lookAt(0, 0, 0);
+
+        // Start continuous loop
+        startLoop(disp3D, (t, dt) => {
+            if (D3D.running) {
+                const elapsed = t - D3D.startTime;
+                const speed = parseInt(dom.speedSlider?.value || 15);
+                const duration = 3000 + (30 - speed) * 100;
+                D3D.progress = Math.min(elapsed / duration, 1);
+                update3DDispense(D3D.progress);
+                if (D3D.progress >= 1) {
+                    D3D.running = false;
+                    setSimStatus('completed');
+                    if (dom.btnPlay) dom.btnPlay.disabled = false;
+                }
+            }
+        });
+
+        // Wire controls
+        dom.pathBtns?.forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (D3D.running) return;
+                dom.pathBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                D3D.pathType = this.dataset.path;
+                reset3DDispense();
+            });
+        });
+        if (dom.btnPlay) dom.btnPlay.addEventListener('click', run3DDispense);
+        if (dom.btnReset) dom.btnReset.addEventListener('click', reset3DDispense);
+        reset3DDispense();
+    }
+
+    function get3DPathCoords(type) {
+        if (type === 'L') return [{ x: 1.8, y: 0, z: -1.8 }, { x: -1.8, y: 0, z: -1.8 }, { x: -1.8, y: 0, z: 1.8 }];
+        if (type === 'I') return [{ x: -1.8, y: 0, z: -1.8 }, { x: -1.8, y: 0, z: 1.8 }];
+        if (type === 'U') return [{ x: 1.8, y: 0, z: -1.8 }, { x: 1.8, y: 0, z: 1.8 }, { x: -1.8, y: 0, z: 1.8 }, { x: -1.8, y: 0, z: -1.8 }];
+        return [];
+    }
+
+    function posOn3DPath(coords, t) {
+        if (coords.length < 2) return coords[0] || { x: 0, y: 0, z: 0 };
+        if (t <= 0) return coords[0];
+        if (t >= 1) return coords[coords.length - 1];
+        const segs = coords.length - 1;
+        const sr = 1 / segs;
+        const idx = Math.min(Math.floor(t / sr), segs - 1);
+        const lt = (t - idx * sr) / sr;
+        return {
+            x: coords[idx].x + (coords[idx + 1].x - coords[idx].x) * lt,
+            y: 0,
+            z: coords[idx].z + (coords[idx + 1].z - coords[idx].z) * lt
+        };
+    }
+
+    function update3DDispense(progress) {
+        if (!D3D.flowMesh) return;
+        const T = disp3D.THREE;
+        const maxW = 3.4;
+        const w = maxW * progress;
+        D3D.flowMesh.scale.x = w / 3.4;
+        D3D.flowMesh.position.x = -1.8 + (w / 2);
+
+        // Update needle position along path
+        const coords = get3DPathCoords(D3D.pathType);
+        const pos = posOn3DPath(coords, progress);
+        D3D.needleMesh.position.set(pos.x, 1.2, pos.z);
+
+        // Draw bead trail
+        D3D.beadGroup.children.forEach(c => { c.geometry?.dispose(); });
+        D3D.beadGroup.clear();
+        if (progress > 0.01) {
+            const steps = Math.max(2, Math.floor(progress * 40));
+            const pts = [];
+            for (let i = 0; i <= steps; i++) {
+                const p = posOn3DPath(coords, (i / steps) * progress);
+                pts.push(new T.Vector3(p.x, 0.35, p.z));
+            }
+            if (pts.length > 1) {
+                const curve = new T.CatmullRomCurve3(pts);
+                const tube = new T.Mesh(
+                    new T.TubeGeometry(curve, 20, 0.03, 6, false),
+                    new T.MeshBasicMaterial({ color: 0x00F2FE, transparent: true, opacity: 0.7 })
+                );
+                D3D.beadGroup.add(tube);
+            }
+        }
+    }
+
+    function run3DDispense() {
+        if (D3D.running || !disp3D) return;
+        D3D.running = true;
+        D3D.startTime = performance.now();
+        D3D.progress = 0;
+        if (dom.btnPlay) dom.btnPlay.disabled = true;
+        setSimStatus('running');
+    }
+
+    function reset3DDispense() {
+        D3D.running = false;
+        D3D.progress = 0;
+        if (dom.btnPlay) dom.btnPlay.disabled = false;
+        setSimStatus('standby');
+        update3DDispense(0);
+        if (D3D.beadGroup) { D3D.beadGroup.children.forEach(c => { c.geometry?.dispose(); }); D3D.beadGroup.clear(); }
+    }
+
+    // ---- 3D Capillary Flow ----
+    let cap3D = null;
+    const CAP3D = { progress: 0, running: false, start: 0, flowMesh: null, arrowMesh: null };
+
+    async function init3DCapillary() {
+        const canvas = document.getElementById('capillary-canvas');
+        if (!canvas) return;
+        cap3D = await ensure3D('capillary-canvas', { fov: 35, camPos: [0, 3, 7] });
+        const T = cap3D.THREE, sc = cap3D.scene;
+
+        // Substrate
+        const sub = new T.Mesh(
+            new T.BoxGeometry(7, 0.15, 0.8),
+            new T.MeshStandardMaterial({ color: 0x2a2a3a, metalness: 0.3, roughness: 0.7 })
+        );
+        sub.position.set(0, -0.1, 0); sub.receiveShadow = true;
+        sc.add(sub); cap3D.objects.push(sub);
+
+        // Die (slightly elevated to show gap)
+        const die = new T.Mesh(
+            new T.BoxGeometry(4, 0.25, 0.6),
+            new T.MeshPhysicalMaterial({ color: 0x3a3a4a, metalness: 0.2, roughness: 0.6, transparent: true, opacity: 0.75 })
+        );
+        die.position.set(0, 0.3, 0); die.castShadow = true;
+        sc.add(die); cap3D.objects.push(die);
+
+        // Gap indicator
+        const gapMat = new T.MeshBasicMaterial({ color: 0x00F2FE, transparent: true, opacity: 0.08, side: T.DoubleSide });
+        const gapGeo = new T.PlaneGeometry(0.01, 0.08);
+        const gapVis = new T.Mesh(gapGeo, gapMat);
+        gapVis.position.set(2.2, 0.17, 0.02);
+        sc.add(gapVis); cap3D.objects.push(gapVis);
+
+        // Flow mesh
+        const flowMat = new T.MeshPhysicalMaterial({
+            color: 0x00F2FE, transparent: true, opacity: 0.3, metalness: 0.1, roughness: 0.3, side: T.DoubleSide
+        });
+        const flow = new T.Mesh(new T.BoxGeometry(0.01, 0.08, 0.5), flowMat);
+        flow.position.set(-2, 0.17, 0);
+        sc.add(flow); cap3D.objects.push(flow);
+        CAP3D.flowMesh = flow;
+
+        // Glow arrow
+        const arrowMat = new T.MeshBasicMaterial({ color: 0x00F2FE, transparent: true, opacity: 0.6 });
+        const arrow = new T.Mesh(new T.ConeGeometry(0.08, 0.15, 4), arrowMat);
+        arrow.rotation.x = Math.PI / 2;
+        arrow.position.set(-2, 0.22, 0);
+        sc.add(arrow); cap3D.objects.push(arrow);
+        CAP3D.arrowMesh = arrow;
+
+        // Labels via sprites? For simplicity, use CSS overlay or skip 3D labels
+        const grid = new T.GridHelper(7, 14, 0x333355, 0x222244);
+        grid.position.y = -0.15;
+        sc.add(grid);
+
+        cap3D.camera.position.set(0, 2.5, 6);
+        cap3D.camera.lookAt(0, 0.1, 0);
+
+        startLoop(cap3D, (t, dt) => {
+            if (CAP3D.running) {
+                const elapsed = t - CAP3D.start;
+                const visc = parseInt(dom.capVisc?.value || 348);
+                const gap = parseInt(dom.capGap?.value || 50);
+                const duration = 3000 * (visc / 348) * (50 / gap);
+                CAP3D.progress = Math.min(elapsed / duration, 1);
+                update3DCapillary(CAP3D.progress);
+                if (CAP3D.progress >= 1) {
+                    CAP3D.running = false;
+                    CAP3D.start = 0;
+                }
+            }
+        });
+
+        // Wire controls
+        if (dom.capGap) dom.capGap.addEventListener('input', function() {
+            dom.valGap.textContent = this.value;
+            if (!CAP3D.running) update3DCapillary(CAP3D.progress);
+        });
+        if (dom.capVisc) dom.capVisc.addEventListener('input', function() {
+            dom.valVisc.textContent = this.value;
+            if (!CAP3D.running) update3DCapillary(CAP3D.progress);
+        });
+
+        setTimeout(() => { if (!CAP3D.running) { CAP3D.running = true; CAP3D.start = performance.now(); CAP3D.progress = 0; } }, 500);
+        canvas.addEventListener('click', () => { if (!CAP3D.running) { CAP3D.running = true; CAP3D.start = performance.now(); CAP3D.progress = 0; } });
+        update3DCapillary(0);
+    }
+
+    function update3DCapillary(progress) {
+        if (!CAP3D.flowMesh || !CAP3D.arrowMesh) return;
+        const maxW = 3.8;
+        const w = maxW * progress;
+        CAP3D.flowMesh.scale.x = w / 0.01;
+        CAP3D.flowMesh.position.x = -2 + (w / 2);
+        CAP3D.arrowMesh.position.x = -2 + w;
+
+        // Update labels
+        const visc = parseInt(dom.capVisc?.value || 348);
+        const gap = parseInt(dom.capGap?.value || 50);
+        const flowSpeed = (100 / gap) * (348 / visc) * 1.5;
+        const capPress = (2 * 0.032 * Math.cos(20 * Math.PI / 180)) / (gap / 1000000);
+        if (dom.capFlowRate) dom.capFlowRate.textContent = flowSpeed.toFixed(1);
+        if (dom.capPressureVal) dom.capPressureVal.textContent = Math.round(capPress);
+    }
+
+    // ---- 3D Heatmap (Surface Plot) ----
+    let heat3D = null;
+
+    async function init3DHeatmap() {
+        const canvas = document.getElementById('heatmap-canvas');
+        if (!canvas) return;
+        heat3D = await ensure3D('heatmap-canvas', { fov: 40, camPos: [3, 4, 6] });
+        const T = heat3D.THREE, sc = heat3D.scene;
+
+        const gridSize = 20, segs = 15;
+        const geo = new T.PlaneGeometry(gridSize, gridSize, segs, segs);
+        geo.rotateX(-Math.PI / 2);
+
+        const pos = geo.attributes.position;
+        const colors = new Float32Array(pos.count * 3);
+        const color = new T.Color();
+
+        for (let i = 0; i < pos.count; i++) {
+            const x = pos.getX(i), z = pos.getZ(i);
+            const nx = (x + gridSize / 2) / gridSize, nz = (z + gridSize / 2) / gridSize;
+            const h = Math.sin(nx * Math.PI * 3) * Math.cos(nz * Math.PI * 3) * 0.3 + 0.5;
+            pos.setY(i, h * 1.5);
+            color.setHSL(0.55 - h * 0.4, 0.8, 0.15 + h * 0.5);
+            colors[i * 3] = color.r; colors[i * 3 + 1] = color.g; colors[i * 3 + 2] = color.b;
+        }
+        geo.setAttribute('color', new T.BufferAttribute(colors, 3));
+        pos.needsUpdate = true;
+        geo.computeVertexNormals();
+
+        const mat = new T.MeshStandardMaterial({
+            vertexColors: true, roughness: 0.5, metalness: 0.1, flatShading: false, side: T.DoubleSide
+        });
+        const surface = new T.Mesh(geo, mat);
+        surface.position.set(0, 0, 0);
+        sc.add(surface); heat3D.objects.push(surface);
+
+        // Marker sphere
+        const marker = new T.Mesh(
+            new T.SphereGeometry(0.25, 16, 16),
+            new T.MeshBasicMaterial({ color: 0xffffff })
+        );
+        marker.position.set(-3, 1.5, -3);
+        sc.add(marker); heat3D.objects.push(marker);
+
+        sc.add(new T.GridHelper(20, 20, 0x333355, 0x222244));
+
+        heat3D.camera.position.set(3, 4, 6);
+        heat3D.camera.lookAt(0, 0.5, 0);
+
+        // Slow orbit
+        heat3D.orbitAngle = 0;
+        startLoop(heat3D, (t, dt) => {
+            heat3D.orbitAngle += dt * 0.15;
+            const rad = 6;
+            heat3D.camera.position.x = Math.sin(heat3D.orbitAngle) * rad;
+            heat3D.camera.position.z = Math.cos(heat3D.orbitAngle) * rad;
+            heat3D.camera.position.y = 3 + Math.sin(heat3D.orbitAngle * 0.5) * 0.5;
+            heat3D.camera.lookAt(0, 0.5, 0);
+        });
+    }
+
+    // ---- 3D Sensitivity Chart ----
+    let sens3D = null;
+
+    async function init3DSensitivity() {
+        const canvas = document.getElementById('sensitivity-canvas');
+        if (!canvas) return;
+        sens3D = await ensure3D('sensitivity-canvas', { fov: 40, camPos: [4, 3, 6] });
+        const T = sens3D.THREE, sc = sens3D.scene;
+        const labels = ['Preheat', 'Speed', 'Pressure', 'Needle'];
+        const barMat = [
+            new T.MeshPhysicalMaterial({ color: 0x00F2FE, metalness: 0.3, roughness: 0.2, emissive: 0x00F2FE, emissiveIntensity: 0.15 }),
+            new T.MeshPhysicalMaterial({ color: 0x00FF87, metalness: 0.3, roughness: 0.2, emissive: 0x00FF87, emissiveIntensity: 0.15 }),
+            new T.MeshPhysicalMaterial({ color: 0xFFB300, metalness: 0.3, roughness: 0.2, emissive: 0xFFB300, emissiveIntensity: 0.15 }),
+            new T.MeshPhysicalMaterial({ color: 0xFF3B30, metalness: 0.3, roughness: 0.2, emissive: 0xFF3B30, emissiveIntensity: 0.15 })
+        ];
+
+        for (let i = 0; i < 4; i++) {
+            const val = [0.45, 0.3, 0.15, 0.1][i];
+            const bar = new T.Mesh(new T.BoxGeometry(0.6, val * 3, 0.6), barMat[i]);
+            bar.position.set(-1.5 + i * 1.0, val * 1.5, 0);
+            sc.add(bar); sens3D.objects.push(bar);
+        }
+
+        sc.add(new T.GridHelper(5, 10, 0x333355, 0x222244));
+        sens3D.camera.position.set(3, 2.5, 4);
+        sens3D.camera.lookAt(0, 0.5, 0);
+        startLoop(sens3D, () => {});
+    }
+
+    // ---- 3D History Chart ----
+    let hist3D = null;
+
+    async function init3DHistory() {
+        const canvas = document.getElementById('history-chart');
+        if (!canvas) return;
+        hist3D = await ensure3D('history-chart', { fov: 40, camPos: [0, 3, 6] });
+        const T = hist3D.THREE, sc = hist3D.scene;
+        sc.add(new T.GridHelper(6, 12, 0x333355, 0x222244));
+        hist3D.camera.position.set(0, 2.5, 5);
+        hist3D.camera.lookAt(0, 0, 0);
+        draw3DHistory();
+        startLoop(hist3D, () => {});
+    }
+
+    function draw3DHistory() {
+        if (!hist3D) return;
+        const T = hist3D.THREE, sc = hist3D.scene;
+        // Remove old lines
+        hist3D.objects.forEach(o => { if (o.geometry) o.geometry.dispose(); if (o.material) o.material.dispose(); sc.remove(o); });
+        hist3D.objects = [];
+
+        const data = state.history;
+        if (data.length < 2) return;
+
+        const pad = 1.5;
+        function makeLine(values, color) {
+            const min = Math.min(...values), max = Math.max(...values);
+            const range = max - min || 1;
+            const pts = values.map((v, i) => new T.Vector3(
+                -pad + (i / (values.length - 1)) * pad * 2,
+                0.1 + ((v - min) / range) * 2.5,
+                0
+            ));
+            const curve = new T.CatmullRomCurve3(pts);
+            const tube = new T.Mesh(
+                new T.TubeGeometry(curve, 32, 0.04, 6, false),
+                new T.MeshBasicMaterial({ color, transparent: true, opacity: 0.8 })
+            );
+            sc.add(tube); hist3D.objects.push(tube);
+        }
+
+        const preheatVals = data.map(d => d.preheat);
+        const speedVals = data.map(d => d.speed);
+        makeLine(preheatVals, 0x00F2FE);
+        makeLine(speedVals, 0x00FF87);
+    }
+
+    function recordAndDraw3DHistory() {
+        recordHistoryPoint();
+        draw3DHistory();
+    }
+
+    // ---- 3D Tutorial Charts ----
+    async function init3DTutorialCharts() {
+        const charts = [
+            { id: 'tchartVisco', type: 'line', data: genViscoData(), color: 0x00F2FE },
+            { id: 'tchartReliab', type: 'bar', data: genReliabData(), color: 0x00FF87 },
+            { id: 'tchartVoid', type: 'bar', data: genVoidData(), color: 0xFFB300 },
+            { id: 'tchartCure', type: 'line', data: genCureData(), color: 0xFF3B30 }
+        ];
+        for (const cfg of charts) {
+            const canvas = document.getElementById(cfg.id);
+            if (!canvas) continue;
+            const eng = await ensure3D(cfg.id, { fov: 40, camPos: [2, 3, 5] });
+            const T = eng.THREE, sc = eng.scene;
+            sc.add(new T.GridHelper(5, 10, 0x333355, 0x222244));
+
+            if (cfg.type === 'bar' && cfg.data) {
+                const n = cfg.data.length;
+                cfg.data.forEach((v, i) => {
+                    const h = (v / Math.max(...cfg.data)) * 2.5;
+                    const mat = new T.MeshPhysicalMaterial({
+                        color: cfg.color, transparent: true, opacity: 0.8,
+                        metalness: 0.1, roughness: 0.3
+                    });
+                    const bar = new T.Mesh(new T.BoxGeometry(0.4, h || 0.05, 0.4), mat);
+                    bar.position.set(-1.5 + (i / (n - 1)) * 3, (h || 0.05) / 2, 0);
+                    sc.add(bar); eng.objects.push(bar);
+                });
+            } else if (cfg.type === 'line' && cfg.data) {
+                const min = Math.min(...cfg.data), max = Math.max(...cfg.data);
+                const range = max - min || 1;
+                const pts = cfg.data.map((v, i) => new T.Vector3(
+                    -1.5 + (i / (cfg.data.length - 1)) * 3,
+                    0.1 + ((v - min) / range) * 2,
+                    0
+                ));
+                const curve = new T.CatmullRomCurve3(pts);
+                const tube = new T.Mesh(
+                    new T.TubeGeometry(curve, 32, 0.05, 6, false),
+                    new T.MeshBasicMaterial({ color: cfg.color })
+                );
+                sc.add(tube); eng.objects.push(tube);
+
+                // Dots
+                pts.forEach(p => {
+                    const dot = new T.Mesh(
+                        new T.SphereGeometry(0.08, 8, 8),
+                        new T.MeshBasicMaterial({ color: cfg.color })
+                    );
+                    dot.position.copy(p);
+                    sc.add(dot); eng.objects.push(dot);
+                });
+            }
+
+            eng.camera.position.set(2, 2.5, 4);
+            eng.camera.lookAt(0, 0.5, 0);
+            startLoop(eng, () => {});
+        }
+    }
+
+    function genViscoData() {
+        const d = [];
+        for (let t = 25; t <= 120; t += 5) d.push(1200 * Math.exp(-0.017 * (t - 25)) + 150);
+        return d;
+    }
+    function genReliabData() { return [1200, 850, 600, 400, 200]; }  // cycles
+    function genVoidData() { return [5, 12, 8, 15, 3, 10]; }  // area %
+    function genCureData() {
+        const d = [];
+        for (let t = 0; t <= 10; t += 0.5) d.push(180 - 80 * Math.exp(-0.3 * t));
+        return d;
+    }
+
+    // ======================================================================
+    // 25. TUTORIAL INTERACTIVE MODULE
+    // ======================================================================
+    const TUT = { flowStep: 0 };
+
+    function initTutorial() {
+        const tabs = document.querySelectorAll('.tut-tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                tutGoPanel(this.dataset.tpanel);
+            });
+        });
+        if (document.getElementById('tpanel-flow')) {
+            buildTFlow();
+            document.getElementById('tnext')?.addEventListener('click', () => tutGoStep(TUT.flowStep + 1));
+            document.getElementById('tprev')?.addEventListener('click', () => tutGoStep(TUT.flowStep - 1));
+            document.getElementById('treset')?.addEventListener('click', () => tutGoStep(0));
+        }
+        // Phys sliders
+        ['mu','L','h','theta','gamma','T'].forEach(id => {
+            const el = document.getElementById('tphys-' + id);
+            const val = document.getElementById('tval-' + id);
+            if (el && val) el.addEventListener('input', function() {
+                val.textContent = this.value;
+                calcTPhys();
+            });
+        });
+        calcTPhys();
+        tutSelMethod(0);
+        tutShowVoid(0);
+        tutSelRole(0, document.querySelector('.trolebtn'));
+        // Fit form
+        if (document.getElementById('tfit-pkg')) tutEvalFit();
+        // Decision tree
+        renderTTree();
+        // Risk meter (lazy init on tab show)
+        setTimeout(() => {
+            if (document.getElementById('tpanel-risk')) tutEvalRisk();
+        }, 100);
+    }
+
+    function tutGoPanel(id) {
+        document.querySelectorAll('.tpanel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tut-tab').forEach(t => t.classList.remove('active'));
+        const panel = document.getElementById('tpanel-' + id);
+        const tab = document.querySelector('.tut-tab[data-tpanel="' + id + '"]');
+        if (panel) panel.classList.add('active');
+        if (tab) tab.classList.add('active');
+    }
+
+    // ---- Flow Stepper ----
+    const TFLOW_STEPS = [
+        { phase: 0, title: '1. IQC 來料檢驗', desc: '核對 UF 材料批號、效期、黏度與外觀。確認 CoA 符合規格，冷藏 2-10°C，FIFO 先進先出。' },
+        { phase: 0, title: '2. 回溫 (Thawing)', desc: '針頭朝下直立靜置室溫 2h 以上。禁強制加熱、禁劇烈搖晃。回溫後 4h 內用完，不回凍。' },
+        { phase: 0, title: '3. 預烤 (Baking)', desc: 'PCB 與元件 100°C / 1.5h 烘烤驅出水氣。防止氣化型空洞。' },
+        { phase: 0, title: '4. 助焊劑檢查', desc: '確認 Flux 殘留量與活性。殘留過多 → 腐蝕/空洞風險。' },
+        { phase: 0, title: '5. Staging', desc: '預烤後 4-8h 內完成點膠。超時需重烘烤。' },
+        { phase: 1, title: '6. Plasma 清潔', desc: 'Ar/O₂ plasma 30-60s 活化表面，降低接觸角 θ。Fine pitch < 50µm 建議使用。' },
+        { phase: 1, title: '7. 預熱 (Preheat)', desc: '基板預熱至 70-100°C，降低膠體黏度提升毛細力。' },
+        { phase: 1, title: '8. 點膠 + Dwell', desc: 'L 型路徑為首選。針頭高度 0.10mm，壓力 0.3MPa。充填完成後停留 5-10s 讓 fillet 成形。' },
+        { phase: 2, title: '9. 固化 (Cure)', desc: '130°C / 8min 或 150°C / 5min。須確認爐溫 profile 均勻。' },
+        { phase: 2, title: '10. 後固化檢查', desc: '目視 fillet 高度 50-75% 元件高。無溢膠、無 fillet 缺損。' },
+        { phase: 3, title: '11. X-Ray 檢驗', desc: '確認空洞率 ≤ 25% 總面積。注意空洞型態（散佈/界面/連通）。' },
+        { phase: 3, title: '12. CSAM / 截面', desc: '必要時以超音波掃描確認分層與填膠完整率。可靠性驗證。' }
+    ];
+
+    function buildTFlow() {
+        const phaseBar = document.getElementById('tphasebar');
+        const stepper = document.getElementById('tstepper');
+        if (!stepper) return;
+        phaseBar.innerHTML = '';
+        stepper.innerHTML = '';
+        const phases = ['準備', '點膠流動', '固化', '驗證'];
+        phases.forEach((p, i) => {
+            const seg = document.createElement('div');
+            seg.className = 'tphaseseg p' + i;
+            seg.textContent = p;
+            phaseBar.appendChild(seg);
+        });
+        TFLOW_STEPS.forEach((s, i) => {
+            const dot = document.createElement('div');
+            dot.className = 'tdot';
+            dot.textContent = i + 1;
+            dot.addEventListener('click', () => tutGoStep(i));
+            stepper.appendChild(dot);
+        });
+        tutGoStep(0);
+    }
+
+    function tutGoStep(n) {
+        const steps = TFLOW_STEPS;
+        if (n < 0) n = 0;
+        if (n >= steps.length) n = steps.length - 1;
+        TUT.flowStep = n;
+        const dots = document.querySelectorAll('.tdot');
+        dots.forEach((d, i) => {
+            d.className = 'tdot';
+            if (i < n) d.classList.add('done');
+            if (i === n) d.classList.add('cur');
+        });
+        const body = document.getElementById('tstepbody');
+        if (body) {
+            body.innerHTML = '<h3>' + steps[n].title + '</h3><p>' + steps[n].desc + '</p>';
+        }
+        // Update phasebar
+        const segs = document.querySelectorAll('.tphaseseg');
+        segs.forEach((s, i) => s.classList.toggle('on', i === steps[n].phase));
+        // Update scene
+        tutUpdateScene(n);
+    }
+
+    function tutUpdateScene(n) {
+        const svg = document.getElementById('tflowSvg');
+        if (!svg) return;
+        const scenes = ['tscenePkg', 'tsceneIQC', 'tsceneThaw', 'tsceneBake', 'tscenePkg',
+                        'tsceneStage', 'tscenePlasma', 'tscenePkg', 'tscenePkg', 'tscenePkg',
+                        'tscenePkg', 'tscenePkg'];
+        ['tscenePkg','tsceneIQC','tsceneThaw','tsceneBake','tscenePlasma','tsceneStage'].forEach(id => {
+            const g = document.getElementById(id);
+            if (g) g.setAttribute('opacity', '0');
+        });
+        const show = document.getElementById(scenes[n] || 'tscenePkg');
+        if (show) show.setAttribute('opacity', '1');
+        document.getElementById('tscenecap').textContent = '步驟 ' + (n + 1) + '/' + TFLOW_STEPS.length + '：' + TFLOW_STEPS[n].title;
+    }
+
+    // ---- Phys Simulator ----
+    function calcTPhys() {
+        const mu = parseFloat(document.getElementById('tphys-mu')?.value || 348);
+        const L = parseFloat(document.getElementById('tphys-L')?.value || 12);
+        const h = parseFloat(document.getElementById('tphys-h')?.value || 80);
+        const theta = parseFloat(document.getElementById('tphys-theta')?.value || 25);
+        const gamma = parseFloat(document.getElementById('tphys-gamma')?.value || 35);
+        const T = parseFloat(document.getElementById('tphys-T')?.value || 85);
+        const t = (3 * mu * L * L) / (h * gamma * Math.cos(theta * Math.PI / 180));
+        const result = document.getElementById('tphysResult');
+        if (!result) return;
+        const rating = t < 30 ? 'low' : t < 60 ? 'mid' : 'high';
+        const labels = { low: '✓ 充填快（' + t.toFixed(1) + 's）', mid: '⚡ 中等（' + t.toFixed(1) + 's）', high: '✗ 充填慢（' + t.toFixed(1) + 's）' };
+        result.innerHTML = labels[rating];
+        result.className = 'tresult t-' + rating;
+    }
+
+    // ---- Method Selector ----
+    const TMETHODS = [
+        { name: 'CUF (毛細式)', desc: '最成熟、應用最廣。利用毛細力吸入間隙，晶片預先迴焊。需預烤與 plasma，fillet 50-75%。' },
+        { name: 'NUF (無流動式)', desc: '預成型膠膜貼附於基板，晶片壓合時同時填膠與固化。適用薄型封裝，無毛細流動問題。' },
+        { name: 'WUF (助焊劑式)', desc: '膠體兼具助焊劑功能，迴焊與填膠一次完成。簡化流程但材料選擇受限。' },
+        { name: 'MUF (壓縮成型)', desc: '將底部填膠與封膠整合為一體。適用 PoP、大 die。高可靠性但成本較高。' },
+        { name: '邊角膠 (Corner Bond)', desc: '僅在晶片角落點膠固定，不填滿間隙。用於降低應力但非 full underfill。' }
+    ];
+
+    function tutSelMethod(i) {
+        document.querySelectorAll('.tmcard').forEach((c, idx) => c.classList.toggle('sel', idx === i));
+        const detail = document.getElementById('tmdetail');
+        if (detail && TMETHODS[i]) {
+            detail.innerHTML = '<h3>' + TMETHODS[i].name + '</h3><p>' + TMETHODS[i].desc + '</p>';
+        }
+    }
+
+    // ---- Void Classifier ----
+    const TVOIDS = [
+        { title: '均勻填充', desc: '膠體均勻分佈於晶片下方，無明顯空洞。fillet 完整，高度 50-75%。為理想狀態。', color: 'var(--color-green)' },
+        { title: '散佈型空洞', desc: '多個微小空洞隨機分佈，面積比 < 10%。通常因微量水氣或助焊劑殘留。可接受範圍內。', color: 'var(--color-amber)' },
+        { title: '界面型空洞', desc: '空洞位於膠體與晶片/基板界面。因潤濕不良或 plasma 不足。需改善表面活化。', color: 'var(--color-amber)' },
+        { title: '環狀連通空洞', desc: '空洞在 bump 陣列周圍形成環狀連通。典型因流前對撞鎖氣或填充路徑不當。須重新設計點膠路徑。', color: '#FF5252' },
+        { title: '角落型空洞', desc: '空洞集中於 die 角落。因末端排氣不順或 fillet 成形過快。調整 dwell 時間或預熱。', color: '#FF5252' },
+        { title: '充填不足', desc: '大面積未填滿。因黏度過高、standoff 過小或預熱不足。須降黏或提升預熱溫度。', color: '#FF5252' }
+    ];
+
+    function tutShowVoid(i) {
+        const v = TVOIDS[i];
+        const el = document.getElementById('tvresult');
+        if (el && v) {
+            el.innerHTML = '<h3 style="color:' + v.color + '">' + v.title + '</h3><p>' + v.desc + '</p>';
+        }
+    }
+
+    // ---- Role Switcher ----
+    const TROLES = [
+        { title: '👷 作業員 — 操作要點', items: ['材料取用：FIFO 先進先出，批號登錄', '回溫：針頭朝下直立，室溫 2h 以上', '預烤：100°C / 1.5h，使用計時器', '點膠：確認針頭高度 0.10mm，路徑 L 型', '檢驗：目視 fillet 均勻，無溢膠'] },
+        { title: '🔧 製程工程師 — 參數設計', items: ['預熱溫度：70-100°C，依膠體 TDS', '點膠壓力：0.1-0.5 MPa，依黏度調整', '固化 Profile：130°C/8min 或 150°C/5min', 'DOE 驗證：黏度 × 溫度 × 壓力', '首件確認：X-Ray + 切片分析'] },
+        { title: '📋 品質工程師 — 檢驗標準', items: ['IPC-A-610：空洞 ≤ 25% 面積', 'Fillet 高度：50-75% 元件高', 'CSAM：無分層、無界面空洞', '可靠度：TCT 1000 循環後無裂紋', 'SPC 監控：黏度、fillet、空洞率'] },
+        { title: '⚙️ 設備工程師 — 設備維護', items: ['點膠閥校準：每班次確認 offset', '針頭清潔：每 10 片更換/清潔', '烘箱溫度均勻性：±3°C', 'Plasma 功率確認：RF 匹配', 'X-Ray 設備：每日開機 calibration'] }
+    ];
+
+    function tutSelRole(i, btn) {
+        document.querySelectorAll('.trolebtn').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        const r = TROLES[i];
+        const el = document.getElementById('trolebody');
+        if (el && r) {
+            el.innerHTML = '<h3>' + r.title + '</h3><ul>' + r.items.map(item => '<li>' + item + '</li>').join('') + '</ul>';
+        }
+    }
+
+    // ---- Risk Calculator ----
+    function tutEvalRisk() {
+        const riskMeter = document.getElementById('triskMeter');
+        if (!riskMeter) return;
+        const dims = [
+            { id: 'tr-die', label: 'Die 尺寸', min: 0, max: 100, val: 60 },
+            { id: 'tr-so', label: 'Standoff', min: 0, max: 100, val: 40 },
+            { id: 'tr-pitch', label: 'Bump Pitch', min: 0, max: 100, val: 30 },
+            { id: 'tr-rel', label: '可靠度要求', min: 0, max: 100, val: 80 },
+            { id: 'tr-moist', label: '吸濕風險', min: 0, max: 100, val: 50 },
+            { id: 'tr-takt', label: '節拍壓力', min: 0, max: 100, val: 45 }
+        ];
+        riskMeter.innerHTML = '';
+        dims.forEach(d => {
+            const item = document.createElement('div');
+            item.className = 'trisk-item';
+            item.innerHTML = '<label>' + d.label + ' <span id="' + d.id + '-v">' + d.val + '</span></label>' +
+                '<input type="range" min="' + d.min + '" max="' + d.max + '" value="' + d.val + '" ' +
+                'id="' + d.id + '" class="trange" oninput="tutUpdateRisk()">';
+            riskMeter.appendChild(item);
+        });
+        tutUpdateRisk();
+    }
+
+    function tutUpdateRisk() {
+        const ids = ['tr-die','tr-so','tr-pitch','tr-rel','tr-moist','tr-takt'];
+        let sum = 0;
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            const v = el ? parseInt(el.value) : 50;
+            document.getElementById(id + '-v').textContent = v;
+            sum += v;
+        });
+        const avg = sum / ids.length;
+        const needle = document.getElementById('triskNeedle');
+        if (needle) needle.style.left = avg + '%';
+        const result = document.getElementById('triskResult');
+        if (result) {
+            if (avg < 35) { result.innerHTML = '✓ 低風險 — 建議導入'; result.className = 'tresult'; result.style.borderColor = 'var(--color-green)'; }
+            else if (avg < 65) { result.innerHTML = '⚡ 中風險 — 需評估對策'; result.className = 'tresult'; result.style.borderColor = 'var(--color-amber)'; }
+            else { result.innerHTML = '✗ 高風險 — 不建議導入'; result.className = 'tresult'; result.style.borderColor = '#FF5252'; }
+        }
+        // Update radar
+        tutUpdateRadar(ids.map(id => (parseInt(document.getElementById(id)?.value || 50) / 100)));
+    }
+
+    function tutUpdateRadar(vals) {
+        const poly = document.getElementById('tradarPoly');
+        if (!poly) return;
+        const cx = 150, cy = 120, r = 80;
+        const pts = vals.map((v, i) => {
+            const ang = (Math.PI * 2 * i) / vals.length - Math.PI / 2;
+            return (cx + Math.cos(ang) * r * v) + ',' + (cy + Math.sin(ang) * r * v);
+        }).join(' ');
+        poly.setAttribute('points', pts);
+    }
+
+    // ---- Fit Evaluator ----
+    function tutEvalFit() {
+        const pkg = document.getElementById('tfit-pkg')?.value || 'fc';
+        const size = document.getElementById('tfit-size')?.value || 'med';
+        const so = document.getElementById('tfit-so')?.value || 'med';
+        const rel = document.getElementById('tfit-rel')?.value || 'high';
+        const pitch = document.getElementById('tfit-pitch')?.value || 'std';
+        const cost = document.getElementById('tfit-cost')?.value || 'med';
+        let score = 0;
+        if (pkg === 'fc' || pkg === 'wlcsp') score += 2;
+        if (size === 'large') score += 2; else if (size === 'med') score += 1;
+        if (so === 'low') score += 2; else if (so === 'med') score += 1;
+        if (rel === 'high') score += 2;
+        if (pitch === 'fine') score += 1;
+        if (cost === 'low') score += 1;
+        const verdict = document.getElementById('tfitVerdict');
+        if (!verdict) return;
+        if (score >= 7) { verdict.innerHTML = '✅ 強烈建議導入 Underfill'; verdict.className = 'tverdict ok'; }
+        else if (score >= 4) { verdict.innerHTML = '⚡ 可導入，建議進一步評估'; verdict.className = 'tverdict maybe'; }
+        else { verdict.innerHTML = '✗ 不建議導入 Underfill'; verdict.className = 'tverdict no'; }
+    }
+
+    // ---- Decision Tree ----
+    const TTREE = {
+        q: '封裝類型是否有暴露焊點？（如 Flip Chip / BGA）',
+        y: { q: '可靠度要求是否為高標準？（車規/工規）',
+            y: { q: '晶片尺寸是否 > 15mm？',
+                y: { outcome: '✅ 建議導入 CUF + Plasma 清潔。大 die 須 L 型路徑並控制 fillet。', ok: true },
+                n: { outcome: '✅ 建議導入 CUF。中等 die 使用標準 L 路徑即可。', ok: true } },
+            n: { q: '使用環境是否為消費級？',
+                y: { outcome: '✅ 可導入 CUF 或邊角膠，視成本而定。', ok: true },
+                n: { outcome: '⚡ 視具體條件，建議做可靠度驗證後決定。', ok: false } } },
+        n: { q: '是否需要機械強度補強？',
+            y: { outcome: '⚡ 建議邊角膠或底部填充脂，非 full underfill。', ok: false },
+            n: { outcome: '✗ 不建議導入 Underfill。使用一般組裝流程即可。', ok: false } }
+    };
+
+    let ttreePath = [];
+
+    function renderTTree(node, container) {
+        const treeEl = document.getElementById('ttree');
+        if (!treeEl) return;
+        if (!node) node = TTREE;
+        const pathStr = ttreePath.length ? '路徑：' + ttreePath.join(' → ') : '';
+        if (node.q) {
+            treeEl.innerHTML = '<div class="tnode">' +
+                (pathStr ? '<div class="tpath">' + pathStr + '</div>' : '') +
+                '<div class="tq">' + node.q + '</div>' +
+                '<div class="topts">' +
+                '<button class="tbtn" onclick="tutAnsTree(true,\'是\')">是 (Yes)</button>' +
+                '<button class="tbtn tbtn-ghost" onclick="tutAnsTree(false,\'否\')">否 (No)</button>' +
+                '</div></div>';
+        } else if (node.outcome) {
+            treeEl.innerHTML = '<div class="tnode">' +
+                (pathStr ? '<div class="tpath">' + pathStr + '</div>' : '') +
+                '<div class="toutcome" style="background:' + (node.ok ? 'rgba(0,255,135,0.1)' : 'rgba(255,59,48,0.1)') + ';color:' + (node.ok ? 'var(--color-green)' : '#FF5252') + '">' +
+                node.outcome + '</div>' +
+                '<button class="tbtn tbtn-ghost" style="margin-top:8px" onclick="tutResetTree()">重新開始</button></div>';
+        }
+    }
+
+    function tutAnsTree(dir, label) {
+        ttreePath.push(label);
+        let node = TTREE;
+        for (const step of ttreePath) {
+            node = step === '是' ? node.y : node.n;
+            if (!node) break;
+        }
+        renderTTree(node);
+    }
+    function tutResetTree() { ttreePath = []; renderTTree(TTREE); }
+
+    // Expose tutorial functions globally (called from HTML onclick/oninput)
+    window.tutGoPanel = tutGoPanel;
+    window.tutSelMethod = tutSelMethod;
+    window.tutShowVoid = tutShowVoid;
+    window.tutSelRole = tutSelRole;
+    window.tutEvalFit = tutEvalFit;
+    window.tutEvalRisk = tutEvalRisk;
+    window.tutUpdateRisk = tutUpdateRisk;
+    window.tutAnsTree = tutAnsTree;
+    window.tutResetTree = tutResetTree;
+
+    // ======================================================================
     // 22. PWA REGISTRATION
     // ======================================================================
     function registerSW() {
@@ -1423,21 +2297,32 @@
         updateComponentSpecs(dom.componentSelect.value);
 
         initCureCards();
-        initSimulator();
+        (async () => {
+            await init3DDispense();
+            if (!disp3D) { initSimulator(); } // fallback
+        })();
         initBubbles();
         initChecklist();
         initSearch();
         initProfiles();
-        initHistory();
+        (async () => {
+            await init3DHistory();
+            if (!hist3D) { initHistory(); }
+        })();
         initBatch();
         initLangToggle();
         initKeyboard();
         initLog();
         initRouter();
         initTheory();
+        (async () => { await init3DCapillary(); })();
         initSimulatorLab();
+        (async () => { await init3DHeatmap(); })();
+        (async () => { await init3DSensitivity(); })();
         initAcademy();
         initKnowledge();
+        (async () => { await init3DTutorialCharts(); })();
+        initTutorial();
         registerSW();
 
         updateDefectDisplay();
@@ -1450,6 +2335,21 @@
 
         document.addEventListener('keydown', e => {
             if (e.ctrlKey && e.key === 'e') { e.preventDefault(); exportReport(); }
+        });
+
+        // 3D resize handler
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                Object.values(T3D).forEach(eng => {
+                    const w = eng.canvas.clientWidth || 400;
+                    const h = eng.canvas.clientHeight || 300;
+                    eng.renderer.setSize(w, h);
+                    eng.camera.aspect = w / h;
+                    eng.camera.updateProjectionMatrix();
+                });
+            }, 200);
         });
 
         document.dispatchEvent(new Event('contentLoaded'));
