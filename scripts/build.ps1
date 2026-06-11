@@ -29,5 +29,25 @@ $html = $html -replace '<script src="js/app.js"></script>', "<script>$js</script
 
 Set-Content -Path $outFile -Value $html -Encoding UTF8
 
-$size = (Get-Item $outFile).Length
-Write-Output "Built: $outFile ($([math]::Round($size/1KB, 1)) KB)"
+# Copy simulation.html (ES module, no minification)
+$simFile = Join-Path $outDir "simulation.html"
+Copy-Item -Path (Join-Path $PSScriptRoot "..\simulation.html") -Destination $simFile -Force
+
+# Copy simulation CSS/JS directories
+$simJsSrc = Join-Path $srcDir "js\simulation"
+$simJsDst = Join-Path $outDir "src\js\simulation"
+$simCssSrc = Join-Path $srcDir "css\simulation.css"
+$simCssDst = Join-Path $outDir "src\css\simulation.css"
+
+# Ensure output directories exist
+$null = New-Item -ItemType Directory -Path (Split-Path $simCssDst -Parent) -Force
+$null = New-Item -ItemType Directory -Path $simJsDst -Force
+
+# Copy CSS
+Copy-Item -Path $simCssSrc -Destination $simCssDst -Force
+
+# Copy JS recursively using robocopy (handles subdirectories correctly)
+robocopy $simJsSrc $simJsDst /E /NDL /NJH /NJS /NP /NS 2>$null
+
+Write-Output "Built: $outFile ($([math]::Round((Get-Item $outFile).Length/1KB, 1)) KB)"
+Write-Output "Copied: simulation.html + assets"
