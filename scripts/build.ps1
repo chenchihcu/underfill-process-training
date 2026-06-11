@@ -2,7 +2,9 @@
 # Minify CSS/JS and inline into single index.html for production
 
 $srcDir  = Join-Path $PSScriptRoot "..\src"
-$outFile = Join-Path $PSScriptRoot "..\index.html"
+$outDir  = Join-Path $PSScriptRoot "..\_site"
+$null = New-Item -ItemType Directory -Path $outDir -Force
+$outFile = Join-Path $outDir "index.html"
 
 $html = Get-Content -Raw (Join-Path $srcDir "index.html")
 $css  = Get-Content -Raw (Join-Path $srcDir "css\style.css")
