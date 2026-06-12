@@ -1,0 +1,526 @@
+﻿<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Underfill 鋆賜?閮毀 (Underfill Process Training)</title>
+  <style>:root{--brand-50:#EFF6FF;--brand-100:#DBEAFE;--brand-200:#BFDBFE;--brand-500:#3B82F6;--brand-600:#2563EB;--brand-700:#1D4ED8;--neutral-0:#FFFFFF;--neutral-50:#F8FAFC;--neutral-100:#F1F5F9;--neutral-200:#E2E8F0;--neutral-300:#CBD5E1;--neutral-400:#94A3B8;--neutral-500:#64748B;--neutral-600:#475569;--neutral-700:#334155;--neutral-800:#1E293B;--neutral-900:#0F172A;--color-info:var(--brand-500);--color-info-bg:var(--brand-50);--color-success:#10B981;--color-success-bg:#ECFDF5;--color-warning:#F59E0B;--color-warning-bg:#FFFBEB;--color-error:#EF4444;--color-error-bg:#FEF2F2;--body-bg:var(--neutral-50);--card-bg:var(--neutral-0);--nav-bg:var(--neutral-0);--header-bg:rgba(255,255,255,.96);--code-bg:var(--neutral-100);--text-primary:var(--neutral-900);--text-secondary:var(--neutral-600);--text-muted:var(--neutral-400);--text-on-brand:var(--neutral-0);--border:var(--neutral-200);--border-light:var(--neutral-100);--ff-sans:"Microsoft JhengHei","Noto Sans TC",system-ui,-apple-system,sans-serif;--ff-mono:"JetBrains Mono","Fira Code","Consolas",monospace;--fs-caption:.75rem;--fs-body:.9375rem;--fs-body-lg:1rem;--fs-h3:1.0625rem;--fs-h2:1.25rem;--fs-h1:1.625rem;--fs-display:2rem;--lh-tight:1.25;--lh-normal:1.6;--lh-relaxed:1.75;--fw-normal:400;--fw-medium:500;--fw-semibold:600;--fw-bold:700;--space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;--space-12:3rem;--space-16:4rem;--radius-sm:6px;--radius-md:10px;--radius-lg:16px;--radius-xl:24px;--radius-full:9999px;--shadow-sm:0 1px 2px rgba(15,23,42,.04);--shadow-md:0 4px 12px rgba(15,23,42,.06);--shadow-lg:0 8px 24px rgba(15,23,42,.08);--shadow-xl:0 16px 40px rgba(15,23,42,.1);--transition-fast:.15s ease;--transition-normal:.2s ease;}*,*::before,*::after{box-sizing:border-box;}body{margin:0;font-family:var(--ff-sans);font-size:var(--fs-body);line-height:var(--lh-normal);color:var(--text-primary);background:var(--body-bg);-webkit-font-smoothing:antialiased;}.header{padding:var(--space-6) var(--space-7);border-bottom:1px solid var(--border);background:var(--header-bg);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100;}.header h1{margin:0 0 var(--space-1);font-size:var(--fs-display);font-weight:var(--fw-bold);letter-spacing:-.02em;color:var(--text-primary);}.header .subtitle{margin:0;color:var(--text-secondary);font-size:var(--fs-body);}.layout{display:grid;grid-template-columns:280px 1fr;min-height:calc(100vh - 73px);}.nav{border-right:1px solid var(--border);background:var(--nav-bg);padding:var(--space-4) var(--space-3);position:sticky;top:73px;height:calc(100vh - 73px);overflow-y:auto;}.nav-btn{display:flex;align-items:center;gap:var(--space-3);width:100%;text-align:left;margin:2px 0;padding:var(--space-2) var(--space-3);border-radius:var(--radius-md);border:none;background:transparent;color:var(--text-secondary);cursor:pointer;font-size:var(--fs-body);line-height:var(--lh-tight);transition:background var(--transition-fast),color var(--transition-fast);position:relative;}.nav-btn:hover{background:var(--neutral-100);color:var(--text-primary);}.nav-btn.active{background:var(--brand-50);color:var(--brand-700);font-weight:var(--fw-semibold);}.nav-btn.active::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:3px;background:var(--brand-500);border-radius:var(--radius-full);}.nav-btn .nav-icon{width:18px;height:18px;flex-shrink:0;opacity:.7;}.nav-btn.active .nav-icon{opacity:1;color:var(--brand-500);}.nav-btn:focus-visible{outline:2px solid var(--brand-500);outline-offset:-2px;}.main{padding:var(--space-8);max-width:1120px;}.section{display:none;animation:fadeIn var(--transition-normal) ease;}.section.active{display:block;}@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-6);margin:var(--space-4) 0;box-shadow:var(--shadow-sm);transition:box-shadow var(--transition-fast);}.card:hover{box-shadow:var(--shadow-md);}.card h2{font-size:var(--fs-h1);font-weight:var(--fw-bold);color:var(--brand-700);margin:0 0 var(--space-4);}.card h3{font-size:var(--fs-h2);font-weight:var(--fw-semibold);color:var(--neutral-800);margin:var(--space-4) 0 var(--space-2);}.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--space-4);}.pill{display:inline-block;padding:2px var(--space-3);border-radius:var(--radius-full);background:var(--brand-50);color:var(--brand-700);border:1px solid var(--brand-200);font-size:var(--fs-caption);font-weight:var(--fw-medium);margin:2px;}.callout{border-left:4px solid var(--color-info);background:var(--color-info-bg);padding:var(--space-4) var(--space-5);border-radius:var(--radius-md);margin:var(--space-4) 0;color:var(--text-primary);font-size:var(--fs-body);}.callout--success{border-left-color:var(--color-success);background:var(--color-success-bg);}.callout--warning{border-left-color:var(--color-warning);background:var(--color-warning-bg);}.callout--error{border-left-color:var(--color-error);background:var(--color-error-bg);}code,pre{font-family:var(--ff-mono);font-size:var(--fs-caption);}code{background:var(--code-bg);color:var(--brand-700);padding:1px 5px;border-radius:var(--radius-sm);border:1px solid var(--border-light);}pre{background:var(--code-bg);color:var(--neutral-800);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-4);overflow-x:auto;line-height:var(--lh-relaxed);white-space:pre-wrap;word-break:break-word;}.actions{display:flex;gap:var(--space-2);flex-wrap:wrap;margin:var(--space-4) 0;}.btn{display:inline-flex;align-items:center;gap:var(--space-2);border:1px solid var(--border);background:var(--card-bg);color:var(--text-primary);padding:var(--space-2) var(--space-4);border-radius:var(--radius-md);cursor:pointer;font-size:var(--fs-body);font-weight:var(--fw-medium);font-family:inherit;line-height:var(--lh-tight);transition:background var(--transition-fast),border-color var(--transition-fast),box-shadow var(--transition-fast);}.btn:hover{background:var(--neutral-100);border-color:var(--neutral-300);}.btn:focus-visible{outline:2px solid var(--brand-500);outline-offset:2px;}.btn--primary{background:var(--brand-500);color:var(--text-on-brand);border-color:var(--brand-500);}.btn--primary:hover{background:var(--brand-600);border-color:var(--brand-600);}.btn--ghost{background:transparent;border-color:transparent;color:var(--text-secondary);}.btn--ghost:hover{background:var(--neutral-100);color:var(--text-primary);}.btn--sm{padding:var(--space-1) var(--space-3);font-size:var(--fs-caption);}.progress{height:6px;background:var(--neutral-200);border-radius:var(--radius-full);overflow:hidden;margin:var(--space-3) 0 0;}.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--brand-500),var(--color-success));transition:width var(--transition-normal);border-radius:var(--radius-full);}.checkbox{display:flex;align-items:flex-start;gap:var(--space-3);padding:var(--space-2) 0;cursor:pointer;line-height:var(--lh-normal);}.checkbox input[type="checkbox"]{position:absolute;opacity:0;width:0;height:0;pointer-events:none;}.checkbox .check-box{flex-shrink:0;width:20px;height:20px;border:2px solid var(--neutral-300);border-radius:var(--radius-sm);background:var(--neutral-0);display:flex;align-items:center;justify-content:center;transition:all var(--transition-fast);margin-top:2px;}.checkbox:hover .check-box{border-color:var(--brand-500);}.checkbox input[type="checkbox"]:checked + .check-box{background:var(--brand-500);border-color:var(--brand-500);}.checkbox input[type="checkbox"]:checked + .check-box::after{content:"";width:6px;height:10px;border:solid var(--neutral-0);border-width:0 2px 2px 0;transform:rotate(45deg);margin-top:-1px;}.checkbox input[type="checkbox"]:focus-visible + .check-box{outline:2px solid var(--brand-500);outline-offset:2px;}textarea{width:100%;min-height:120px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--neutral-0);color:var(--text-primary);padding:var(--space-3) var(--space-4);font-family:inherit;font-size:var(--fs-body);line-height:var(--lh-normal);resize:vertical;transition:border-color var(--transition-fast),box-shadow var(--transition-fast);}textarea:focus{outline:none;border-color:var(--brand-500);box-shadow:0 0 0 3px var(--brand-50);}table{width:100%;border-collapse:separate;border-spacing:0;margin:var(--space-4) 0;border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);}th,td{border-bottom:1px solid var(--border);padding:var(--space-3) var(--space-4);vertical-align:top;text-align:left;font-size:var(--fs-body);}th{background:var(--neutral-100);color:var(--neutral-700);font-weight:var(--fw-semibold);}tr:last-child td{border-bottom:none;}tr:nth-child(even) td{background:var(--neutral-50);}.footer{padding:var(--space-6) var(--space-8);color:var(--text-muted);border-top:1px solid var(--border);background:var(--card-bg);font-size:var(--fs-body);}.toast-container{position:fixed;bottom:var(--space-6);right:var(--space-6);z-index:9999;display:flex;flex-direction:column;gap:var(--space-2);}.toast{padding:var(--space-3) var(--space-5);border-radius:var(--radius-md);background:var(--neutral-800);color:var(--neutral-0);font-size:var(--fs-body);box-shadow:var(--shadow-lg);animation:toastIn var(--transition-normal) ease,toastOut var(--transition-normal) ease 2.2s forwards;max-width:360px;}.toast--error{background:var(--color-error);}@keyframes toastIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}@keyframes toastOut{from{opacity:1;}to{opacity:0;}}@media (max-width:820px){.layout{grid-template-columns:1fr;}.nav{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border);padding:var(--space-2);display:flex;flex-wrap:wrap;gap:2px;}.nav-btn{flex:0 0 auto;width:auto;padding:var(--space-1) var(--space-3);font-size:var(--fs-caption);}.nav-btn.active::before{display:none;}.nav-btn .nav-icon{width:14px;height:14px;}.header{position:static;}.main{padding:var(--space-4);}.card-grid{grid-template-columns:1fr;}:root{--fs-display:1.375rem;--fs-h1:1.25rem;--fs-h2:1.0625rem;}}@media (max-width:480px){.main{padding:var(--space-3);}.card{padding:var(--space-4);}.header{padding:var(--space-4) var(--space-4);}.toast-container{left:var(--space-4);right:var(--space-4);bottom:var(--space-4);}.toast{max-width:none;}}.hero-icon{width:48px;height:48px;color:var(--brand-500);margin-bottom:var(--space-2);}.param-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-3);}.param-item{background:var(--neutral-50);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:var(--space-3);text-align:center;}.param-item dt{font-size:var(--fs-caption);color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;}.param-item dd{font-size:var(--fs-h2);font-weight:var(--fw-bold);color:var(--brand-700);margin:var(--space-1) 0 0;}.flow-steps{display:flex;flex-wrap:wrap;gap:var(--space-2);margin:var(--space-4) 0;}.flow-step{flex:1;min-width:100px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-3);text-align:center;font-size:var(--fs-caption);position:relative;}.flow-step::after{content:"\2192";position:absolute;right:-12px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:18px;}.flow-step:last-child::after{display:none;}.flow-step strong{display:block;font-size:var(--fs-body);color:var(--text-primary);margin-bottom:2px;}.pattern-fig{display:flex;gap:var(--space-6);justify-content:center;flex-wrap:wrap;margin:var(--space-4) 0;}.pattern-card{text-align:center;background:var(--neutral-50);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-4);min-width:120px;}.pattern-card svg{width:64px;height:64px;color:var(--brand-500);}.pattern-card .label{font-weight:var(--fw-semibold);margin-top:var(--space-2);}.pattern-card .desc{font-size:var(--fs-caption);color:var(--text-secondary);}@media (max-width:480px){.flow-step{min-width:80px;}.param-grid{grid-template-columns:repeat(2,1fr);}}</style>
+</head>
+<body>
+
+  <!-- ============ HEADER ============ -->
+  <header class="header">
+    <h1>Underfill 鋆賜?閮毀</h1>
+    <p class="subtitle">??閬 (UF3808) ??鋆賜?瘚? ????批 (KPI) ??暺? Pattern (I/L/U) ??瑼ａ?璅? (Visual/X-Ray/CSAM) ??撖行獢?</p>
+    <div class="progress"><div id="bar" class="progress-bar"></div></div>
+  </header>
+
+  <!-- ============ LAYOUT ============ -->
+  <div class="layout">
+    <nav id="nav" class="nav" aria-label="蝡?撠汗">
+      <a href="simulation.html" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid #2563EB;border-radius:10px;background:#EFF6FF;color:#1D4ED8;font-size:14px;font-weight:600;text-decoration:none;margin:8px 8px 4px;">3D Simulator</a></nav>
+
+    <main class="main">
+
+      <!-- 0. ?飛?格? -->
+      <section class="section active" data-title="0. ?飛?格?">
+        <div class="card">
+          <h2>0. ?飛?格?</h2>
+          <p>?祈?蝺湔?靘洵銝甈⊥閫?Underfill 鋆賜??極蝔葦??蝞∩犖?∴??格??舐?閫???渡?鋆賜??嗆????萄??貉?瑼ａ?璅?嚗蒂?賢祕???冽?蝺?/p>
+          <div class="card-grid">
+            <div class="card">
+              <h3>雿?摮詨</h3>
+              <ul>
+                <li>Underfill ??閬 (UF3808) ???/li>
+                <li>摰鋆賜?瘚?嚗QC ???澈 ??Plasma ??暺? ???箏? ??瑼ａ?</li>
+                <li>?? (KPI) ??嗆瘜?/li>
+                <li>暺? Pattern 瘙箇?嚗 / L / U ??/li>
+                <li>瑼ａ?璅?嚗isual / X-Ray / CSAM</li>
+                <li>撣貉?????蝑?(Air Trap / Void / Warpage)</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>撱箄降摮貊??孵?</h3>
+              <ol>
+                <li>?霈??璁艙</li>
+                <li>靘鈭?隞餃??郊??</li>
+                <li>瘥?????豢炎??/li>
+                <li>?敺??祕?唳?靘葫撽?/li>
+              </ol>
+            </div>
+          </div>
+          <div class="callout callout--success">撱箄降?活摮貊???祕???Ｙ? SOP 撠嚗?瘛梯ˊ蝔??貊??圾??/div>
+        </div>
+      </section>
+
+      <!-- 1. 鋆賜?璁? -->
+      <section class="section" data-title="1. 鋆賜?璁?">
+        <div class="card">
+          <h2>1. Underfill 鋆賜?璁?</h2>
+          <p>Underfill ?舀??冽 BGA / Flip Chip 撠????典‵?ˊ蝔?銝餉??桃??冽??嗥???輸???? (Thermal Stress)嚗???漲 (Reliability)??/p>
+          <div class="card-grid">
+            <div class="card">
+              <h3>鋆賜??桃?</h3>
+              <ul>
+                <li>??暺?(Solder Joint) ??</li>
+                <li>??銵?/敶撠?仃?◢??(Drop/Mechanical Shock)</li>
+                <li>??皞怠漲敺芰 (TCT) 憯賢</li>
+                <li>?脫迫瞈除/瘙⊥??拐噩??/li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>?拍蝭?</h3>
+              <span class="pill">BGA</span><span class="pill">Flip Chip</span><span class="pill">CSP</span><span class="pill">PoP</span>
+              <p style="margin-top:var(--space-3)">瘨菔?瘨祥?折摮??券摮雯?身??擃?漲???/p>
+            </div>
+          </div>
+          <div class="callout">?詨?閫敹蛛?Underfill 銝?桃???瘞游‵?????暺???璇啗??望???蝯?????/div>
+        </div>
+      </section>
+
+      <!-- 2. ??閬 UF3808 -->
+      <section class="section" data-title="2. ??閬 UF3808">
+        <div class="card">
+          <h2>2. ??閬 (UF3808)</h2>
+          <p>UF3808 ?箇瘞扳邦??(Epoxy) 蝟?Underfill嚗?撱箇?摰???寞扯??澈隞乩??箄ˊ蝔??貉身摰???/p>
+          <div class="param-grid">
+            <dl class="param-item">
+              <dt>Tg (Glass Transition Temperature)</dt>
+              <dd>120&ndash;140&deg;C</dd>
+            </dl>
+            <dl class="param-item">
+              <dt>CTE (&alpha;1 / &alpha;2)</dt>
+              <dd>30 / 110 ppm</dd>
+            </dl>
+            <dl class="param-item">
+              <dt>Modulus (?脰璅⊥)</dt>
+              <dd>6&ndash;8 GPa</dd>
+            </dl>
+            <dl class="param-item">
+              <dt>Curing Shrinkage</dt>
+              <dd>&lt; 0.5%</dd>
+            </dl>
+          </div>
+          <h3>??蝭拚??</h3>
+          <ul>
+            <li><strong>Tg / CTE ?寥?嚗?/strong> Tg ?擃?擃?雿澈摨佗?CTE ???solder ball / substrate ?寥?嚗??????(Residual Stress) 撠 Warpage</li>
+            <li><strong>Curing Shrinkage嚗?/strong> ????蝮桃?????Warpage ??Die Crack 憸券</li>
+            <li><strong>Flowability (瘚???嚗?/strong> 敶梢 Fine Pitch / 撠?Gap ?‵???/li>
+            <li><strong>Filler Content嚗?/strong> 敶梢 Modulus ??CTE 撟唾﹛</li>
+          </ul>
+          <div class="callout callout--warning">Tg 隞乩??箇?? (Glass State)嚗??折?雿???Tg 隞乩??箸屆?? (Rubbery State)嚗TE 憿航?憓?嚗?蝬?閰摯?舫?摨阡?瘙?/div>
+        </div>
+      </section>
+
+      <!-- 3. 鋆賜?瘚?蝮質汗 -->
+      <section class="section" data-title="3. 鋆賜?瘚?">
+        <div class="card">
+          <h2>3. 鋆賜?瘚?蝮質汗</h2>
+          <p>摰??Underfill 鋆賜?瘨菔?隞乩??挾嚗?/p>
+          <div class="flow-steps">
+            <div class="flow-step"><strong>IQC</strong>?交?瑼ａ?</div>
+            <div class="flow-step"><strong>?脣?</strong>?瑕?/?澈</div>
+            <div class="flow-step"><strong>PCB ??</strong>Bake 100&deg;C/1.5h</div>
+            <div class="flow-step"><strong>?</strong>75&ndash;90&deg;C</div>
+            <div class="flow-step"><strong>Plasma</strong>皜?</div>
+            <div class="flow-step"><strong>暺?</strong>Dispensing</div>
+            <div class="flow-step"><strong>?箏?</strong>Curing</div>
+            <div class="flow-step"><strong>瑼ａ?</strong>Visual/X-Ray</div>
+          </div>
+          <div class="card-grid">
+            <div class="card">
+              <h3>IQC (?脫?瑼ａ?)</h3>
+              <p>?寡????oA??閫/憿蝣箄??GBT 皜祈岫嚗??瘙?</p>
+            </div>
+            <div class="card">
+              <h3>?脣???皞?/h3>
+              <p>?瑕??脣? (0&deg;C 隞乩?)嚗?皞?(Thawing) 靘?A 蝝???閬??瑁?銝西????澈敺??臬??瑕?</p>
+            </div>
+            <div class="card">
+              <h3>Staging Time</h3>
+              <p>Plasma 皜?敺暺????憭批捆閮望???銝??4&ndash;8 撠?嚗??暹???極 Plasma</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Plasma 皜? -->
+      <section class="section" data-title="4. Plasma 皜?">
+        <div class="card">
+          <h2>4. Plasma 皜??”?Ｚ???/h2>
+          <p>Plasma Cleaning ??Underfill ?????甇仿?嚗?皜??瘙??拐蒂瘣餃?銵券嚗????扯?????/p>
+          <div class="card-grid">
+            <div class="card">
+              <h3>Plasma ?</h3>
+              <ul>
+                <li>瘞??嚗r / O??/ Ar+O??瘛瑕?</li>
+                <li>??嚗?00&ndash;300W</li>
+                <li>????嚗?0&ndash;300s</li>
+                <li>憯?嚗?.1&ndash;1.0 Torr</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>?拍?湔</h3>
+              <ul>
+                <li>Fine Pitch (&lt; 150&mu;m) 敹?</li>
+                <li>撠?Gap (&lt; 50&mu;m) ?刻</li>
+                <li>Flow Striation ?啣虜?????/li>
+                <li>??PCB ?踹?撠??霅?/li>
+              </ul>
+            </div>
+          </div>
+          <div class="callout callout--warning">Plasma 敺? Staging Time 敹??湔蝞⊥?????暺?嚗”?Ｘ???賊?瘙??抬?撠 Flow Issue ??Void??/div>
+          <h3>Staging Time 蝞∠?</h3>
+          <table>
+            <thead><tr><th>璇辣</th><th>撱箄降銝?</th><th>頞???</th></tr></thead>
+            <tbody>
+              <tr><td>銝?祉憓?(Class 100K)</td><td>4 撠?</td><td>?極 Plasma</td></tr>
+              <tr><td>雿??批 (&lt; 40%RH)</td><td>8 撠?</td><td>?極 Plasma</td></tr>
+              <tr><td>?乾靽?</td><td>12 撠?</td><td>閰摯敺捱摰?/td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 5. 暺?鋆賜? -->
+      <section class="section" data-title="5. 暺?鋆賜?">
+        <div class="card">
+          <h2>5. 暺?鋆賜? (Dispensing)</h2>
+          <p>暺??箄ˊ蝔敹??靘??Ｗ?撠箏站?itch?ap 瘙箏? Pattern ???詻?/p>
+          <div class="card-grid">
+            <div class="card">
+              <h3>??</h3>
+              <table>
+                <thead><tr><th>?</th><th>敶梢</th></tr></thead>
+                <tbody>
+                  <tr><td>?皞怠漲</td><td>暺漲???漲</td></tr>
+                  <tr><td>?撠箏站 (Gauge)</td><td>?箄??illet 敶Ｙ?</td></tr>
+                  <tr><td>Valve Pressure</td><td>?箄?蝛拙???/td></tr>
+                  <tr><td>Needle Gap (Z)</td><td>??撖砍漲?acing Effect</td></tr>
+                  <tr><td>Dispensing Speed</td><td>Fillet ???/td></tr>
+                  <tr><td>Substrate Temp</td><td>瘚?銵</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card">
+              <h3>?釭?? (KPI)</h3>
+              <ul>
+                <li>?? Cpk &ge; 1.33嚗璅?&plusmn;0.3mg嚗?/li>
+                <li>Fillet 撖砍漲蝚血? 50%&ndash;75% ?辣?楠</li>
+                <li>??Air Trap / Void</li>
+                <li>???暺??∪???/li>
+              </ul>
+            </div>
+          </div>
+          <div class="callout">暺???絲暺身摰?敺???TDS 撱箄降?潮?憪????祕??脰? DOE 撽??矽?氬?/div>
+        </div>
+      </section>
+
+      <!-- 6. ?箏?鋆賜? -->
+      <section class="section" data-title="6. ?箏?鋆賜?">
+        <div class="card">
+          <h2>6. ?箏?鋆賜? (Curing)</h2>
+          <p>?箏?雿?Underfill ??蝯?璇啣撥摨艾??schedule ?靘?????撱箄降閮剖???/p>
+          <div class="param-grid">
+            <dl class="param-item">
+              <dt>Cure Temp</dt>
+              <dd>150&ndash;165&deg;C</dd>
+            </dl>
+            <dl class="param-item">
+              <dt>Cure Time</dt>
+              <dd>30&ndash;60 min</dd>
+            </dl>
+            <dl class="param-item">
+              <dt>Ramp Rate</dt>
+              <dd>&le; 3&deg;C/s</dd>
+            </dl>
+            <dl class="param-item">
+              <dt>Cool Down</dt>
+              <dd>?芰?瑕????/dd>
+            </dl>
+          </div>
+          <h3>?箏?瘜冽?鈭?</h3>
+          <ul>
+            <li>?澈???翰?航撠 Thermal Shock ??Void ??嚗??批 Ramp Rate</li>
+            <li>?拳 (Oven) 皞怠漲??折?摰?撽?嚗?plusmn;3&deg;C嚗?/li>
+            <li>?交??In-line Curing嚗?蝣箄???皞怠漲?脩?????靽?/li>
+            <li>?箏?敺??舀亙嚗??Warpage 憓?</li>
+          </ul>
+          <div class="callout callout--warning">Curing Shrinkage ??Residual Stress ?箔?擃?ｇ?鋆賜?蝒??典?漲????????撟唾﹛??/div>
+        </div>
+      </section>
+
+      <!-- 7. ??批??KPI -->
+      <section class="section" data-title="7. ??批">
+        <div class="card">
+          <h2>7. ??批??KPI ??</h2>
+          <p>撱箇?摰???貉絲憪?(Nominal) ?恣?嗥?蝺?(UCL/LCL)嚗誑 SPC ??鋆賜?蝛拙??扼?/p>
+          <div class="card-grid">
+            <div class="card">
+              <h3>?韏瑕??潸身摰?/h3>
+              <table>
+                <thead><tr><th>?</th><th>韏瑕???/th><th>蝞∪蝭?</th></tr></thead>
+                <tbody>
+                  <tr><td>Dispense Weight</td><td>靘??/td><td>&plusmn;0.3 mg</td></tr>
+                  <tr><td> substrate Temp</td><td>80&deg;C</td><td>75&ndash;90&deg;C</td></tr>
+                  <tr><td>Needle Gap</td><td>靘?Pattern</td><td>&plusmn;0.05 mm</td></tr>
+                  <tr><td>Valve Pressure</td><td>靘?TDS</td><td>Cpk &ge; 1.33</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card">
+              <h3>KPI ???</h3>
+              <ul>
+                <li><strong>Cpk ??嚗?/strong> ?? Cpk &ge; 1.33嚗璅?1.67</li>
+                <li><strong>Void Rate嚗?/strong> ?桅? BGA &le; 5% ?Ｙ?</li>
+                <li><strong>Fillet 撠箏站嚗?/strong> 50%&ndash;75% ?辣?楠閬?</li>
+                <li><strong>Flow Striation嚗?/strong> ?⊥?憿舀?蝝?/li>
+              </ul>
+            </div>
+          </div>
+          <div class="callout">頞蝞∪????靘?&ldquo;Stop?Investigate?Correct?Confirm&rdquo; 瘚???嚗??航矽?游??湔???/div>
+          <h3>SPC 蝞∪?? (Control Limit) 蝭?</h3>
+          <table>
+            <thead><tr><th>?? (Metric)</th><th>UCL</th><th>LCL</th><th>?格? (Target)</th></tr></thead>
+            <tbody>
+              <tr><td>Dispense Weight (mg)</td><td>Target + 0.3</td><td>Target - 0.3</td><td>Nominal</td></tr>
+              <tr><td>Substrate Temp (&deg;C)</td><td>90</td><td>75</td><td>80</td></tr>
+              <tr><td>Cpk</td><td>&mdash;</td><td>1.33</td><td>&ge; 1.67</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 8. 暺? Pattern ?捱蝑?-->
+      <section class="section" data-title="8. Pattern 瘙箇?">
+        <div class="card">
+          <h2>8. 暺? Pattern ???冽捱蝑邦</h2>
+          <p>靘??Ｗ?閮剛??豢??拍????Pattern嚗 ? ? ??/p>
+          <div class="pattern-fig">
+            <div class="pattern-card">
+              <svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="10" y="10" width="50" height="40" rx="3" fill="var(--brand-50)" stroke="var(--brand-500)"/>
+                <line x1="30" y1="10" x2="30" y2="50" stroke="var(--color-warning)" stroke-width="4"/>
+              </svg>
+              <div class="label">I ??/div>
+              <div class="desc">?桅??渡?<br/>撠偕撖?蝪∪?</div>
+            </div>
+            <div class="pattern-card">
+              <svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="10" y="10" width="50" height="40" rx="3" fill="var(--brand-50)" stroke="var(--brand-500)"/>
+                <line x1="30" y1="10" x2="60" y2="10" stroke="var(--color-warning)" stroke-width="4"/>
+                <line x1="60" y1="10" x2="60" y2="50" stroke="var(--color-warning)" stroke-width="4"/>
+              </svg>
+              <div class="label">L ??/div>
+              <div class="desc">??頧?<br/>璅??嚗?佗?</div>
+            </div>
+            <div class="pattern-card">
+              <svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="10" y="10" width="50" height="40" rx="3" fill="var(--brand-50)" stroke="var(--brand-500)"/>
+                <line x1="25" y1="10" x2="55" y2="10" stroke="var(--color-warning)" stroke-width="4"/>
+                <line x1="25" y1="50" x2="55" y2="50" stroke="var(--color-warning)" stroke-width="4"/>
+                <line x1="55" y1="10" x2="55" y2="50" stroke="var(--color-warning)" stroke-width="4"/>
+              </svg>
+              <div class="label">U ??/div>
+              <div class="desc">銝? U ??br/>憭批偕撖?擃?憛?/div>
+            </div>
+          </div>
+          <h3>瘙箇?瘚?</h3>
+          <table>
+            <thead><tr><th>璇辣</th><th>撱箄降 Pattern</th><th>隤芣?</th></tr></thead>
+            <tbody>
+              <tr><td>Die Size &lt; 10mm &times; 10mm</td><td>I ??/td><td>蝪∪瘚?嚗???/td></tr>
+              <tr><td>10&ndash;20mm / Pitch 銝剔?</td><td>L ??/td><td>??頧?嚗??Air Lock</td></tr>
+              <tr><td>Die Size &gt; 20mm / Gap &lt; 50&mu;m</td><td>U ??+ Dwell</td><td>銝??‵嚗???Dwell Time</td></tr>
+              <tr><td>Void ?? / 雿?Gap</td><td>L ??+ 憭挾暺?</td><td>?剝? Dwell Time ?? Air Trap</td></tr>
+            </tbody>
+          </table>
+          <div class="callout callout--warning">Air Lock ?舀?撣貉???Void ?????Pattern ??蝣箔??????瘚?頝臬?嚗??????瘞?部??/div>
+        </div>
+      </section>
+
+      <!-- 9. 瑼ａ?璅? -->
+      <section class="section" data-title="9. 瑼ａ?璅?">
+        <div class="card">
+          <h2>9. 瑼ａ?璅? (Visual / X-Ray / CSAM)</h2>
+          <p>瑼ａ??銝惜蝝?靘??漲閬?瘙箏?瑼ａ???璅???/p>
+          <div class="card-grid">
+            <div class="card">
+              <h3>Visual (憭?)</h3>
+              <ul>
+                <li>Fillet ????改?100% ???嚗?瑁?/蝻箏</li>
+                <li>Fillet 撖砍漲嚗?0%&ndash;75% ?辣?楠</li>
+                <li>?∟?擃滯?箄?辣銝</li>
+                <li>?⊥?憿?Flow Striation</li>
+                <li>瑼ａ??孵?嚗?00% 憿臬凝??/li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>X-Ray/AXI</h3>
+              <ul>
+                <li>Void Rate嚗憿?&le; 5% ?Ｙ?嚗擃?&le; 3%</li>
+                <li>??Cluster Void</li>
+                <li>??Interface Void嚗?暺??ｇ?</li>
+                <li>瑼ａ??孵?嚗?璅??冽炎嚗?摰Ｘ閬?嚗?/li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>CSAM (頞瘜?</h3>
+              <ul>
+                <li>?拍?潮??舫?摨?頠?Ｗ?</li>
+                <li>瑼Ｘ葫 Delamination ?惜</li>
+                <li>瑼Ｘ葫 Die Crack</li>
+                <li>瑼Ｘ葫 Interface Separation</li>
+                <li>?賣見?餌?嚗?摰Ｘ閬?</li>
+              </ul>
+            </div>
+          </div>
+          <h3>?文?璅? (Accept / Reject)</h3>
+          <table>
+            <thead><tr><th>蝻粹憿?</th><th>? (Accept)</th><th>? (Reject)</th></tr></thead>
+            <tbody>
+              <tr><td>Void ?Ｙ?</td><td>&le; 5% ?桅?嚗蜇??&le; 3%</td><td>頞?銝膩?潭? Cluster Void</td></tr>
+              <tr><td>Interface Void</td><td>??/td><td>隞颱? Interface Void</td></tr>
+              <tr><td>Fillet 銝??</td><td>??/td><td>隞颱??瑁?</td></tr>
+              <tr><td>Crack / Delamination</td><td>??/td><td>隞颱? Crack ??Delam</td></tr>
+              <tr><td>Fillet 皞Ｚ?</td><td>??/td><td>皞Ｚ??喳?隞嗡???/td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 10. 撣貉?????蝑?-->
+      <section class="section" data-title="10. 撣貉???">
+        <div class="card">
+          <h2>10. 撣貉?????蝑?/h2>
+          <table>
+            <thead><tr><th>??</th><th>?航??</th><th>撠?</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Void / Air Trap</td>
+                <td>Pattern 閮剛?銝?lasma 銝雲?taging Time ????詨?蝘?/td>
+                <td>瑼Ｚ? I/L/U 瘙箇?嚗Ⅱ隤?Plasma ???Staging ??嚗矽??Dispense Speed ??Dwell Time</td>
+              </tr>
+              <tr>
+                <td>Flow Striation</td>
+                <td>Plasma 銵券?賭?頞喋???鞈芥澈摨虫???/td>
+                <td>蝣箄? Plasma ??敺?Water Contact Angle嚗炎?交??????脣?璇辣嚗甇???勗像?唳澈摨?/td>
+              </tr>
+              <tr>
+                <td>Fillet 銝???/td>
+                <td>Needle Gap 霈?peed 銝帘?alve ?啣虜</td>
+                <td>?⊥迤 Z 頠賊?摨佗?瑼Ｘ Valve 瘞??蝛拙?摨佗?蝣箄? Dispense 頝臬??渡?摨?/td>
+              </tr>
+              <tr>
+                <td>Warpage ?之</td>
+                <td>Curing Shrinkage &times; CTE mismatch??皞恍?敹?/td>
+                <td>隤踵 Cure Schedule????CTE ?寥?嚗??Ramp Down Rate</td>
+              </tr>
+              <tr>
+                <td>憛? (Needle Clog)</td>
+                <td>Staging Time ?撠???券??剖??/td>
+                <td>蝮桃????嚗遣蝡?Purge ?餌?嚗炎?仿??剖??望澈摨?/td>
+              </tr>
+              <tr>
+                <td>Racing Effect</td>
+                <td>暺漲銝雲 + 憯??之?蝙???窒?拙瘚?</td>
+                <td>?? Presure嚗?擃?踵澈摨虫誑???蝣箄? Needle Gap</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="callout callout--warning">?潛???? &ldquo;Stop &rarr; Investigate &rarr; Correct &rarr; Confirm&rdquo; ?郊撽??伐?銝?湔隤踵?敺?????/div>
+        </div>
+      </section>
+
+      <!-- 11. 撖行獢? -->
+      <section class="section" data-title="11. 撖行獢?">
+        <div class="card">
+          <h2>11. 撖行獢?</h2>
+          <p>隞乩??箔????靘?璅⊥敺??貉身摰?啣虜????湔?蝔?/p>
+          <div class="card">
+            <h3>獢? A嚗?Ｗ?撠 (NPI)</h3>
+            <p><strong>??嚗?/strong> 撠 15mm &times; 15mm BGA嚗itch 0.4mm嚗tandoff 80&mu;m</p>
+            <p><strong>瘙箇?嚗?/strong></p>
+            <ol>
+              <li>?貊 L ??Pattern嚗葉蝑偕撖賂?璅??嚗?/li>
+              <li>閮剖??箸皞怠漲 80&deg;C嚗eedle Gap 0.1mm</li>
+              <li>DOE 撽? Dispense Speed ??Pressure嚗Ⅱ隤???Cpk</li>
+              <li>Visual 蝣箄? Fillet 閬???&ge; 60%</li>
+              <li>X-Ray ?賣見 5pcs嚗oid &le; 3%</li>
+            </ol>
+          </div>
+          <div class="card">
+            <h3>獢? B嚗oid ?啣虜?</h3>
+            <p><strong>??嚗?/strong> ?Ｙ???甈?Void Rate 敺?2% ? 8%</p>
+            <p><strong>?甇仿?嚗?/strong></p>
+            <ol>
+              <li>蝣箄? Plasma ?嚗?????/瘞??瘚?嚗?啣虜</li>
+              <li>蝣箄? Staging Time 閮??臬??4h ??/li>
+              <li>?? Void 雿蔭??X-Ray 摰???</li>
+              <li>?潛 Void ?葉?潮?蝡航???&rarr; ?文???Air Trap</li>
+              <li>撠?嚗???畾?Dwell Time 2s嚗矽??Dispense Speed -10%</li>
+              <li>餈質馱 3 ?寞活撽? Void Rate ????1.5%</li>
+            </ol>
+            <div class="callout callout--success">Void ???????ldquo;鋆賜???Void&rdquo;嚗ir Trap?low Issue嚗?&ldquo;????Void&rdquo;嚗utgassing?oisture嚗?撠??孵?銝???/div>
+          </div>
+          <div class="card">
+            <h3>獢? C嚗low Striation ?孵?</h3>
+            <p><strong>??嚗?/strong> ??PCB ?踹?撠敺??Fillet 銵券璇?</p>
+            <p><strong>?嚗?/strong></p>
+            <ol>
+              <li>Water Contact Angle ?葫嚗”?Ｚ?? (55&deg;)</li>
+              <li>蝣箄??唳撱?瘣ˊ蝔??湛?畾?瘙??拙???/li>
+              <li>撠?嚗???Plasma ???? 30%嚗r/O??瘥?隤踵</li>
+              <li>WCA ? &lt; 20&deg;嚗?蝝?憭?/li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- 12. 摰?瑼Ｘ -->
+      <section class="section" data-title="12. 摰?瑼Ｘ">
+        <div class="card">
+          <h2>12. 摰?瑼Ｘ</h2>
+          <p>?暸隞乩??銵函內雿歇摰? Underfill 鋆賜?閮毀嚗?/p>
+          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>??閫?Underfill ?ˊ蝔???拍蝭?</label>
+          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>?隤芸 UF3808 ???菜?????(Tg/CTE/Modulus)</label>
+          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>???? IQC ?唳炎撽?摰鋆賜?瘚?</label>
+          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>???Plasma 皜???? Staging Time 蝞∠?</label>
+          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>??暺?鋆賜????萄??貉? KPI</label>
+          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>??閫??ˊ蝔?皞怠漲/???釣????/label>
+          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>??寞??Ｗ?璇辣?豢? I/L/U 暺? Pattern</label>
+          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>??閫?Visual/X-Ray/CSAM ?炎撽?皞??文?</label>
+          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>???撣貉??? (Void/Striation) ???孵?</label>
+          <div style="margin-top:var(--space-4)">
+            <div class="progress"><div id="check-progress" class="progress-bar"></div></div>
+          </div>
+          <div class="callout callout--success" style="margin-top:var(--space-4)">摰?敺?臬??摮豢??冽撖阡??蝺遣霅啣???閮蒂?湔 SPC 鞈?摨怒?/div>
+        </div>
+      </section>
+
+      <!-- 13. ?犖蝑? -->
+      <section class="section" data-title="13. ?犖蝑?">
+        <div class="card">
+          <h2>13. ?犖蝑?</h2>
+          <p>閮?摮貊?敹??祕???啁????圾瘙箸獢摰嫣?摮?汗??localStorage??/p>
+          <textarea id="notes" placeholder="蝭?嚗?憭拙 Plasma ?隤踵??曉??? 200W 憓???250W 敺?Flow Striation ?＊?孵?..."></textarea>
+          <div class="actions">
+            <button class="btn btn--primary" onclick="AppNotesSave()">?脣?蝑?</button>
+            <button class="btn btn--ghost" onclick="AppNotesClear()">皜蝑?</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    ?祈?蝺渡?祆? HTML ?辣嚗?Ｙ???????皞?UF3808 TDS + Underfill 雿平璅??詻?
+  </footer>
+
+  <script>;(function(){"use strict";const Storage=(function(){const PREFIX="uftp_";function get(key){try{return JSON.parse(localStorage.getItem(PREFIX+key));}catch{return null;}}function set(key,value){try{localStorage.setItem(PREFIX+key,JSON.stringify(value));return true;}catch{Toast.show("?脣?蝛粹?撌脫遛嚗?皜?汗?刻???,"error");return false;}}function remove(key){try{localStorage.removeItem(PREFIX+key);}catch{}}return{get: get,set: set,remove: remove};})();const Toast=(function(){var container=null;function ensureContainer(){if(!container){container=document.createElement("div");container.className="toast-container";document.body.appendChild(container);}return container;}function show(message,type){type=type || "info";var el=document.createElement("div");el.className="toast"+(type==="error" ? " toast--error" : "");el.textContent=message;ensureContainer().appendChild(el);setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},2600);}return{show: show};})();const State=(function(){var currentSection=0;var totalSections=0;function init(total){totalSections=total;var saved=Storage.get("section");currentSection=(saved!==null &&!isNaN(saved))? Math.min(Math.max(0,saved),totalSections-1): 0;}function getCurrent(){return currentSection;}function setCurrent(i){if(i<0 || i>=totalSections)return false;currentSection=i;Storage.set("section",i);return true;}function getTotal(){return totalSections;}return{init: init,getCurrent: getCurrent,setCurrent: setCurrent,getTotal: getTotal};})();const Navigation=(function(){var sections=[];var navEl=null;function init(navSelector,sectionSelector){navEl=document.querySelector(navSelector);if(!navEl)return;sections=[].slice.call(document.querySelectorAll(sectionSelector));if(sections.length===0)return;State.init(sections.length);sections.forEach(function(sec,i){var btn=document.createElement("button");btn.className="nav-btn";btn.setAttribute("data-index",i);btn.setAttribute("aria-label",sec.dataset.title ||("蝚?"+(i+1)+" 蝭"));var iconSpan=document.createElement("span");iconSpan.className="nav-icon";iconSpan.innerHTML=getIconHTML(i);btn.appendChild(iconSpan);var textSpan=document.createElement("span");textSpan.textContent=sec.dataset.title ||("Section "+(i+1));btn.appendChild(textSpan);btn.addEventListener("click",function(){show(i);});navEl.appendChild(btn);});show(State.getCurrent());}function getIconHTML(index){var icons=[ "M4 6h16M4 12h16M4 18h16","M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z","M9 5l7 7-7 7","M3 15a4 4 0 004 4h9a5 5 0 10-4.5-7.2A3.5 3.5 0 003 15z","M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4","M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65-1.7-2.94-2.53.64c-.56-.38-1.14-.7-1.75-.94L17 1.18h-4l-2.14 1.93c-.61.34-1.19.72-1.75 1.02l-2.52-.64L6.4 9.41 8.5 11.1c.04.32.07.65.07.98s-.03.66-.07.98l-2.1 1.65 1.7 2.94 2.52-.64c.56.38 1.14.7 1.75.94L13 22.82h4l2.14-1.93c.61-.34 1.19-.72 1.75-1.02l2.53.64 1.7-2.94-2.11-1.65zM12 16a4 4 0 100-8 4 4 0 000 8z","M12 6V2M8 18l4 4 4-4m-8-8l-4-4 4-4","M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z","M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z","M9 5l7 7-7 7","M12 15a2 2 0 100-4 2 2 0 000 4zm0 0v6m4-10a4 4 0 10-4 4","M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z","M11 4a8 8 0 100 16 8 8 0 000-16zm-3 8h6","M9 12h6m-3-3v6" ];var d=icons[index] || icons[0];return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+d+'"/></svg>';}function show(index){if(!State.setCurrent(index))return;sections.forEach(function(s){s.classList.remove("active");});var btns=navEl.querySelectorAll(".nav-btn");btns.forEach(function(b){b.classList.remove("active");});if(sections[index])sections[index].classList.add("active");if(btns[index])btns[index].classList.add("active");Progress.update(index);window.scrollTo({top: 0,behavior: "smooth"});}return{init: init,show: show};})();const Progress=(function(){var barEl=null;function init(selector){barEl=document.querySelector(selector);}function update(currentIndex){if(!barEl)return;var total=State.getTotal();var pct=total>0 ?((currentIndex+1)/total*100).toFixed(0): 0;barEl.style.width=pct+"%";}return{init: init,update: update};})();const Clipboard=(function(){function init(){document.addEventListener("click",function(e){var btn=e.target.closest("[data-copy]");if(!btn)return;var id=btn.getAttribute("data-copy");if(!id)return;copy(id);});}function copy(elementId){var el=document.getElementById(elementId);if(!el){Toast.show("銴ˊ憭望?嚗銝?批捆","error");return;}var text=el.innerText || el.textContent;if(navigator.clipboard && navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){Toast.show("撌脰?鋆賢?芾票蝪?);},function(){fallbackCopy(text);});}else{fallbackCopy(text);}}function fallbackCopy(text){var ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");Toast.show("撌脰?鋆賢?芾票蝪?);}catch{Toast.show("銴ˊ憭望?嚗????詨?銴ˊ","error");}document.body.removeChild(ta);}return{init: init};})();const Notes=(function(){var textarea=null;function init(selector){textarea=document.querySelector(selector);if(!textarea)return;var saved=Storage.get("notes");if(saved)textarea.value=saved;textarea.addEventListener("input",autoSave);}function autoSave(){if(textarea)Storage.set("notes",textarea.value);}function save(){if(textarea){Storage.set("notes",textarea.value);Toast.show("蝑?撌脣摮?);}}function clear_(){if(textarea){textarea.value="";Storage.remove("notes");Toast.show("蝑?撌脫???);}}return{init: init,save: save,clear: clear_};})();const Checkbox=(function(){function init(){var checks=[].slice.call(document.querySelectorAll("[data-check]"));var saved=Storage.get("checks")||{};checks.forEach(function(c,i){c.checked=!!saved[i];c.addEventListener("change",function(){var data={};checks.forEach(function(x,idx){data[idx]=x.checked;});Storage.set("checks",data);recalcProgress(checks);});});recalcProgress(checks);}function recalcProgress(checks){var total=checks.length;var done=checks.filter(function(c){return c.checked;}).length;var pct=total>0 ?(done/total*100).toFixed(0): 0;var bar=document.getElementById("check-progress");if(bar)bar.style.width=pct+"%";}return{init: init};})();window.AppNotesSave=Notes.save;window.AppNotesClear=Notes.clear;document.addEventListener("DOMContentLoaded",function(){Navigation.init("#nav",".section");Progress.init("#bar");Clipboard.init();Notes.init("#notes");Checkbox.init();});})();</script>
+</body>
+</html>
+
+

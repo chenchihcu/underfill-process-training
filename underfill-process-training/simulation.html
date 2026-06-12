@@ -1,0 +1,131 @@
+﻿<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SMT 3D Process Simulator</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+  <style>
+  #splash {
+    position: fixed; inset: 0; z-index: 999;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: #0a0e1a; color: #e5e7eb;
+    font-family: sans-serif; text-align: center;
+  }
+  #splash.hidden { display: none; }
+  #splash h2 { font-size: 22px; margin-bottom: 4px; letter-spacing: 1px; }
+  #splash p { color: #9ca3af; font-size: 13px; margin: 2px 0; }
+  #splash .spinner {
+    width: 28px; height: 28px;
+    border: 2px solid #1e293b;
+    border-top-color: #f59e0b;
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+    margin: 14px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #splash .error { color: #ef4444; font-size: 13px; max-width: 500px; margin: 8px 0; }
+  #splash .hint { color: #60a5fa; font-size: 12px; margin-top: 8px; padding: 8px 16px; background: #1e293b; border-radius: 8px; display: none; }
+  </style>
+</head>
+<body>
+  <div id="splash">
+    <h2>SMT 3D Process Simulator</h2>
+    <p>Underfill 繚 SPI 繚 FPCA 繚 Reflow 繚 BGA 繚 Flow 繚 Pattern 繚 Void 繚 Warpage</p>
+    <div class="spinner" id="spinner"></div>
+    <p id="splashStatus">Initializing...</p>
+    <div id="splashError" class="error"></div>
+    <div id="splashHint" class="hint"></div>
+  </div>
+
+  <header>
+    <div style="display:flex;align-items:center;gap:8px">
+      <h1 style="font-size:16px;">SMT 3D Simulator</h1>
+      <span style="color:#9ca3af;font-size:11px">v2.0</span>
+      <div id="flowTimeline" style="display:none;flex:1;margin:0 8px;height:24px;overflow:hidden;">
+        <div style="display:flex;gap:2px;height:100%;align-items:center;" id="flowStages"></div>
+      </div>
+      <select id="moduleSelect" style="font-size:12px;padding:4px 8px;">
+        <option value="underfill">Underfill Dispensing</option>
+        <option value="spi">Solder Paste Inspection</option>
+        <option value="fpca">FPC Assembly</option>
+        <option value="reflow">Reflow Soldering</option>
+        <option value="bga">BGA Cross-Section</option>
+        <option value="flow-lab">Capillary Flow</option>
+        <option value="pattern-lab">Dispensing Pattern Lab</option>
+        <option value="void">Void Simulation</option>
+        <option value="warpage">Warpage Analysis</option>
+      </select>
+      <button id="flowBtn" style="padding:4px 10px;border:1px solid #475569;border-radius:6px;background:rgba(34,197,94,.12);color:#22c55e;font-size:12px;cursor:pointer;white-space:nowrap;">??Flow</button>
+      <button id="quizBtn" style="padding:4px 10px;border:1px solid #475569;border-radius:6px;background:rgba(245,158,11,.12);color:#f59e0b;font-size:12px;cursor:pointer;white-space:nowrap;">??Quiz</button>
+      <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid #475569;border-radius:8px;color:#60a5fa;font-size:13px;font-weight:600;text-decoration:none;transition:background .15s;" onmouseover="this.style.background='rgba(96,165,250,.15)'" onmouseout="this.style.background='transparent'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        Training
+      </a>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span id="hudTemp" style="font-size:12px;color:#f59e0b"></span>
+      <span id="hudPressure" style="font-size:12px;color:#60a5fa"></span>
+      <span id="fpsDisplay" style="color:#22c55e;font-size:12px;font-variant-numeric:tabular-nums;">60 FPS</span>
+      <button id="analyticsToggle" style="padding:4px 10px;border:1px solid #475569;border-radius:6px;background:rgba(96,165,250,.12);color:#60a5fa;font-size:12px;cursor:pointer;">?? Data</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside id="controlPanel" class="panel">
+      <div id="controlsContent"></div>
+    </aside>
+    <main id="viewport">
+      <div id="analyticsDashboard" style="display:none;position:absolute;top:0;right:0;width:300px;height:100%;background:rgba(15,23,42,0.92);border-left:1px solid #334155;z-index:100;overflow-y:auto;padding:8px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 8px;border-bottom:1px solid #334155;margin-bottom:8px;">
+          <span style="font-size:12px;color:#9ca3af;font-weight:600;">ANALYTICS</span>
+          <button id="exportCSVBtn" style="padding:2px 8px;border:1px solid #475569;border-radius:4px;background:transparent;color:#60a5fa;font-size:11px;cursor:pointer;">CSV</button>
+        </div>
+        <div id="chartContainer" style="width:100%;height:160px;margin-bottom:8px;border-radius:8px;overflow:hidden;"></div>
+        <div id="kpiContainer" style="display:grid;grid-template-columns:1fr 1fr;gap:4px;"></div>
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    <span id="statusBar">Initializing...</span>
+    <span id="statusDetail"></span>
+  </footer>
+
+  <script>
+  const splash = document.getElementById('splash');
+  const ss = document.getElementById('splashStatus');
+  const se = document.getElementById('splashError');
+  const sh = document.getElementById('splashHint');
+  const sp = document.getElementById('spinner');
+
+  if (location.protocol === 'file:') {
+    ss.textContent = 'Cannot load from file://';
+    se.textContent = 'Start the Python server first';
+    sh.style.display = 'block';
+    sh.innerHTML = 'Run: <code style="background:#020617;padding:2px 6px;border-radius:4px">python -m http.server 8000 -d "C:\\Users\\user\\Desktop\\?芣??獢?</code><br>Then open http://localhost:8000/simulation.html';
+    sp.style.display = 'none';
+  } else {
+    window.addEventListener('load', () => setTimeout(() => splash.classList.add('hidden'), 600));
+  }
+
+  window.showSplashError = function(msg, detail) {
+    ss.textContent = 'Error';
+    se.textContent = msg;
+    if (detail) { sh.style.display = 'block'; sh.textContent = detail; }
+    sp.style.display = 'none';
+  };
+  </script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
+
