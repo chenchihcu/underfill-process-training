@@ -1,11 +1,20 @@
 # 部署指南 (Deployment Guide)
 
+## 線上網址 (Live URLs)
+
+| 平台 | 網址 |
+| --- | --- |
+| **Netlify** | <https://underfill-tutorial.netlify.app/> |
+| **GitHub Pages** | <https://chenchihcu.github.io/underfill-process-training/> |
+
+---
+
 本專案會在每次推送到 `main` 分支時，自動觸發兩個部署流程：
 
 | 流程 | 工作流程檔 | 發布目錄 | 需要的設定 |
 | --- | --- | --- | --- |
 | **Netlify** | `.github/workflows/deploy-netlify.yml` | `dashboard/` | `NETLIFY_SITE_ID`、`NETLIFY_AUTH_TOKEN` (GitHub Secrets) |
-| **GitHub Pages** | `.github/workflows/deploy-pages.yml` | `dashboard/` | 需在 Settings → Pages 啟用，來源選 **GitHub Actions** |
+| **GitHub Pages** | `.github/workflows/deploy-pages.yml` | `dashboard/` → `gh-pages` 分支 | 無需額外設定（Pages 來源為 `gh-pages` 分支） |
 
 > `dashboard/` 為預先建置好的靜態 PWA（`index.html`、`app.js`、`style.css`、`sw.js`、`manifest.json`），不需要額外的建置步驟。
 
@@ -48,9 +57,13 @@ npx netlify-cli deploy --prod --dir dashboard
 
 ## 二、部署到 GitHub Pages
 
-1. 前往 `https://github.com/chenchihcu/underfill-process-training/settings/pages`
-2. **Build and deployment → Source** 選擇 **GitHub Actions**。
-3. 之後推送到 `main`（或重新執行 **Deploy to GitHub Pages** 工作流程）即會發布。
+本專案的 Pages 來源設定為 **「Deploy from a branch」→ `gh-pages`**，因此
+`deploy-pages.yml` 會使用 `peaceiris/actions-gh-pages` 把 `dashboard/` 發佈到
+`gh-pages` 分支，**無需任何 Settings 變更**。
+
+- 每次推送到 `main` 會自動更新 `gh-pages` 分支並重新發佈。
+- 若站台未上線，請確認 **Settings → Pages → Source** 為
+  **Deploy from a branch**、分支選 `gh-pages`（根目錄 `/`）。
 
 ---
 
