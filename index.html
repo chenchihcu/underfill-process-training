@@ -1,524 +1,1273 @@
-<!doctype html>
-<html lang="zh-Hant">
+<!DOCTYPE html>
+<html lang="zh-TW">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Underfill 製程訓練 (Underfill Process Training)</title>
-  <style>:root{--brand-50:#EFF6FF;--brand-100:#DBEAFE;--brand-200:#BFDBFE;--brand-500:#3B82F6;--brand-600:#2563EB;--brand-700:#1D4ED8;--neutral-0:#FFFFFF;--neutral-50:#F8FAFC;--neutral-100:#F1F5F9;--neutral-200:#E2E8F0;--neutral-300:#CBD5E1;--neutral-400:#94A3B8;--neutral-500:#64748B;--neutral-600:#475569;--neutral-700:#334155;--neutral-800:#1E293B;--neutral-900:#0F172A;--color-info:var(--brand-500);--color-info-bg:var(--brand-50);--color-success:#10B981;--color-success-bg:#ECFDF5;--color-warning:#F59E0B;--color-warning-bg:#FFFBEB;--color-error:#EF4444;--color-error-bg:#FEF2F2;--body-bg:var(--neutral-50);--card-bg:var(--neutral-0);--nav-bg:var(--neutral-0);--header-bg:rgba(255,255,255,.96);--code-bg:var(--neutral-100);--text-primary:var(--neutral-900);--text-secondary:var(--neutral-600);--text-muted:var(--neutral-400);--text-on-brand:var(--neutral-0);--border:var(--neutral-200);--border-light:var(--neutral-100);--ff-sans:"Microsoft JhengHei","Noto Sans TC",system-ui,-apple-system,sans-serif;--ff-mono:"JetBrains Mono","Fira Code","Consolas",monospace;--fs-caption:.75rem;--fs-body:.9375rem;--fs-body-lg:1rem;--fs-h3:1.0625rem;--fs-h2:1.25rem;--fs-h1:1.625rem;--fs-display:2rem;--lh-tight:1.25;--lh-normal:1.6;--lh-relaxed:1.75;--fw-normal:400;--fw-medium:500;--fw-semibold:600;--fw-bold:700;--space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;--space-12:3rem;--space-16:4rem;--radius-sm:6px;--radius-md:10px;--radius-lg:16px;--radius-xl:24px;--radius-full:9999px;--shadow-sm:0 1px 2px rgba(15,23,42,.04);--shadow-md:0 4px 12px rgba(15,23,42,.06);--shadow-lg:0 8px 24px rgba(15,23,42,.08);--shadow-xl:0 16px 40px rgba(15,23,42,.1);--transition-fast:.15s ease;--transition-normal:.2s ease;}*,*::before,*::after{box-sizing:border-box;}body{margin:0;font-family:var(--ff-sans);font-size:var(--fs-body);line-height:var(--lh-normal);color:var(--text-primary);background:var(--body-bg);-webkit-font-smoothing:antialiased;}.header{padding:var(--space-6) var(--space-7);border-bottom:1px solid var(--border);background:var(--header-bg);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100;}.header h1{margin:0 0 var(--space-1);font-size:var(--fs-display);font-weight:var(--fw-bold);letter-spacing:-.02em;color:var(--text-primary);}.header .subtitle{margin:0;color:var(--text-secondary);font-size:var(--fs-body);}.layout{display:grid;grid-template-columns:280px 1fr;min-height:calc(100vh - 73px);}.nav{border-right:1px solid var(--border);background:var(--nav-bg);padding:var(--space-4) var(--space-3);position:sticky;top:73px;height:calc(100vh - 73px);overflow-y:auto;}.nav-btn{display:flex;align-items:center;gap:var(--space-3);width:100%;text-align:left;margin:2px 0;padding:var(--space-2) var(--space-3);border-radius:var(--radius-md);border:none;background:transparent;color:var(--text-secondary);cursor:pointer;font-size:var(--fs-body);line-height:var(--lh-tight);transition:background var(--transition-fast),color var(--transition-fast);position:relative;}.nav-btn:hover{background:var(--neutral-100);color:var(--text-primary);}.nav-btn.active{background:var(--brand-50);color:var(--brand-700);font-weight:var(--fw-semibold);}.nav-btn.active::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:3px;background:var(--brand-500);border-radius:var(--radius-full);}.nav-btn .nav-icon{width:18px;height:18px;flex-shrink:0;opacity:.7;}.nav-btn.active .nav-icon{opacity:1;color:var(--brand-500);}.nav-btn:focus-visible{outline:2px solid var(--brand-500);outline-offset:-2px;}.main{padding:var(--space-8);max-width:1120px;}.section{display:none;animation:fadeIn var(--transition-normal) ease;}.section.active{display:block;}@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}.card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-6);margin:var(--space-4) 0;box-shadow:var(--shadow-sm);transition:box-shadow var(--transition-fast);}.card:hover{box-shadow:var(--shadow-md);}.card h2{font-size:var(--fs-h1);font-weight:var(--fw-bold);color:var(--brand-700);margin:0 0 var(--space-4);}.card h3{font-size:var(--fs-h2);font-weight:var(--fw-semibold);color:var(--neutral-800);margin:var(--space-4) 0 var(--space-2);}.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--space-4);}.pill{display:inline-block;padding:2px var(--space-3);border-radius:var(--radius-full);background:var(--brand-50);color:var(--brand-700);border:1px solid var(--brand-200);font-size:var(--fs-caption);font-weight:var(--fw-medium);margin:2px;}.callout{border-left:4px solid var(--color-info);background:var(--color-info-bg);padding:var(--space-4) var(--space-5);border-radius:var(--radius-md);margin:var(--space-4) 0;color:var(--text-primary);font-size:var(--fs-body);}.callout--success{border-left-color:var(--color-success);background:var(--color-success-bg);}.callout--warning{border-left-color:var(--color-warning);background:var(--color-warning-bg);}.callout--error{border-left-color:var(--color-error);background:var(--color-error-bg);}code,pre{font-family:var(--ff-mono);font-size:var(--fs-caption);}code{background:var(--code-bg);color:var(--brand-700);padding:1px 5px;border-radius:var(--radius-sm);border:1px solid var(--border-light);}pre{background:var(--code-bg);color:var(--neutral-800);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-4);overflow-x:auto;line-height:var(--lh-relaxed);white-space:pre-wrap;word-break:break-word;}.actions{display:flex;gap:var(--space-2);flex-wrap:wrap;margin:var(--space-4) 0;}.btn{display:inline-flex;align-items:center;gap:var(--space-2);border:1px solid var(--border);background:var(--card-bg);color:var(--text-primary);padding:var(--space-2) var(--space-4);border-radius:var(--radius-md);cursor:pointer;font-size:var(--fs-body);font-weight:var(--fw-medium);font-family:inherit;line-height:var(--lh-tight);transition:background var(--transition-fast),border-color var(--transition-fast),box-shadow var(--transition-fast);}.btn:hover{background:var(--neutral-100);border-color:var(--neutral-300);}.btn:focus-visible{outline:2px solid var(--brand-500);outline-offset:2px;}.btn--primary{background:var(--brand-500);color:var(--text-on-brand);border-color:var(--brand-500);}.btn--primary:hover{background:var(--brand-600);border-color:var(--brand-600);}.btn--ghost{background:transparent;border-color:transparent;color:var(--text-secondary);}.btn--ghost:hover{background:var(--neutral-100);color:var(--text-primary);}.btn--sm{padding:var(--space-1) var(--space-3);font-size:var(--fs-caption);}.progress{height:6px;background:var(--neutral-200);border-radius:var(--radius-full);overflow:hidden;margin:var(--space-3) 0 0;}.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--brand-500),var(--color-success));transition:width var(--transition-normal);border-radius:var(--radius-full);}.checkbox{display:flex;align-items:flex-start;gap:var(--space-3);padding:var(--space-2) 0;cursor:pointer;line-height:var(--lh-normal);}.checkbox input[type="checkbox"]{position:absolute;opacity:0;width:0;height:0;pointer-events:none;}.checkbox .check-box{flex-shrink:0;width:20px;height:20px;border:2px solid var(--neutral-300);border-radius:var(--radius-sm);background:var(--neutral-0);display:flex;align-items:center;justify-content:center;transition:all var(--transition-fast);margin-top:2px;}.checkbox:hover .check-box{border-color:var(--brand-500);}.checkbox input[type="checkbox"]:checked + .check-box{background:var(--brand-500);border-color:var(--brand-500);}.checkbox input[type="checkbox"]:checked + .check-box::after{content:"";width:6px;height:10px;border:solid var(--neutral-0);border-width:0 2px 2px 0;transform:rotate(45deg);margin-top:-1px;}.checkbox input[type="checkbox"]:focus-visible + .check-box{outline:2px solid var(--brand-500);outline-offset:2px;}textarea{width:100%;min-height:120px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--neutral-0);color:var(--text-primary);padding:var(--space-3) var(--space-4);font-family:inherit;font-size:var(--fs-body);line-height:var(--lh-normal);resize:vertical;transition:border-color var(--transition-fast),box-shadow var(--transition-fast);}textarea:focus{outline:none;border-color:var(--brand-500);box-shadow:0 0 0 3px var(--brand-50);}table{width:100%;border-collapse:separate;border-spacing:0;margin:var(--space-4) 0;border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border);}th,td{border-bottom:1px solid var(--border);padding:var(--space-3) var(--space-4);vertical-align:top;text-align:left;font-size:var(--fs-body);}th{background:var(--neutral-100);color:var(--neutral-700);font-weight:var(--fw-semibold);}tr:last-child td{border-bottom:none;}tr:nth-child(even) td{background:var(--neutral-50);}.footer{padding:var(--space-6) var(--space-8);color:var(--text-muted);border-top:1px solid var(--border);background:var(--card-bg);font-size:var(--fs-body);}.toast-container{position:fixed;bottom:var(--space-6);right:var(--space-6);z-index:9999;display:flex;flex-direction:column;gap:var(--space-2);}.toast{padding:var(--space-3) var(--space-5);border-radius:var(--radius-md);background:var(--neutral-800);color:var(--neutral-0);font-size:var(--fs-body);box-shadow:var(--shadow-lg);animation:toastIn var(--transition-normal) ease,toastOut var(--transition-normal) ease 2.2s forwards;max-width:360px;}.toast--error{background:var(--color-error);}@keyframes toastIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}@keyframes toastOut{from{opacity:1;}to{opacity:0;}}@media (max-width:820px){.layout{grid-template-columns:1fr;}.nav{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border);padding:var(--space-2);display:flex;flex-wrap:wrap;gap:2px;}.nav-btn{flex:0 0 auto;width:auto;padding:var(--space-1) var(--space-3);font-size:var(--fs-caption);}.nav-btn.active::before{display:none;}.nav-btn .nav-icon{width:14px;height:14px;}.header{position:static;}.main{padding:var(--space-4);}.card-grid{grid-template-columns:1fr;}:root{--fs-display:1.375rem;--fs-h1:1.25rem;--fs-h2:1.0625rem;}}@media (max-width:480px){.main{padding:var(--space-3);}.card{padding:var(--space-4);}.header{padding:var(--space-4) var(--space-4);}.toast-container{left:var(--space-4);right:var(--space-4);bottom:var(--space-4);}.toast{max-width:none;}}.hero-icon{width:48px;height:48px;color:var(--brand-500);margin-bottom:var(--space-2);}.param-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-3);}.param-item{background:var(--neutral-50);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:var(--space-3);text-align:center;}.param-item dt{font-size:var(--fs-caption);color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;}.param-item dd{font-size:var(--fs-h2);font-weight:var(--fw-bold);color:var(--brand-700);margin:var(--space-1) 0 0;}.flow-steps{display:flex;flex-wrap:wrap;gap:var(--space-2);margin:var(--space-4) 0;}.flow-step{flex:1;min-width:100px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-3);text-align:center;font-size:var(--fs-caption);position:relative;}.flow-step::after{content:"\2192";position:absolute;right:-12px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:18px;}.flow-step:last-child::after{display:none;}.flow-step strong{display:block;font-size:var(--fs-body);color:var(--text-primary);margin-bottom:2px;}.pattern-fig{display:flex;gap:var(--space-6);justify-content:center;flex-wrap:wrap;margin:var(--space-4) 0;}.pattern-card{text-align:center;background:var(--neutral-50);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-4);min-width:120px;}.pattern-card svg{width:64px;height:64px;color:var(--brand-500);}.pattern-card .label{font-weight:var(--fw-semibold);margin-top:var(--space-2);}.pattern-card .desc{font-size:var(--fs-caption);color:var(--text-secondary);}@media (max-width:480px){.flow-step{min-width:80px;}.param-grid{grid-template-columns:repeat(2,1fr);}}</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Underfill Smart Dispensing & Quality Control Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+        }
+    }
+    </script>
 </head>
 <body>
-
-  <!-- ============ HEADER ============ -->
-  <header class="header">
-    <h1>Underfill 製程訓練</h1>
-    <p class="subtitle">材料規格 (UF3808) → 製程流程 → 參數控制 (KPI) → 點膠 Pattern (I/L/U) → 檢驗標準 (Visual/X-Ray/CSAM) → 實戰案例</p>
-    <div class="progress"><div id="bar" class="progress-bar"></div></div>
-  </header>
-
-  <!-- ============ LAYOUT ============ -->
-  <div class="layout">
-    <nav id="nav" class="nav" aria-label="章節導覽"></nav>
-
-    <main class="main">
-
-      <!-- 0. 教學目標 -->
-      <section class="section active" data-title="0. 教學目標">
-        <div class="card">
-          <h2>0. 教學目標</h2>
-          <p>本訓練提供第一次接觸 Underfill 製程的工程師與品管人員，目標是理解完整的製程架構、關鍵參數與檢驗標準，並能實際應用於生產線。</p>
-          <div class="card-grid">
-            <div class="card">
-              <h3>你會學到</h3>
-              <ul>
-                <li>Underfill 材料規格 (UF3808) 與特性</li>
-                <li>完整製程流程：IQC → 回溫 → Plasma → 點膠 → 固化 → 檢驗</li>
-                <li>關鍵參數 (KPI) 與控制方法</li>
-                <li>點膠 Pattern 決策：I / L / U 型</li>
-                <li>檢驗標準：Visual / X-Ray / CSAM</li>
-                <li>常見問題與對策 (Air Trap / Void / Warpage)</li>
-              </ul>
-            </div>
-            <div class="card">
-              <h3>建議學習方式</h3>
-              <ol>
-                <li>先閱讀各章概念</li>
-                <li>依照互動任務逐步操作</li>
-                <li>每完成一項勾選檢核</li>
-                <li>最後完成實戰案例測驗</li>
-              </ol>
-            </div>
-          </div>
-          <div class="callout callout--success">建議初次學習時搭配實際生產線 SOP 對照，加深製程參數的理解。</div>
+    <header class="system-header">
+        <div class="header-left">
+            <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation">
+                <span class="material-icons-round">menu</span>
+            </button>
+            <span class="status-dot pulsing"></span>
+            <h1 class="logo-title">Stitch-Underfill-IoT</h1>
         </div>
-      </section>
-
-      <!-- 1. 製程概論 -->
-      <section class="section" data-title="1. 製程概論">
-        <div class="card">
-          <h2>1. Underfill 製程概論</h2>
-          <p>Underfill 是應用於 BGA / Flip Chip 封裝的底部填充製程，主要目的在於分散晶片與基板間的熱應力 (Thermal Stress)，提升可靠度 (Reliability)。</p>
-          <div class="card-grid">
-            <div class="card">
-              <h3>製程目的</h3>
-              <ul>
-                <li>分散焊接點 (Solder Joint) 應力</li>
-                <li>降低衝擊/彎曲導致的失效風險 (Drop/Mechanical Shock)</li>
-                <li>提升溫度循環 (TCT) 壽命</li>
-                <li>防止濕氣/污染物侵入</li>
-              </ul>
+        <div class="header-center">
+            <div class="material-status-card">
+                <span class="status-label">Active Material:</span>
+                <span class="status-value">Loctite UF 3808</span>
+                <span class="status-divider">|</span>
+                <span class="spec-tag">Viscosity: 348 cP</span>
+                <span class="status-divider">|</span>
+                <span class="spec-tag">Temp: -40°C ~ -15°C</span>
+                <span class="status-divider">|</span>
+                <span class="spec-tag life-tag">Life: 24h</span>
             </div>
-            <div class="card">
-              <h3>適用範圍</h3>
-              <span class="pill">BGA</span><span class="pill">Flip Chip</span><span class="pill">CSP</span><span class="pill">PoP</span>
-              <p style="margin-top:var(--space-3)">涵蓋消費性電子、車用電子、網通設備等高可靠度應用。</p>
-            </div>
-          </div>
-          <div class="callout">核心觀念：Underfill 不是單純的膠水填充，而是與焊點共同承擔機械與熱應力的結構材料。</div>
         </div>
-      </section>
-
-      <!-- 2. 材料規格 UF3808 -->
-      <section class="section" data-title="2. 材料規格 UF3808">
-        <div class="card">
-          <h2>2. 材料規格 (UF3808)</h2>
-          <p>UF3808 為環氧樹脂 (Epoxy) 系 Underfill，需建立完整材料特性資料庫以作為製程參數設定依據。</p>
-          <div class="param-grid">
-            <dl class="param-item">
-              <dt>Tg (Glass Transition Temperature)</dt>
-              <dd>120&ndash;140&deg;C</dd>
-            </dl>
-            <dl class="param-item">
-              <dt>CTE (&alpha;1 / &alpha;2)</dt>
-              <dd>30 / 110 ppm</dd>
-            </dl>
-            <dl class="param-item">
-              <dt>Modulus (儲能模數)</dt>
-              <dd>6&ndash;8 GPa</dd>
-            </dl>
-            <dl class="param-item">
-              <dt>Curing Shrinkage</dt>
-              <dd>&lt; 0.5%</dd>
-            </dl>
-          </div>
-          <h3>材料篩選重點</h3>
-          <ul>
-            <li><strong>Tg / CTE 匹配：</strong> Tg 需高於最高操作溫度；CTE 需與 solder ball / substrate 匹配，避免殘留應力 (Residual Stress) 導致 Warpage</li>
-            <li><strong>Curing Shrinkage：</strong> 過高的固化收縮率會誘發 Warpage 與 Die Crack 風險</li>
-            <li><strong>Flowability (流動性)：</strong> 影響 Fine Pitch / 小 Gap 的填充能力</li>
-            <li><strong>Filler Content：</strong> 影響 Modulus 與 CTE 平衡</li>
-          </ul>
-          <div class="callout callout--warning">Tg 以下為玻璃態 (Glass State)，剛性高但較脆；Tg 以上為橡膠態 (Rubbery State)，CTE 顯著增加，需綜合評估可靠度需求。</div>
+        <div class="header-right">
+            <div class="checklist-progress-container">
+                <span class="progress-label">Checklist Progress:</span>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="header-progress-bar" style="width: 0%"></div>
+                </div>
+                <span class="progress-text" id="header-progress-text">0/4</span>
+            </div>
+            <button class="lang-toggle" id="lang-toggle" title="Switch language / 切換語言">EN</button>
+            <div class="system-clock" id="system-clock">00:00:00</div>
         </div>
-      </section>
+    </header>
 
-      <!-- 3. 製程流程總覽 -->
-      <section class="section" data-title="3. 製程流程">
-        <div class="card">
-          <h2>3. 製程流程總覽</h2>
-          <p>完整的 Underfill 製程涵蓋以下階段：</p>
-          <div class="flow-steps">
-            <div class="flow-step"><strong>IQC</strong>入料檢驗</div>
-            <div class="flow-step"><strong>儲存</strong>冷凍/回溫</div>
-            <div class="flow-step"><strong>PCB 預備</strong>Bake 100&deg;C/1.5h</div>
-            <div class="flow-step"><strong>預熱</strong>75&ndash;90&deg;C</div>
-            <div class="flow-step"><strong>Plasma</strong>清洗</div>
-            <div class="flow-step"><strong>點膠</strong>Dispensing</div>
-            <div class="flow-step"><strong>固化</strong>Curing</div>
-            <div class="flow-step"><strong>檢驗</strong>Visual/X-Ray</div>
-          </div>
-          <div class="card-grid">
-            <div class="card">
-              <h3>IQC (進料檢驗)</h3>
-              <p>批號、效期、CoA、外觀/顏色確認、IGBT 測試（視需求）</p>
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <span class="material-icons-round">precision_manufacturing</span>
+                <span>Underfill</span>
             </div>
-            <div class="card">
-              <h3>儲存與回溫</h3>
-              <p>冷凍儲存 (0&deg;C 以下)；回溫 (Thawing) 依 A 級供應商規範執行並記錄；回溫後不可再冷凍</p>
+            <ul class="sidebar-nav">
+                <li class="nav-item active" data-view="dashboard">
+                    <span class="material-icons-round nav-icon">dashboard</span>
+                    <span class="nav-label">Dashboard</span>
+                </li>
+                <li class="nav-item" data-view="theory">
+                    <span class="material-icons-round nav-icon">school</span>
+                    <span class="nav-label">Process Theory</span>
+                </li>
+                <li class="nav-item" data-view="simulator">
+                    <span class="material-icons-round nav-icon">science</span>
+                    <span class="nav-label">Simulator Lab</span>
+                </li>
+                <li class="nav-item" data-view="academy">
+                    <span class="material-icons-round nav-icon">workspace_premium</span>
+                    <span class="nav-label">Quality Academy</span>
+                </li>
+                <li class="nav-item" data-view="knowledge">
+                    <span class="material-icons-round nav-icon">menu_book</span>
+                    <span class="nav-label">Knowledge Base</span>
+                </li>
+                <li class="nav-item" data-view="tutorial">
+                    <span class="material-icons-round nav-icon">school</span>
+                    <span class="nav-label">Tutorial</span>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <span class="sidebar-version">v2.0</span>
             </div>
-            <div class="card">
-              <h3>Staging Time</h3>
-              <p>Plasma 清洗後至點膠前的最大容許時間（一般 4&ndash;8 小時），逾期需重工 Plasma</p>
-            </div>
-          </div>
-        </div>
-      </section>
+        </nav>
 
-      <!-- 4. Plasma 清洗 -->
-      <section class="section" data-title="4. Plasma 清洗">
-        <div class="card">
-          <h2>4. Plasma 清洗與表面處理</h2>
-          <p>Plasma Cleaning 為 Underfill 關鍵的前處理步驟，目的在清除有機汙染物並活化表面，提升流動性與附著力。</p>
-          <div class="card-grid">
-            <div class="card">
-              <h3>Plasma 參數</h3>
-              <ul>
-                <li>氣體：Ar / O₂ / Ar+O₂ 混合</li>
-                <li>功率：100&ndash;300W</li>
-                <li>處理時間：60&ndash;300s</li>
-                <li>壓力：0.1&ndash;1.0 Torr</li>
-              </ul>
-            </div>
-            <div class="card">
-              <h3>適用場景</h3>
-              <ul>
-                <li>Fine Pitch (&lt; 150&mu;m) 必需</li>
-                <li>小 Gap (&lt; 50&mu;m) 推薦</li>
-                <li>Flow Striation 異常時優先排查</li>
-                <li>新 PCB 板廠導入時驗證</li>
-              </ul>
-            </div>
-          </div>
-          <div class="callout callout--warning">Plasma 後的 Staging Time 必須嚴格管控。超過時間未點膠，表面會重新吸附汙染物，導致 Flow Issue 與 Void。</div>
-          <h3>Staging Time 管理</h3>
-          <table>
-            <thead><tr><th>條件</th><th>建議上限</th><th>超過處理</th></tr></thead>
-            <tbody>
-              <tr><td>一般環境 (Class 100K)</td><td>4 小時</td><td>重工 Plasma</td></tr>
-              <tr><td>低濕控制 (&lt; 40%RH)</td><td>8 小時</td><td>重工 Plasma</td></tr>
-              <tr><td>充氮保存</td><td>12 小時</td><td>評估後決定</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+        <main class="main-content" id="main-content">
+            <!-- ===== VIEW: Dashboard (existing) ===== -->
+            <section id="view-dashboard" class="view active">
+                <div class="dashboard-grid">
+                    <section class="grid-column col-left">
+                        <div class="dashboard-card card-spec">
+                            <div class="card-header">
+                                <span class="material-icons-round header-icon">science</span>
+                                <h2>Material Specifications</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="pill-spec-badge">
+                                    <span class="spec-badge-title">Viscosity</span>
+                                    <span class="spec-badge-value">348 cP @ 25°C</span>
+                                </div>
+                                <div class="cure-options">
+                                    <label class="section-subtitle">Cure Temperature Options</label>
+                                    <div class="cure-grid">
+                                        <div class="cure-card active" data-temp="130" data-time="8" onclick="document.dispatchEvent(new CustomEvent('cure-select', {detail:{temp:130,time:8}}))">
+                                            <span class="cure-temp">130°C</span>
+                                            <span class="cure-time">8 min</span>
+                                        </div>
+                                        <div class="cure-card" data-temp="150" data-time="5" onclick="document.dispatchEvent(new CustomEvent('cure-select', {detail:{temp:150,time:5}}))">
+                                            <span class="cure-temp">150°C</span>
+                                            <span class="cure-time">5 min</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-card card-component">
+                            <div class="card-header">
+                                <span class="material-icons-round header-icon">layers</span>
+                                <h2>Component Matrix</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="component-type">Component Type</label>
+                                    <div class="select-wrapper">
+                                        <select id="component-type">
+                                            <option value="bga" selected>BGA (Ball Grid Array)</option>
+                                            <option value="wlcsp">WLCSP (Wafer Level CSP)</option>
+                                            <option value="flipchip">Flip Chip</option>
+                                            <option value="qfn">QFN (Quad Flat No-lead)</option>
+                                        </select>
+                                        <span class="material-icons-round select-arrow">expand_more</span>
+                                    </div>
+                                </div>
+                                <div class="component-specs-display">
+                                    <div class="spec-row">
+                                        <span class="spec-label">Die Size:</span>
+                                        <span class="spec-val" id="spec-die-size">> 25mm</span>
+                                    </div>
+                                    <div class="spec-row">
+                                        <span class="spec-label">Ball Pitch:</span>
+                                        <span class="spec-val" id="spec-ball-pitch">0.8mm</span>
+                                    </div>
+                                    <div class="spec-row">
+                                        <span class="spec-label">Action Requirement:</span>
+                                        <span class="spec-val action-tag status-mandatory" id="spec-action">Mandatory</span>
+                                    </div>
+                                </div>
+                                <div class="parameter-sliders">
+                                    <div class="slider-group">
+                                        <div class="slider-header">
+                                            <label for="preheat-temp">Preheat Temperature</label>
+                                            <span class="slider-value-display"><span id="val-preheat">85</span>°C</span>
+                                        </div>
+                                        <input type="range" id="preheat-temp" min="70" max="100" value="85" step="1" class="custom-range">
+                                        <div class="slider-limits">
+                                            <span>70°C</span>
+                                            <span class="optimal-marker">Opt: 85°C</span>
+                                            <span>100°C</span>
+                                        </div>
+                                    </div>
+                                    <div class="slider-group">
+                                        <div class="slider-header">
+                                            <label for="line-speed">Line Speed</label>
+                                            <span class="slider-value-display"><span id="val-speed">15</span> mm/s</span>
+                                        </div>
+                                        <input type="range" id="line-speed" min="5" max="30" value="15" step="1" class="custom-range">
+                                        <div class="slider-limits">
+                                            <span>5 mm/s</span>
+                                            <span class="optimal-marker">Opt: 15 mm/s</span>
+                                            <span>30 mm/s</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="profile-section">
+                                    <div class="profile-controls">
+                                        <input type="text" id="profile-name" class="profile-input" placeholder="Profile name..." maxlength="20">
+                                        <button id="btn-save-profile" class="btn-small">Save</button>
+                                        <button id="btn-load-profile" class="btn-small">Load</button>
+                                    </div>
+                                    <select id="profile-list" class="profile-select">
+                                        <option value="">-- Saved Profiles --</option>
+                                    </select>
+                                    <div class="batch-row">
+                                        <input type="text" id="batch-id" class="profile-input" placeholder="Batch #..." maxlength="15">
+                                        <button id="btn-set-batch" class="btn-small">Set</button>
+                                        <span id="batch-display" class="batch-tag"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="grid-column col-center">
+                        <div class="dashboard-card card-simulator">
+                            <div class="card-header">
+                                <span class="material-icons-round header-icon">grid_view</span>
+                                <h2>Live Dispensing Simulator</h2>
+                                <div class="simulator-status-indicator">
+                                    <span class="status-text" id="sim-status">STANDBY</span>
+                                </div>
+                            </div>
+                            <div class="card-body simulator-body">
+                                <div class="path-tabs">
+                                    <button class="tab-btn active" data-path="L">L-Shape <span class="tab-badge">Rec.</span></button>
+                                    <button class="tab-btn" data-path="I">I-Shape</button>
+                                    <button class="tab-btn" data-path="U">U-Shape</button>
+                                </div>
+                                <div class="canvas-container">
+                                    <canvas id="dispense-canvas" width="450" height="350"></canvas>
+                                    <div class="canvas-controls">
+                                        <button id="btn-play-sim" class="btn-primary">
+                                            <span class="material-icons-round">play_arrow</span> Start Dispense
+                                        </button>
+                                        <button id="btn-reset-sim" class="btn-secondary">
+                                            <span class="material-icons-round">replay</span> Reset
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="parameter-sliders simulator-sliders">
+                                    <div class="slider-grid-row">
+                                        <div class="slider-group">
+                                            <div class="slider-header">
+                                                <label for="needle-height">Needle Height</label>
+                                                <span class="slider-value-display"><span id="val-needle">0.10</span> mm</span>
+                                            </div>
+                                            <input type="range" id="needle-height" min="0.05" max="0.5" value="0.10" step="0.01" class="custom-range">
+                                            <div class="slider-limits">
+                                                <span>0.05mm</span>
+                                                <span class="optimal-marker">Opt: 0.1mm</span>
+                                                <span>0.5mm</span>
+                                            </div>
+                                        </div>
+                                        <div class="slider-group">
+                                            <div class="slider-header">
+                                                <label for="dispense-pressure">Dispense Pressure</label>
+                                                <span class="slider-value-display"><span id="val-pressure">0.30</span> MPa</span>
+                                            </div>
+                                            <input type="range" id="dispense-pressure" min="0.1" max="0.5" value="0.30" step="0.01" class="custom-range">
+                                            <div class="slider-limits">
+                                                <span>0.1 MPa</span>
+                                                <span class="optimal-marker">Opt: 0.3 MPa</span>
+                                                <span>0.5 MPa</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-card card-history">
+                            <div class="card-header">
+                                <span class="material-icons-round header-icon">timeline</span>
+                                <h2>Process History</h2>
+                                <button id="btn-clear-history" class="btn-icon-sm" title="Clear history">clear</button>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="history-chart" width="450" height="120"></canvas>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="grid-column col-right">
+                        <div class="dashboard-card card-fillet">
+                            <div class="card-header">
+                                <span class="material-icons-round header-icon">height</span>
+                                <h2>Fillet Height Inspector</h2>
+                                <div class="badge-status-container">
+                                    <span id="fillet-badge" class="quality-badge status-pass">PASS</span>
+                                </div>
+                                <div class="defect-counter">
+                                    <span class="defect-pass" id="defect-pass-count">0</span>
+                                    <span class="defect-sep">/</span>
+                                    <span class="defect-reject" id="defect-reject-count">0</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="fillet-visual-preview">
+                                    <div class="preview-panel">
+                                        <div class="preview-title">Good Fillet (50%-75%)</div>
+                                        <div class="fillet-icon-container good-fillet-css">
+                                            <div class="die-block"></div>
+                                            <div class="fillet-slope pass"></div>
+                                            <div class="substrate-block"></div>
+                                        </div>
+                                    </div>
+                                    <div class="preview-panel">
+                                        <div class="preview-title">Real-time Fillet</div>
+                                        <div class="fillet-icon-container dynamic-fillet-css">
+                                            <div class="die-block"></div>
+                                            <div class="fillet-slope dynamic" id="dynamic-fillet-slope"></div>
+                                            <div class="substrate-block"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slider-group">
+                                    <div class="slider-header">
+                                        <label for="fillet-height">Fillet Height Ratio</label>
+                                        <span class="slider-value-display"><span id="val-fillet">65</span>%</span>
+                                    </div>
+                                    <input type="range" id="fillet-height" min="0" max="100" value="65" step="1" class="custom-range">
+                                    <div class="slider-limits">
+                                        <span>0% (Starved)</span>
+                                        <span class="optimal-marker">Pass: 50% - 75%</span>
+                                        <span>100% (Overflow)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-card card-xray">
+                            <div class="card-header">
+                                <span class="material-icons-round header-icon">blur_on</span>
+                                <h2>X-Ray Voiding Analyzer</h2>
+                                <div class="badge-status-container">
+                                    <span id="xray-badge" class="quality-badge status-pass">PASS</span>
+                                </div>
+                            </div>
+                            <div class="card-body xray-body">
+                                <div class="xray-visual-container">
+                                    <div class="xray-die-mock">
+                                        <div class="bubble-grid" id="bubble-container"></div>
+                                        <div class="xray-laser-scan"></div>
+                                    </div>
+                                    <div class="xray-desc">
+                                        <span class="xray-standard">Standard: IPC-A-610 ≤ 25%</span>
+                                    </div>
+                                </div>
+                                <div class="slider-group">
+                                    <div class="slider-header">
+                                        <label for="voiding-ratio">Voiding Area Percentage</label>
+                                        <span class="slider-value-display"><span id="val-voiding">12</span>%</span>
+                                    </div>
+                                    <input type="range" id="voiding-ratio" min="0" max="50" value="12" step="1" class="custom-range">
+                                    <div class="slider-limits">
+                                        <span>0%</span>
+                                        <span class="optimal-marker">Threshold: 25%</span>
+                                        <span>50%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <footer class="dashboard-footer">
+                    <div class="dashboard-card footer-card card-checklist">
+                        <div class="card-header">
+                            <span class="material-icons-round header-icon">playlist_add_check</span>
+                            <h2>Daily Checklist</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="checklist-items">
+                                <label class="chk-container">
+                                    <input type="checkbox" class="chk-item" id="chk-nozzle">
+                                    <span class="chk-checkmark"></span>
+                                    <span class="chk-label">Clean nozzle & verify needle offset</span>
+                                </label>
+                                <label class="chk-container">
+                                    <input type="checkbox" class="chk-item" id="chk-preheat">
+                                    <span class="chk-checkmark"></span>
+                                    <span class="chk-label">Pre-heat substrate to 85°C</span>
+                                </label>
+                                <label class="chk-container">
+                                    <input type="checkbox" class="chk-item" id="chk-temp">
+                                    <span class="chk-checkmark"></span>
+                                    <span class="chk-label">Measure UF 3808 temp (room temp, 2 hours defrost)</span>
+                                </label>
+                                <label class="chk-container">
+                                    <input type="checkbox" class="chk-item" id="chk-xray">
+                                    <span class="chk-checkmark"></span>
+                                    <span class="chk-label">Conduct X-Ray test on first 5 dummy boards</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-card footer-card card-troubleshoot">
+                        <div class="card-header">
+                            <span class="material-icons-round header-icon">search</span>
+                            <h2>TS-Log Finder (Troubleshooting)</h2>
+                        </div>
+                        <div class="card-body ts-body">
+                            <div class="search-bar-container">
+                                <input type="text" id="ts-search-input" placeholder="Search problems (e.g. incomplete, bubble, height, voiding)...">
+                                <button class="btn-icon" id="btn-ts-search">
+                                    <span class="material-icons-round">search</span>
+                                </button>
+                            </div>
+                            <div class="ts-results-container" id="ts-results">
+                                <div class="ts-empty-state">
+                                    <span class="material-icons-round">info</span>
+                                    <span>Type a symptom to fetch troubleshooting solutions.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+                <div class="operator-log-bar">
+                    <div class="log-header">
+                        <span class="material-icons-round header-icon" style="font-size:1rem;">history</span>
+                        <span>Operator Log</span>
+                        <button id="btn-clear-log" class="btn-icon-sm" style="margin-left:auto;">clear</button>
+                    </div>
+                    <div class="log-container" id="log-container">
+                        <span class="log-empty">No entries yet.</span>
+                    </div>
+                </div>
+            </section>
 
-      <!-- 5. 點膠製程 -->
-      <section class="section" data-title="5. 點膠製程">
-        <div class="card">
-          <h2>5. 點膠製程 (Dispensing)</h2>
-          <p>點膠為製程核心，需依據產品尺寸、Pitch、Gap 決定 Pattern 與參數。</p>
-          <div class="card-grid">
-            <div class="card">
-              <h3>關鍵參數</h3>
-              <table>
-                <thead><tr><th>參數</th><th>影響</th></tr></thead>
-                <tbody>
-                  <tr><td>預熱溫度</td><td>黏度、流動速度</td></tr>
-                  <tr><td>針頭尺寸 (Gauge)</td><td>出膠量、fillet 形狀</td></tr>
-                  <tr><td>Valve Pressure</td><td>出膠穩定性</td></tr>
-                  <tr><td>Needle Gap (Z)</td><td>膠條寬度、Racing Effect</td></tr>
-                  <tr><td>Dispensing Speed</td><td>Fillet 均勻性</td></tr>
-                  <tr><td>Substrate Temp</td><td>流變行為</td></tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="card">
-              <h3>品質指標 (KPI)</h3>
-              <ul>
-                <li>重量 Cpk &ge; 1.33（目標 &plusmn;0.3mg）</li>
-                <li>Fillet 寬度符合 50%&ndash;75% 元件邊緣</li>
-                <li>無 Air Trap / Void</li>
-                <li>連續點膠無塞針</li>
-              </ul>
-            </div>
-          </div>
-          <div class="callout">點膠參數的起點設定應從材料 TDS 建議值開始，再依據實際產品進行 DOE 驗證與調整。</div>
-        </div>
-      </section>
+            <!-- ===== VIEW: Process Theory (教學理論) ===== -->
+            <section id="view-theory" class="view">
+                <div class="theory-header">
+                    <h2 class="view-title">Underfill Process Theory</h2>
+                    <p class="view-subtitle">Interactive guide to the complete underfill manufacturing process</p>
+                </div>
+                <!-- Process Flow Diagram -->
+                <div class="process-flow" id="process-flow">
+                    <div class="flow-stage" data-stage="1">
+                        <div class="flow-stage-icon"><span class="material-icons-round">ac_unit</span></div>
+                        <div class="flow-stage-content">
+                            <span class="flow-stage-title">Storage</span>
+                            <span class="flow-stage-detail">-40°C to -15°C</span>
+                        </div>
+                        <div class="flow-stage-desc" id="flow-desc-1">Store UF 3808 at -40°C to -15°C. Shelf life: 12 months. Do not freeze-thaw repeatedly.</div>
+                    </div>
+                    <div class="flow-arrow"><span class="material-icons-round">arrow_forward</span></div>
+                    <div class="flow-stage" data-stage="2">
+                        <div class="flow-stage-icon"><span class="material-icons-round">thermostat</span></div>
+                        <div class="flow-stage-content">
+                            <span class="flow-stage-title">Thawing</span>
+                            <span class="flow-stage-detail">RT, 2h vertical</span>
+                        </div>
+                        <div class="flow-stage-desc" id="flow-desc-2">Thaw vertically at room temperature for min 2 hours. Do not heat syringe directly.</div>
+                    </div>
+                    <div class="flow-arrow"><span class="material-icons-round">arrow_forward</span></div>
+                    <div class="flow-stage" data-stage="3">
+                        <div class="flow-stage-icon"><span class="material-icons-round">whatshot</span></div>
+                        <div class="flow-stage-content">
+                            <span class="flow-stage-title">Preheat</span>
+                            <span class="flow-stage-detail">70-100°C</span>
+                        </div>
+                        <div class="flow-stage-desc" id="flow-desc-3">Preheat substrate to 70-100°C to improve capillary flow. Optimal: 85°C for standard FR4.</div>
+                    </div>
+                    <div class="flow-arrow"><span class="material-icons-round">arrow_forward</span></div>
+                    <div class="flow-stage" data-stage="4">
+                        <div class="flow-stage-icon"><span class="material-icons-round">precision_manufacturing</span></div>
+                        <div class="flow-stage-content">
+                            <span class="flow-stage-title">Dispense</span>
+                            <span class="flow-stage-detail">L/I/U pattern</span>
+                        </div>
+                        <div class="flow-stage-desc" id="flow-desc-4">Dispense along selected path (L/I/U). Needle height: 0.1mm, Pressure: 0.1-0.5MPa.</div>
+                    </div>
+                    <div class="flow-arrow"><span class="material-icons-round">arrow_forward</span></div>
+                    <div class="flow-stage" data-stage="5">
+                        <div class="flow-stage-icon"><span class="material-icons-round">local_fire_department</span></div>
+                        <div class="flow-stage-content">
+                            <span class="flow-stage-title">Cure</span>
+                            <span class="flow-stage-detail">130°C/8min or 150°C/5min</span>
+                        </div>
+                        <div class="flow-stage-desc" id="flow-desc-5">Cure at 130°C for 8 min or 150°C for 5 min. 150°C requires longer pot life verification.</div>
+                    </div>
+                    <div class="flow-arrow"><span class="material-icons-round">arrow_forward</span></div>
+                    <div class="flow-stage" data-stage="6">
+                        <div class="flow-stage-icon"><span class="material-icons-round">visibility</span></div>
+                        <div class="flow-stage-content">
+                            <span class="flow-stage-title">Inspection</span>
+                            <span class="flow-stage-detail">Fillet + X-Ray</span>
+                        </div>
+                        <div class="flow-stage-desc" id="flow-desc-6">Inspect fillet height (50-75% of component height) and voiding (<25% area per IPC-A-610).</div>
+                    </div>
+                </div>
+                <!-- Split: Capillary Animation & Material Cards -->
+                <div class="theory-split">
+                    <div class="theory-left">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <span class="material-icons-round header-icon">water</span>
+                                <h2>Capillary Flow Simulation</h2>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="capillary-canvas" width="420" height="220"></canvas>
+                                <div class="capillary-controls">
+                                    <div class="slider-group">
+                                        <div class="slider-header">
+                                            <label>Gap Height</label>
+                                            <span class="slider-value-display"><span id="val-gap">50</span> µm</span>
+                                        </div>
+                                        <input type="range" id="cap-gap" min="20" max="100" value="50" step="5" class="custom-range">
+                                    </div>
+                                    <div class="slider-group">
+                                        <div class="slider-header">
+                                            <label>Viscosity</label>
+                                            <span class="slider-value-display"><span id="val-visc">348</span> cP</span>
+                                        </div>
+                                        <input type="range" id="cap-visc" min="100" max="600" value="348" step="10" class="custom-range">
+                                    </div>
+                                </div>
+                                <div class="capillary-status">
+                                    <span>Flow Rate: <strong id="cap-flow-rate">2.4</strong> mm/s</span>
+                                    <span>Capillary Pressure: <strong id="cap-pressure-val">185</strong> Pa</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="theory-right">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <span class="material-icons-round header-icon">science</span>
+                                <h2>Material Properties</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="prop-cards-grid">
+                                    <div class="prop-card" data-property="tg">
+                                        <div class="prop-card-front">
+                                            <span class="prop-val">113°C</span>
+                                            <span class="prop-label">Tg</span>
+                                        </div>
+                                        <div class="prop-card-back">
+                                            <span>Glass Transition Temp. Above Tg, CTE increases significantly.</span>
+                                        </div>
+                                    </div>
+                                    <div class="prop-card" data-property="cte1">
+                                        <div class="prop-card-front">
+                                            <span class="prop-val">55 ppm</span>
+                                            <span class="prop-label">CTE (α1)</span>
+                                        </div>
+                                        <div class="prop-card-back">
+                                            <span>Below Tg. Matches solder joint expansion to reduce stress.</span>
+                                        </div>
+                                    </div>
+                                    <div class="prop-card" data-property="cte2">
+                                        <div class="prop-card-front">
+                                            <span class="prop-val">171 ppm</span>
+                                            <span class="prop-label">CTE (α2)</span>
+                                        </div>
+                                        <div class="prop-card-back">
+                                            <span>Above Tg. Higher expansion rate; ensure cure is complete.</span>
+                                        </div>
+                                    </div>
+                                    <div class="prop-card" data-property="modulus">
+                                        <div class="prop-card-front">
+                                            <span class="prop-val">2.8 GPa</span>
+                                            <span class="prop-label">Modulus</span>
+                                        </div>
+                                        <div class="prop-card-back">
+                                            <span>Elastic modulus at 25°C. Provides mechanical strength to the package.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-      <!-- 6. 固化製程 -->
-      <section class="section" data-title="6. 固化製程">
-        <div class="card">
-          <h2>6. 固化製程 (Curing)</h2>
-          <p>固化使 Underfill 達到最終機械強度。固化 schedule 需依材料供應商建議設定。</p>
-          <div class="param-grid">
-            <dl class="param-item">
-              <dt>Cure Temp</dt>
-              <dd>150&ndash;165&deg;C</dd>
-            </dl>
-            <dl class="param-item">
-              <dt>Cure Time</dt>
-              <dd>30&ndash;60 min</dd>
-            </dl>
-            <dl class="param-item">
-              <dt>Ramp Rate</dt>
-              <dd>&le; 3&deg;C/s</dd>
-            </dl>
-            <dl class="param-item">
-              <dt>Cool Down</dt>
-              <dd>自然冷卻或受控</dd>
-            </dl>
-          </div>
-          <h3>固化注意事項</h3>
-          <ul>
-            <li>升溫速率過快可能導致 Thermal Shock 與 Void 生成，需控制 Ramp Rate</li>
-            <li>烘箱 (Oven) 溫度均勻性需定期驗證（&plusmn;3&deg;C）</li>
-            <li>若採用 In-line Curing，需確認鍊速與溫度曲線的對應關係</li>
-            <li>固化後不可急冷，避免 Warpage 增加</li>
-          </ul>
-          <div class="callout callout--warning">Curing Shrinkage 與 Residual Stress 為一體兩面，製程窗口需在固化度與殘留應力間取得平衡。</div>
-        </div>
-      </section>
+            <!-- ===== VIEW: Simulator Lab (模擬實驗室) ===== -->
+            <section id="view-simulator" class="view">
+                <div class="simlab-header">
+                    <h2 class="view-title">Advanced Simulation Lab</h2>
+                    <p class="view-subtitle">Multi-parameter process optimization and what-if analysis</p>
+                </div>
+                <div class="simlab-grid">
+                    <div class="simlab-controls">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <span class="material-icons-round header-icon">tune</span>
+                                <h2>Parameter Configuration</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="parameter-sliders">
+                                    <div class="slider-group">
+                                        <div class="slider-header">
+                                            <label>Preheat Temperature</label>
+                                            <span class="slider-value-display"><span id="simlab-preheat">85</span>°C</span>
+                                        </div>
+                                        <input type="range" id="sl-preheat" min="70" max="100" value="85" step="1" class="custom-range">
+                                    </div>
+                                    <div class="slider-group">
+                                        <div class="slider-header">
+                                            <label>Line Speed</label>
+                                            <span class="slider-value-display"><span id="simlab-speed">15</span> mm/s</span>
+                                        </div>
+                                        <input type="range" id="sl-speed" min="5" max="30" value="15" step="1" class="custom-range">
+                                    </div>
+                                    <div class="slider-group">
+                                        <div class="slider-header">
+                                            <label>Dispense Pressure</label>
+                                            <span class="slider-value-display"><span id="simlab-pressure">0.30</span> MPa</span>
+                                        </div>
+                                        <input type="range" id="sl-pressure" min="0.1" max="0.5" value="0.30" step="0.01" class="custom-range">
+                                    </div>
+                                    <div class="slider-group">
+                                        <div class="slider-header">
+                                            <label>Needle Height</label>
+                                            <span class="slider-value-display"><span id="simlab-needle">0.10</span> mm</span>
+                                        </div>
+                                        <input type="range" id="sl-needle" min="0.05" max="0.5" value="0.10" step="0.01" class="custom-range">
+                                    </div>
+                                </div>
+                                <div class="simlab-quality-prediction">
+                                    <div class="prediction-row">
+                                        <span>Predicted Fillet:</span>
+                                        <span class="prediction-value" id="pred-fillet">65% <span class="pred-status pass">PASS</span></span>
+                                    </div>
+                                    <div class="prediction-row">
+                                        <span>Predicted Voiding:</span>
+                                        <span class="prediction-value" id="pred-void">12% <span class="pred-status pass">PASS</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="simlab-charts">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <span class="material-icons-round header-icon">map</span>
+                                <h2>Process Window (Preheat vs Speed)</h2>
+                            </div>
+                            <div class="card-body" style="align-items:center;">
+                                <canvas id="heatmap-canvas" width="400" height="300"></canvas>
+                            </div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <span class="material-icons-round header-icon">bar_chart</span>
+                                <h2>Parameter Sensitivity</h2>
+                            </div>
+                            <div class="card-body" style="align-items:center;">
+                                <canvas id="sensitivity-canvas" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-      <!-- 7. 參數控制與 KPI -->
-      <section class="section" data-title="7. 參數控制">
-        <div class="card">
-          <h2>7. 參數控制與 KPI 監控</h2>
-          <p>建立完整的參數起始值 (Nominal) 與管制界線 (UCL/LCL)，以 SPC 監控製程穩定性。</p>
-          <div class="card-grid">
-            <div class="card">
-              <h3>參數起始值設定</h3>
-              <table>
-                <thead><tr><th>參數</th><th>起始值</th><th>管制範圍</th></tr></thead>
-                <tbody>
-                  <tr><td>Dispense Weight</td><td>依產品</td><td>&plusmn;0.3 mg</td></tr>
-                  <tr><td> substrate Temp</td><td>80&deg;C</td><td>75&ndash;90&deg;C</td></tr>
-                  <tr><td>Needle Gap</td><td>依 Pattern</td><td>&plusmn;0.05 mm</td></tr>
-                  <tr><td>Valve Pressure</td><td>依 TDS</td><td>Cpk &ge; 1.33</td></tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="card">
-              <h3>KPI 監控項目</h3>
-              <ul>
-                <li><strong>Cpk 監控：</strong> 重量 Cpk &ge; 1.33，目標 1.67</li>
-                <li><strong>Void Rate：</strong> 單顆 BGA &le; 5% 面積</li>
-                <li><strong>Fillet 尺寸：</strong> 50%&ndash;75% 元件邊緣覆蓋</li>
-                <li><strong>Flow Striation：</strong> 無明顯條紋</li>
-              </ul>
-            </div>
-          </div>
-          <div class="callout">超出管制界限時，依 &ldquo;Stop─Investigate─Correct─Confirm&rdquo; 流程處理，不可調整後直接量產。</div>
-          <h3>SPC 管制界限 (Control Limit) 範例</h3>
-          <table>
-            <thead><tr><th>指標 (Metric)</th><th>UCL</th><th>LCL</th><th>目標 (Target)</th></tr></thead>
-            <tbody>
-              <tr><td>Dispense Weight (mg)</td><td>Target + 0.3</td><td>Target - 0.3</td><td>Nominal</td></tr>
-              <tr><td>Substrate Temp (&deg;C)</td><td>90</td><td>75</td><td>80</td></tr>
-              <tr><td>Cpk</td><td>&mdash;</td><td>1.33</td><td>&ge; 1.67</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+            <!-- ===== VIEW: Quality Academy (品質學苑) ===== -->
+            <section id="view-academy" class="view">
+                <div class="academy-header">
+                    <h2 class="view-title">Quality Academy</h2>
+                    <p class="view-subtitle">Defect library, IPC standards, and knowledge assessment</p>
+                </div>
+                <!-- Defect Encyclopedia -->
+                <div class="academy-section">
+                    <h3 class="section-title"><span class="material-icons-round">warning</span> Defect Encyclopedia</h3>
+                    <div class="defect-grid" id="defect-grid">
+                        <div class="defect-card" data-defect="0">
+                            <div class="defect-icon"><span class="material-icons-round">water_damage</span></div>
+                            <div class="defect-name">Incomplete Penetration</div>
+                            <div class="defect-cause">Low preheat or high viscosity</div>
+                            <div class="defect-solution">Increase preheat to 85°C. Verify pot life < 24h.</div>
+                        </div>
+                        <div class="defect-card" data-defect="1">
+                            <div class="defect-icon"><span class="material-icons-round">bubble_chart</span></div>
+                            <div class="defect-name">Excessive Voiding</div>
+                            <div class="defect-cause">Moisture in substrate or material</div>
+                            <div class="defect-solution">Bake substrate 100°C/1.5h. Set needle height to 0.1mm.</div>
+                        </div>
+                        <div class="defect-card" data-defect="2">
+                            <div class="defect-icon"><span class="material-icons-round">lowest_score</span></div>
+                            <div class="defect-name">Low Fillet (Starved)</div>
+                            <div class="defect-cause">Insufficient material or fast line speed</div>
+                            <div class="defect-solution">Increase pressure to 0.3 MPa or reduce speed to 15 mm/s.</div>
+                        </div>
+                        <div class="defect-card" data-defect="3">
+                            <div class="defect-icon"><span class="material-icons-round">overflow</span></div>
+                            <div class="defect-name">High Fillet (Overflow)</div>
+                            <div class="defect-cause">Excess material or slow line speed</div>
+                            <div class="defect-solution">Decrease pressure or increase speed. Verify needle height.</div>
+                        </div>
+                        <div class="defect-card" data-defect="4">
+                            <div class="defect-icon"><span class="material-icons-round">block</span></div>
+                            <div class="defect-name">Needle Clogging</div>
+                            <div class="defect-cause">Material drying at needle tip</div>
+                            <div class="defect-solution">Clean with solvent. Keep nozzle < 40°C.</div>
+                        </div>
+                        <div class="defect-card" data-defect="5">
+                            <div class="defect-icon"><span class="material-icons-round">linear_scale</span></div>
+                            <div class="defect-name">Stringing / Tailing</div>
+                            <div class="defect-cause">High viscosity or improper defrost</div>
+                            <div class="defect-solution">Defrost 2h at RT. Do not heat syringe directly.</div>
+                        </div>
+                        <div class="defect-card" data-defect="6">
+                            <div class="defect-icon"><span class="material-icons-round">layers_clear</span></div>
+                            <div class="defect-name">Delamination</div>
+                            <div class="defect-cause">Poor adhesion or incomplete cure</div>
+                            <div class="defect-solution">Plasma cleaning. Cure at 130°C/8min or 150°C/5min.</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- IPC Standards -->
+                <div class="academy-section">
+                    <h3 class="section-title"><span class="material-icons-round">verified</span> IPC Standards Reference</h3>
+                    <div class="ipc-grid">
+                        <div class="ipc-card">
+                            <div class="ipc-code">IPC-A-610</div>
+                            <div class="ipc-title">Acceptability of Electronic Assemblies</div>
+                            <div class="ipc-detail">Class 2/3: Voiding ≤ 25%. Fillet wetting angle ≥ 45°.</div>
+                        </div>
+                        <div class="ipc-card">
+                            <div class="ipc-code">IPC-7095</div>
+                            <div class="ipc-title">BGA Design & Assembly</div>
+                            <div class="ipc-detail">Underfill voiding < 25% total area. No single void > 10%.</div>
+                        </div>
+                        <div class="ipc-card">
+                            <div class="ipc-code">J-STD-030</div>
+                            <div class="ipc-title">Underfill Materials & Process</div>
+                            <div class="ipc-detail">Storage, handling, dispensing, and cure guidelines for encapsulants.</div>
+                        </div>
+                        <div class="ipc-card">
+                            <div class="ipc-code">IPC-7711/7721</div>
+                            <div class="ipc-title">Rework of Electronic Assemblies</div>
+                            <div class="ipc-detail">Underfill removal: heat to 240-250°C, vacuum, IPA clean.</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Quiz -->
+                <div class="academy-section">
+                    <h3 class="section-title"><span class="material-icons-round">quiz</span> Knowledge Check</h3>
+                    <div class="quiz-container" id="quiz-container">
+                        <div class="quiz-card" id="quiz-card">
+                            <div class="quiz-progress">Question <span id="quiz-current">1</span> of <span id="quiz-total">5</span></div>
+                            <div class="quiz-question" id="quiz-question">What is the recommended cure temperature and time for Loctite UF 3808?</div>
+                            <div class="quiz-options" id="quiz-options"></div>
+                            <div class="quiz-feedback" id="quiz-feedback"></div>
+                            <button class="btn-primary" id="quiz-next" style="display:none;">Next</button>
+                        </div>
+                        <div class="quiz-scorecard" id="quiz-scorecard" style="display:none;">
+                            <div class="score-circle" id="score-circle">
+                                <span class="score-pct" id="score-pct">0%</span>
+                            </div>
+                            <div class="score-label">Score</div>
+                            <div class="score-detail" id="score-detail"></div>
+                            <button class="btn-primary" id="quiz-restart">Restart Quiz</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-      <!-- 8. 點膠 Pattern 與決策 -->
-      <section class="section" data-title="8. Pattern 決策">
-        <div class="card">
-          <h2>8. 點膠 Pattern 與應用決策樹</h2>
-          <p>依據產品設計選擇適當的點膠 Pattern：I 型、L 型、U 型。</p>
-          <div class="pattern-fig">
-            <div class="pattern-card">
-              <svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="10" y="10" width="50" height="40" rx="3" fill="var(--brand-50)" stroke="var(--brand-500)"/>
-                <line x1="30" y1="10" x2="30" y2="50" stroke="var(--color-warning)" stroke-width="4"/>
-              </svg>
-              <div class="label">I 型</div>
-              <div class="desc">單邊直線<br/>小尺寸/簡單應用</div>
-            </div>
-            <div class="pattern-card">
-              <svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="10" y="10" width="50" height="40" rx="3" fill="var(--brand-50)" stroke="var(--brand-500)"/>
-                <line x1="30" y1="10" x2="60" y2="10" stroke="var(--color-warning)" stroke-width="4"/>
-                <line x1="60" y1="10" x2="60" y2="50" stroke="var(--color-warning)" stroke-width="4"/>
-              </svg>
-              <div class="label">L 型</div>
-              <div class="desc">雙邊轉角<br/>標準應用（推薦）</div>
-            </div>
-            <div class="pattern-card">
-              <svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="10" y="10" width="50" height="40" rx="3" fill="var(--brand-50)" stroke="var(--brand-500)"/>
-                <line x1="25" y1="10" x2="55" y2="10" stroke="var(--color-warning)" stroke-width="4"/>
-                <line x1="25" y1="50" x2="55" y2="50" stroke="var(--color-warning)" stroke-width="4"/>
-                <line x1="55" y1="10" x2="55" y2="50" stroke="var(--color-warning)" stroke-width="4"/>
-              </svg>
-              <div class="label">U 型</div>
-              <div class="desc">三邊 U 型<br/>大尺寸/高速充填</div>
-            </div>
-          </div>
-          <h3>決策流程</h3>
-          <table>
-            <thead><tr><th>條件</th><th>建議 Pattern</th><th>說明</th></tr></thead>
-            <tbody>
-              <tr><td>Die Size &lt; 10mm &times; 10mm</td><td>I 型</td><td>簡單流道，單邊即可</td></tr>
-              <tr><td>10&ndash;20mm / Pitch 中等</td><td>L 型</td><td>雙邊轉角，避免 Air Lock</td></tr>
-              <tr><td>Die Size &gt; 20mm / Gap &lt; 50&mu;m</td><td>U 型 + Dwell</td><td>三邊充填，需加 Dwell Time</td></tr>
-              <tr><td>Void 敏感 / 低 Gap</td><td>L 型 + 多段點膠</td><td>搭配 Dwell Time 降低 Air Trap</td></tr>
-            </tbody>
-          </table>
-          <div class="callout callout--warning">Air Lock 是最常見的 Void 成因。選擇 Pattern 時需確保膠體有連續流動路徑，避免封閉區域造成氣泡。</div>
-        </div>
-      </section>
+            <!-- ===== VIEW: Knowledge Base (知識庫) ===== -->
+            <section id="view-knowledge" class="view">
+                <div class="kb-header">
+                    <h2 class="view-title">Knowledge Base</h2>
+                    <p class="view-subtitle">Comprehensive reference for UF 3808 underfill process</p>
+                </div>
+                <div class="kb-search-bar">
+                    <span class="material-icons-round">search</span>
+                    <input type="text" id="kb-search" placeholder="Search knowledge base..." class="kb-search-input">
+                </div>
+                <div class="kb-grid">
+                    <div class="kb-card" data-keywords="datasheet material properties viscosity tg cte modulus storage">
+                        <div class="kb-card-header">
+                            <span class="material-icons-round">description</span>
+                            <h3>Material Datasheet — Loctite UF 3808</h3>
+                        </div>
+                        <div class="kb-card-body">
+                            <div class="kb-table">
+                                <div class="kb-row"><span class="kb-key">Viscosity</span><span class="kb-val">348 cP @ 25°C</span></div>
+                                <div class="kb-row"><span class="kb-key">Tg</span><span class="kb-val">113°C</span></div>
+                                <div class="kb-row"><span class="kb-key">CTE α1/α2</span><span class="kb-val">55 / 171 ppm</span></div>
+                                <div class="kb-row"><span class="kb-key">Modulus</span><span class="kb-val">2.8 GPa</span></div>
+                                <div class="kb-row"><span class="kb-key">Storage Temp</span><span class="kb-val">-40°C to -15°C</span></div>
+                                <div class="kb-row"><span class="kb-key">Shelf Life</span><span class="kb-val">12 months</span></div>
+                                <div class="kb-row"><span class="kb-key">Thaw Time</span><span class="kb-val">2h vertical at RT</span></div>
+                                <div class="kb-row"><span class="kb-key">Cure Profile</span><span class="kb-val">130°C/8min or 150°C/5min</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kb-card" data-keywords="process specification parameter preheat speed pressure needle">
+                        <div class="kb-card-header">
+                            <span class="material-icons-round">settings</span>
+                            <h3>Process Specifications</h3>
+                        </div>
+                        <div class="kb-card-body">
+                            <div class="kb-table">
+                                <div class="kb-row"><span class="kb-key">Preheat Temp</span><span class="kb-val">70-100°C (Opt: 85°C)</span></div>
+                                <div class="kb-row"><span class="kb-key">Line Speed</span><span class="kb-val">5-30 mm/s (Opt: 15 mm/s)</span></div>
+                                <div class="kb-row"><span class="kb-key">Needle Height</span><span class="kb-val">0.05-0.50 mm (Opt: 0.10 mm)</span></div>
+                                <div class="kb-row"><span class="kb-key">Dispense Pressure</span><span class="kb-val">0.1-0.5 MPa (Opt: 0.3 MPa)</span></div>
+                                <div class="kb-row"><span class="kb-key">Dispense Patterns</span><span class="kb-val">L (Rec.), I, U</span></div>
+                                <div class="kb-row"><span class="kb-key">Fillet Height</span><span class="kb-val">50-75% of component height</span></div>
+                                <div class="kb-row"><span class="kb-key">Voiding Limit</span><span class="kb-val">≤ 25% total area (IPC-A-610)</span></div>
+                                <div class="kb-row"><span class="kb-key">Overflow Limit</span><span class="kb-val">< 1.5mm beyond die edge</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kb-card" data-keywords="troubleshooting guide defects fixes solutions">
+                        <div class="kb-card-header">
+                            <span class="material-icons-round">build</span>
+                            <h3>Troubleshooting Guide</h3>
+                        </div>
+                        <div class="kb-card-body">
+                            <div class="kb-table">
+                                <div class="kb-row"><span class="kb-key">Incomplete Penetration</span><span class="kb-val">Increase preheat to 85°C</span></div>
+                                <div class="kb-row"><span class="kb-key">Excessive Voiding</span><span class="kb-val">Bake substrate 100°C/1.5h</span></div>
+                                <div class="kb-row"><span class="kb-key">Low Fillet</span><span class="kb-val">Increase pressure or reduce speed</span></div>
+                                <div class="kb-row"><span class="kb-key">High Fillet</span><span class="kb-val">Decrease pressure or increase speed</span></div>
+                                <div class="kb-row"><span class="kb-key">Needle Clogging</span><span class="kb-val">Clean with solvent</span></div>
+                                <div class="kb-row"><span class="kb-key">Stringing</span><span class="kb-val">Defrost 2h at room temp</span></div>
+                                <div class="kb-row"><span class="kb-key">Delamination</span><span class="kb-val">Plasma cleaning + proper cure</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kb-card" data-keywords="images gallery visual references dispensing patterns">
+                        <div class="kb-card-header">
+                            <span class="material-icons-round">photo_library</span>
+                            <h3>Visual Reference Gallery</h3>
+                        </div>
+                        <div class="kb-card-body">
+                            <div class="kb-gallery">
+                                <div class="gallery-item">
+                                    <div class="gallery-placeholder">
+                                        <span class="material-icons-round">grid_view</span>
+                                    </div>
+                                    <span class="gallery-label">L-Shape Pattern</span>
+                                </div>
+                                <div class="gallery-item">
+                                    <div class="gallery-placeholder">
+                                        <span class="material-icons-round">border_style</span>
+                                    </div>
+                                    <span class="gallery-label">I-Shape Pattern</span>
+                                </div>
+                                <div class="gallery-item">
+                                    <div class="gallery-placeholder">
+                                        <span class="material-icons-round">border_outer</span>
+                                    </div>
+                                    <span class="gallery-label">U-Shape Pattern</span>
+                                </div>
+                                <div class="gallery-item">
+                                    <div class="gallery-placeholder">
+                                        <span class="material-icons-round">height</span>
+                                    </div>
+                                    <span class="gallery-label">Fillet Profile</span>
+                                </div>
+                                <div class="gallery-item">
+                                    <div class="gallery-placeholder">
+                                        <span class="material-icons-round">blur_on</span>
+                                    </div>
+                                    <span class="gallery-label">X-Ray Voiding</span>
+                                </div>
+                                <div class="gallery-item">
+                                    <div class="gallery-placeholder">
+                                        <span class="material-icons-round">radar</span>
+                                    </div>
+                                    <span class="gallery-label">CSAM Analysis</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-      <!-- 9. 檢驗標準 -->
-      <section class="section" data-title="9. 檢驗標準">
-        <div class="card">
-          <h2>9. 檢驗標準 (Visual / X-Ray / CSAM)</h2>
-          <p>檢驗分為三個層級，依產品可靠度要求決定檢驗項目與抽樣頻率。</p>
-          <div class="card-grid">
-            <div class="card">
-              <h3>Visual (外觀)</h3>
-              <ul>
-                <li>Fillet 連續性：100% 連續，無斷膠/缺口</li>
-                <li>Fillet 寬度：50%&ndash;75% 元件邊緣</li>
-                <li>無膠體溢出至元件上方</li>
-                <li>無明顯 Flow Striation</li>
-                <li>檢驗方式：100% 顯微鏡</li>
-              </ul>
-            </div>
-            <div class="card">
-              <h3>X-Ray/AXI</h3>
-              <ul>
-                <li>Void Rate：單顆 &le; 5% 面積，整體 &le; 3%</li>
-                <li>無 Cluster Void</li>
-                <li>無 Interface Void（焊點界面）</li>
-                <li>檢驗方式：取樣/全檢（依客戶規範）</li>
-              </ul>
-            </div>
-            <div class="card">
-              <h3>CSAM (超音波)</h3>
-              <ul>
-                <li>適用於高可靠度/車用產品</li>
-                <li>檢測 Delamination 分層</li>
-                <li>檢測 Die Crack</li>
-                <li>檢測 Interface Separation</li>
-                <li>抽樣頻率：依客戶規範</li>
-              </ul>
-            </div>
-          </div>
-          <h3>判定標準 (Accept / Reject)</h3>
-          <table>
-            <thead><tr><th>缺陷類型</th><th>允收 (Accept)</th><th>拒收 (Reject)</th></tr></thead>
-            <tbody>
-              <tr><td>Void 面積</td><td>&le; 5% 單顆，總和 &le; 3%</td><td>超過上述值或 Cluster Void</td></tr>
-              <tr><td>Interface Void</td><td>無</td><td>任何 Interface Void</td></tr>
-              <tr><td>Fillet 不連續</td><td>無</td><td>任何斷膠</td></tr>
-              <tr><td>Crack / Delamination</td><td>無</td><td>任何 Crack 或 Delam</td></tr>
-              <tr><td>Fillet 溢膠</td><td>無</td><td>溢膠至元件上方</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+            <!-- ===== VIEW: Tutorial (教學) ===== -->
+            <section id="view-tutorial" class="view">
+                <div class="tutorial-header">
+                    <h2 class="view-title">Underfill 製程導入互動教學</h2>
+                    <p class="view-subtitle">從原理到實作 — 11 個主題完整學習</p>
+                </div>
+                <nav class="tutorial-tabs" id="tutorial-tabs">
+                    <button class="tut-tab active" data-tpanel="overview">總覽地圖</button>
+                    <button class="tut-tab" data-tpanel="flow">導入流程</button>
+                    <button class="tut-tab" data-tpanel="phys">原理機制</button>
+                    <button class="tut-tab" data-tpanel="method">製程方法</button>
+                    <button class="tut-tab" data-tpanel="defect">缺陷失效</button>
+                    <button class="tut-tab" data-tpanel="note">注意事項</button>
+                    <button class="tut-tab" data-tpanel="risk">風險評估</button>
+                    <button class="tut-tab" data-tpanel="fit">適配判斷</button>
+                    <button class="tut-tab" data-tpanel="unfit">不適合導入</button>
+                    <button class="tut-tab" data-tpanel="chart">資料視覺化</button>
+                    <button class="tut-tab" data-tpanel="ref">術語與標準</button>
+                </nav>
+                <div class="tutorial-content">
 
-      <!-- 10. 常見問題與對策 -->
-      <section class="section" data-title="10. 常見問題">
-        <div class="card">
-          <h2>10. 常見問題與對策</h2>
-          <table>
-            <thead><tr><th>問題</th><th>可能原因</th><th>對策</th></tr></thead>
-            <tbody>
-              <tr>
-                <td>Void / Air Trap</td>
-                <td>Pattern 設計不良、Plasma 不足、Staging Time 過長、參數偏移</td>
-                <td>檢討 I/L/U 決策，確認 Plasma 參數與 Staging 時限，調整 Dispense Speed 與 Dwell Time</td>
-              </tr>
-              <tr>
-                <td>Flow Striation</td>
-                <td>Plasma 表面能不足、材料變質、溫度不均</td>
-                <td>確認 Plasma 處理後 Water Contact Angle，檢查材料效期與儲存條件，校正加熱平台溫度</td>
-              </tr>
-              <tr>
-                <td>Fillet 不均勻</td>
-                <td>Needle Gap 變異、Speed 不穩、Valve 異常</td>
-                <td>校正 Z 軸高度，檢查 Valve 氣壓穩定度，確認 Dispense 路徑直線度</td>
-              </tr>
-              <tr>
-                <td>Warpage 過大</td>
-                <td>Curing Shrinkage &times; CTE mismatch、降溫過快</td>
-                <td>調整 Cure Schedule、材料 CTE 匹配，控制 Ramp Down Rate</td>
-              </tr>
-              <tr>
-                <td>塞針 (Needle Clog)</td>
-                <td>Staging Time 過長導致材料在針頭固化</td>
-                <td>縮短停機時間，建立 Purge 頻率，檢查針頭加熱溫度</td>
-              </tr>
-              <tr>
-                <td>Racing Effect</td>
-                <td>黏度不足 + 壓力過大會使膠體先沿兩側流動</td>
-                <td>降低 Presure，提高基板溫度以加速固化，確認 Needle Gap</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="callout callout--warning">發現問題時依 &ldquo;Stop &rarr; Investigate &rarr; Correct &rarr; Confirm&rdquo; 四步驟排查，不可直接調整參數後連續生產。</div>
-        </div>
-      </section>
+                    <!-- TPanel: 總覽地圖 -->
+                    <div class="tpanel active" id="tpanel-overview">
+                        <div class="tcard">
+                            <h2>總覽 — 學習地圖</h2>
+                            <div class="tldr"><span class="ic">🗺️</span><div><b>一句話：</b><p>Underfill 用膠體填滿晶片與基板間隙，把 CTE 失配造成的焊點剪切應力分攤掉，換來數倍至一個數量級的溫循壽命。</p></div></div>
+                            <p class="tlead">五大主幹：<b>為何要做（原理）→ 怎麼做（流程／方法）→ 做壞了怎麼辦（缺陷）→ 該不該做（判斷／風險）</b>。</p>
+                            <div class="tsvgbox">
+                                <svg viewBox="0 0 960 470" class="tmap-wrap" role="img" aria-label="Underfill 教學內容主架構">
+                                    <defs>
+                                        <marker id="tmk" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+                                            <path d="M0,0 L9,4.5 L0,9 Z" fill="var(--t-sub)"/>
+                                        </marker>
+                                    </defs>
+                                    <g stroke="var(--t-sub)" stroke-width="2" fill="none" opacity=".55" marker-end="url(#tmk)">
+                                        <path d="M480,92 L480,128"/>
+                                        <path d="M360,176 L220,214"/>
+                                        <path d="M600,176 L740,214"/>
+                                        <path d="M180,262 L180,300"/>
+                                        <path d="M780,262 L780,300"/>
+                                        <path d="M300,330 L430,360"/>
+                                        <path d="M660,330 L530,360"/>
+                                    </g>
+                                    <g class="tmap-node" onclick="tutGoPanel('phys')">
+                                        <rect x="350" y="40" width="260" height="52" rx="26" fill="var(--t-blue)"/>
+                                        <text x="480" y="63" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">⚛️ 原理：CTE 失配 → 為何要做</text>
+                                        <text x="480" y="81" text-anchor="middle" fill="#fff" font-size="11" opacity=".9">Washburn 毛細 · Coffin–Manson 壽命</text>
+                                    </g>
+                                    <g class="tmap-node" onclick="tutGoPanel('flow')">
+                                        <rect x="90" y="128" width="260" height="48" rx="12" fill="var(--t-card)" stroke="var(--t-blue)" stroke-width="2"/>
+                                        <text x="220" y="151" text-anchor="middle" fill="var(--t-ink)" font-size="14" font-weight="600">📋 導入流程（12 步）</text>
+                                        <text x="220" y="168" text-anchor="middle" fill="var(--t-sub)" font-size="11">IQC → 點膠 → 固化 → 檢驗</text>
+                                    </g>
+                                    <g class="tmap-node" onclick="tutGoPanel('method')">
+                                        <rect x="610" y="128" width="260" height="48" rx="12" fill="var(--t-card)" stroke="var(--t-blue)" stroke-width="2"/>
+                                        <text x="740" y="151" text-anchor="middle" fill="var(--t-ink)" font-size="14" font-weight="600">🔧 製程方法</text>
+                                        <text x="740" y="168" text-anchor="middle" fill="var(--t-sub)" font-size="11">CUF / MUF / NUF / WUF / 邊角膠</text>
+                                    </g>
+                                    <g class="tmap-node" onclick="tutGoPanel('defect')">
+                                        <rect x="60" y="300" width="240" height="48" rx="12" fill="#2a1a1a" stroke="var(--t-red)" stroke-width="2"/>
+                                        <text x="180" y="323" text-anchor="middle" fill="var(--t-red)" font-size="14" font-weight="600">🔍 缺陷與失效</text>
+                                        <text x="180" y="340" text-anchor="middle" fill="var(--t-red)" font-size="11" opacity=".85">空洞 · 分層 · 翹曲</text>
+                                    </g>
+                                    <g class="tmap-node" onclick="tutGoPanel('risk')">
+                                        <rect x="660" y="300" width="240" height="48" rx="12" fill="#2a2500" stroke="var(--t-yellow)" stroke-width="2"/>
+                                        <text x="780" y="323" text-anchor="middle" fill="var(--t-yellow)" font-size="14" font-weight="600">📊 風險評估</text>
+                                        <text x="780" y="340" text-anchor="middle" fill="var(--t-yellow)" font-size="11" opacity=".85">六維雷達 · 風險分級</text>
+                                    </g>
+                                    <g class="tmap-node" onclick="tutGoPanel('fit')">
+                                        <rect x="360" y="360" width="240" height="52" rx="12" fill="#0a1a0a" stroke="var(--t-green)" stroke-width="2"/>
+                                        <text x="480" y="383" text-anchor="middle" fill="var(--t-green)" font-size="14" font-weight="700">✅ 該不該做？適配判斷</text>
+                                        <text x="480" y="401" text-anchor="middle" fill="var(--t-green)" font-size="11">決策樹 · 尺寸對照表</text>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
 
-      <!-- 11. 實戰案例 -->
-      <section class="section" data-title="11. 實戰案例">
-        <div class="card">
-          <h2>11. 實戰案例</h2>
-          <p>以下為三個典型案例，模擬從參數設定到異常排查的完整流程。</p>
-          <div class="card">
-            <h3>案例 A：新產品導入 (NPI)</h3>
-            <p><strong>情境：</strong> 導入 15mm &times; 15mm BGA，Pitch 0.4mm，Standoff 80&mu;m</p>
-            <p><strong>決策：</strong></p>
-            <ol>
-              <li>選用 L 型 Pattern（中等尺寸，標準應用）</li>
-              <li>設定基板溫度 80&deg;C，Needle Gap 0.1mm</li>
-              <li>DOE 驗證 Dispense Speed 與 Pressure，確認重量 Cpk</li>
-              <li>Visual 確認 Fillet 覆蓋率 &ge; 60%</li>
-              <li>X-Ray 抽樣 5pcs，Void &le; 3%</li>
-            </ol>
-          </div>
-          <div class="card">
-            <h3>案例 B：Void 異常排查</h3>
-            <p><strong>情境：</strong> 產線回報某批次 Void Rate 從 2% 升至 8%</p>
-            <p><strong>排查步驟：</strong></p>
-            <ol>
-              <li>確認 Plasma 參數（功率/時間/氣體流量）無異常</li>
-              <li>確認 Staging Time 記錄是否在 4h 內</li>
-              <li>針對 Void 位置做 X-Ray 定位分析</li>
-              <li>發現 Void 集中於遠端角落 &rarr; 判定為 Air Trap</li>
-              <li>對策：增加前段 Dwell Time 2s，調整 Dispense Speed -10%</li>
-              <li>追蹤 3 批次驗證 Void Rate 回降至 1.5%</li>
-            </ol>
-            <div class="callout callout--success">Void 分析時需區分&ldquo;製程性 Void&rdquo;（Air Trap、Flow Issue）與&ldquo;材料性 Void&rdquo;（Outgassing、Moisture），對策方向不同。</div>
-          </div>
-          <div class="card">
-            <h3>案例 C：Flow Striation 改善</h3>
-            <p><strong>情境：</strong> 新 PCB 板廠導入後出現 Fillet 表面條紋</p>
-            <p><strong>排查：</strong></p>
-            <ol>
-              <li>Water Contact Angle 量測：表面能偏低 (55&deg;)</li>
-              <li>確認新板廠清洗製程變更，殘留汙染物增加</li>
-              <li>對策：增加 Plasma 處理時間 30%，Ar/O₂ 比例調整</li>
-              <li>WCA 降至 &lt; 20&deg;，條紋消失</li>
-            </ol>
-          </div>
-        </div>
-      </section>
+                    <!-- TPanel: 導入流程 -->
+                    <div class="tpanel" id="tpanel-flow">
+                        <div class="tcard">
+                            <h2>導入流程 — 分步走查</h2>
+                            <p class="tlead">以毛細式底部填膠（CUF）為主軸。左側情境圖隨步驟切換；右側步驟說明。</p>
+                            <div class="tfig-hero">
+                                <svg viewBox="0 0 1000 150" role="img" aria-label="Underfill 製程四階段總覽">
+                                    <rect x="20" y="48" width="220" height="54" rx="8" fill="rgba(0,242,254,.12)"/>
+                                    <rect x="260" y="48" width="220" height="54" rx="8" fill="rgba(255,179,0,.12)"/>
+                                    <rect x="500" y="48" width="220" height="54" rx="8" fill="rgba(255,59,48,.12)"/>
+                                    <rect x="740" y="48" width="240" height="54" rx="8" fill="rgba(0,255,135,.12)"/>
+                                    <text x="130" y="40" text-anchor="middle" font-size="13" font-weight="700" fill="var(--t-blue)">① 準備</text>
+                                    <text x="370" y="40" text-anchor="middle" font-size="13" font-weight="700" fill="var(--t-yellow)">② 點膠流動</text>
+                                    <text x="610" y="40" text-anchor="middle" font-size="13" font-weight="700" fill="var(--t-red)">③ 固化</text>
+                                    <text x="860" y="40" text-anchor="middle" font-size="13" font-weight="700" fill="var(--t-green)">④ 驗證</text>
+                                    <text x="130" y="72" text-anchor="middle" font-size="11" fill="var(--t-sub)">來料 · 回溫 · 預烤</text>
+                                    <text x="130" y="90" text-anchor="middle" font-size="11" fill="var(--t-sub)">助焊劑檢查 · Staging</text>
+                                    <text x="370" y="72" text-anchor="middle" font-size="11" fill="var(--t-sub)">Plasma · 預熱</text>
+                                    <text x="370" y="90" text-anchor="middle" font-size="11" fill="var(--t-sub)">點膠 · Dwell 流動</text>
+                                    <text x="610" y="80" text-anchor="middle" font-size="11" fill="var(--t-sub)">爐溫 Profile 固化</text>
+                                    <text x="860" y="72" text-anchor="middle" font-size="11" fill="var(--t-sub)">X-Ray 空洞檢驗</text>
+                                    <text x="860" y="90" text-anchor="middle" font-size="11" fill="var(--t-sub)">CSAM · 截面分析</text>
+                                    <path d="M240 75 L262 75" stroke="var(--t-sub)" stroke-width="2" marker-end="url(#tfa)"/>
+                                    <path d="M480 75 L502 75" stroke="var(--t-sub)" stroke-width="2" marker-end="url(#tfa)"/>
+                                    <path d="M720 75 L742 75" stroke="var(--t-sub)" stroke-width="2" marker-end="url(#tfa)"/>
+                                    <defs><marker id="tfa" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--t-sub)"/></marker></defs>
+                                </svg>
+                            </div>
+                            <div class="tphasebar" id="tphasebar"></div>
+                            <div class="tflow-layout">
+                                <div class="tstage">
+                                    <div class="tsvgbox">
+                                        <svg viewBox="0 0 600 300" width="100%" id="tflowSvg" role="img">
+                                            <g id="tscenePkg">
+                                                <rect x="40" y="200" width="520" height="34" rx="4" fill="var(--t-green)"/>
+                                                <text x="300" y="223" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">基板 Substrate (FR4/BT)</text>
+                                                <rect id="tdieRect" x="150" y="100" width="300" height="60" rx="4" fill="#555"/>
+                                                <text id="tdieLbl" x="300" y="136" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">晶片 Die (Si)</text>
+                                                <g fill="var(--t-yellow)" id="tbumps">
+                                                    <circle cx="180" cy="180" r="9"/><circle cx="225" cy="180" r="9"/><circle cx="270" cy="180" r="9"/>
+                                                    <circle cx="315" cy="180" r="9"/><circle cx="360" cy="180" r="9"/><circle cx="405" cy="180" r="9"/>
+                                                </g>
+                                                <text x="430" y="186" fill="var(--t-yellow)" font-size="11">Solder Bump</text>
+                                                <line x1="150" y1="160" x2="450" y2="160" stroke="var(--t-line)" stroke-width="1" stroke-dasharray="4"/>
+                                                <clipPath id="tgap"><rect x="150" y="160" width="300" height="40"/></clipPath>
+                                                <g clip-path="url(#tgap)">
+                                                    <rect id="tfill" class="tflow-fill" x="150" y="160" width="0" height="40" fill="var(--t-blue)" opacity=".6"/>
+                                                </g>
+                                                <polygon id="tfilletL" points="150,160 150,200 118,200" fill="var(--t-blue)" opacity="0"/>
+                                                <polygon id="tfilletR" points="450,160 450,200 482,200" fill="var(--t-blue)" opacity="0"/>
+                                                <text x="100" y="192" fill="var(--t-blue)" font-size="11" id="tfilletLbl" opacity="0">Fillet ◁</text>
+                                                <g id="tneedle" opacity="0">
+                                                    <rect x="118" y="55" width="7" height="45" rx="2" fill="var(--t-ink)"/>
+                                                    <polygon points="114,100 132,100 123,115" fill="var(--t-red)"/>
+                                                    <text x="123" y="50" text-anchor="middle" font-size="11" fill="var(--t-ink)">點膠針頭</text>
+                                                </g>
+                                            </g>
+                                            <g id="tsceneIQC" opacity="0">
+                                                <rect x="200" y="60" width="90" height="150" rx="10" fill="rgba(0,242,254,.08)" stroke="var(--t-blue)" stroke-width="2.5"/>
+                                                <rect x="215" y="46" width="60" height="18" rx="5" fill="var(--t-blue)"/>
+                                                <text x="245" y="60" text-anchor="middle" fill="#fff" font-size="10">針筒蓋</text>
+                                                <text x="245" y="120" text-anchor="middle" font-size="11" fill="var(--t-blue)" font-weight="700">UF材料</text>
+                                                <text x="245" y="138" text-anchor="middle" font-size="10" fill="var(--t-blue)">CoA檢驗</text>
+                                                <g font-size="12" fill="var(--t-green)">
+                                                    <text x="320" y="90">✓ 效期未過</text>
+                                                    <text x="320" y="112">✓ FIFO 先進先出</text>
+                                                    <text x="320" y="134">✓ 黏度/外觀</text>
+                                                    <text x="320" y="156">✓ 冷藏 2–10°C</text>
+                                                    <text x="320" y="178">✓ 批號登錄</text>
+                                                </g>
+                                            </g>
+                                            <g id="tsceneThaw" opacity="0">
+                                                <rect x="262" y="65" width="76" height="130" rx="10" fill="rgba(0,242,254,.08)" stroke="var(--t-blue)" stroke-width="2"/>
+                                                <polygon points="276,195 324,195 318,215 282,215" fill="var(--t-blue)"/>
+                                                <text x="300" y="130" text-anchor="middle" font-size="12" fill="var(--t-blue)" font-weight="700">針頭朝下</text>
+                                                <text x="300" y="148" text-anchor="middle" font-size="10" fill="var(--t-sub)">直立靜置</text>
+                                                <text x="300" y="258" text-anchor="middle" font-size="12" fill="var(--t-green)">室溫回溫至 25°C</text>
+                                                <text x="110" y="100" font-size="12" fill="var(--t-red)">✗ 禁強制加熱</text>
+                                                <text x="110" y="122" font-size="12" fill="var(--t-red)">✗ 禁劇烈搖晃</text>
+                                                <text x="110" y="144" font-size="12" fill="var(--t-red)">✗ 回溫後不回凍</text>
+                                                <text x="110" y="166" font-size="12" fill="var(--t-red)">✗ 禁超過 4h 未用</text>
+                                            </g>
+                                            <g id="tsceneBake" opacity="0">
+                                                <rect x="170" y="72" width="260" height="128" rx="12" fill="none" stroke="var(--t-red)" stroke-width="3"/>
+                                                <text x="300" y="66" text-anchor="middle" font-size="12" fill="var(--t-red)" font-weight="700">烘箱 100°C / 1.5h（參考）</text>
+                                                <rect x="210" y="158" width="180" height="22" rx="4" fill="#555"/>
+                                                <text x="300" y="173" text-anchor="middle" font-size="11" fill="#fff">PCB / 元件</text>
+                                                <g id="tvapor">
+                                                    <text x="240" y="142" font-size="18" fill="#90caf9">💧</text>
+                                                    <text x="300" y="126" font-size="18" fill="#90caf9">💧</text>
+                                                    <text x="358" y="142" font-size="18" fill="#90caf9">💧</text>
+                                                </g>
+                                                <text x="300" y="230" text-anchor="middle" font-size="12" fill="var(--t-yellow)">驅出吸附水氣 → 防 void</text>
+                                            </g>
+                                            <g id="tscenePlasma" opacity="0">
+                                                <rect x="148" y="172" width="304" height="22" rx="4" fill="#555"/>
+                                                <text x="300" y="187" text-anchor="middle" font-size="11" fill="#fff">PCB 表面</text>
+                                                <g id="tplasmaDots" fill="#9c27b0">
+                                                    <circle cx="190" cy="128" r="5"/><circle cx="230" cy="108" r="5"/><circle cx="270" cy="138" r="5"/>
+                                                    <circle cx="310" cy="112" r="5"/><circle cx="350" cy="130" r="5"/><circle cx="390" cy="115" r="5"/>
+                                                    <circle cx="210" cy="152" r="4"/><circle cx="330" cy="155" r="4"/>
+                                                </g>
+                                                <text x="300" y="85" text-anchor="middle" font-size="13" fill="#9c27b0" font-weight="700">⚡ Plasma 活化（離子轟擊）</text>
+                                                <text x="300" y="228" text-anchor="middle" font-size="12" fill="var(--t-yellow)">表面活化 → 潤濕角 θ↓ → 毛細力↑</text>
+                                            </g>
+                                            <g id="tsceneStage" opacity="0">
+                                                <circle cx="300" cy="132" r="60" fill="none" stroke="var(--t-yellow)" stroke-width="6"/>
+                                                <circle id="tstageArc" cx="300" cy="132" r="60" fill="none" stroke="var(--t-red)" stroke-width="6" stroke-dasharray="377" stroke-dashoffset="120" transform="rotate(-90 300 132)"/>
+                                                <text x="300" y="128" text-anchor="middle" font-size="22" font-weight="700" fill="var(--t-ink)">4–8h</text>
+                                                <text x="300" y="150" text-anchor="middle" font-size="12" fill="var(--t-yellow)">停留上限</text>
+                                                <text x="300" y="222" text-anchor="middle" font-size="12" fill="var(--t-red)">超時 → 重烘烤/重清潔</text>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                    <div class="tscenecap" id="tscenecap"></div>
+                                </div>
+                                <div class="tflow-right">
+                                    <div class="tstepper" id="tstepper"></div>
+                                    <div class="tstepbody" id="tstepbody"></div>
+                                    <div style="display:flex;gap:10px;margin-top:14px">
+                                        <button class="tbtn tbtn-ghost" id="tprev">← 上一步</button>
+                                        <button class="tbtn" id="tnext">下一步 →</button>
+                                        <div style="flex:1"></div>
+                                        <button class="tbtn tbtn-ghost" id="treset">重設</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tcard">
+                            <h3>📐 點膠路徑對比：I / L / U 型</h3>
+                            <div class="tfig-grid tcols3">
+                                <div class="tfig-tile">
+                                    <span class="tbadge-img tb-warn">末端易不足</span>
+                                    <svg viewBox="0 0 200 140"><rect x="35" y="30" width="130" height="80" rx="4" fill="rgba(255,255,255,.04)" stroke="var(--t-line)"/>
+                                    <line x1="35" y1="30" x2="35" y2="110" stroke="var(--t-red)" stroke-width="5" stroke-linecap="round"/>
+                                    <text x="22" y="74" font-size="10" fill="var(--t-red)" transform="rotate(-90 22 74)">點膠側</text>
+                                    <g stroke="var(--t-blue)" stroke-width="2" marker-end="url(#tpa)"><line x1="50" y1="50" x2="120" y2="50"/><line x1="50" y1="70" x2="120" y2="70"/><line x1="50" y1="90" x2="120" y2="90"/></g>
+                                    <rect x="150" y="34" width="14" height="72" fill="rgba(255,59,48,.15)"/>
+                                    <defs><marker id="tpa" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--t-blue)"/></marker></defs></svg>
+                                    <div class="tcap">I 型：單側直線 — 充填距離最長</div>
+                                </div>
+                                <div class="tfig-tile">
+                                    <span class="tbadge-img tb-ok">推薦</span>
+                                    <svg viewBox="0 0 200 140"><rect x="35" y="30" width="130" height="80" rx="4" fill="rgba(255,255,255,.04)" stroke="var(--t-line)"/>
+                                    <line x1="35" y1="30" x2="35" y2="110" stroke="var(--t-red)" stroke-width="5" stroke-linecap="round"/>
+                                    <line x1="35" y1="30" x2="165" y2="30" stroke="var(--t-red)" stroke-width="5" stroke-linecap="round"/>
+                                    <g stroke="var(--t-green)" stroke-width="2" marker-end="url(#tpg)"><line x1="50" y1="45" x2="150" y2="100"/><line x1="50" y1="70" x2="150" y2="100"/><line x1="60" y1="95" x2="150" y2="100"/></g>
+                                    <circle cx="158" cy="103" r="7" fill="none" stroke="var(--t-green)" stroke-width="2"/>
+                                    <defs><marker id="tpg" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--t-green)"/></marker></defs></svg>
+                                    <div class="tcap">L 型：兩側推進、對角單向排氣 — SOP 首選</div>
+                                </div>
+                                <div class="tfig-tile">
+                                    <span class="tbadge-img tb-no">末端鎖氣</span>
+                                    <svg viewBox="0 0 200 140"><rect x="35" y="30" width="130" height="80" rx="4" fill="rgba(255,255,255,.04)" stroke="var(--t-line)"/>
+                                    <line x1="35" y1="30" x2="35" y2="110" stroke="var(--t-red)" stroke-width="5" stroke-linecap="round"/>
+                                    <line x1="35" y1="30" x2="165" y2="30" stroke="var(--t-red)" stroke-width="5" stroke-linecap="round"/>
+                                    <line x1="165" y1="30" x2="165" y2="110" stroke="var(--t-red)" stroke-width="5" stroke-linecap="round"/>
+                                    <g stroke="var(--t-blue)" stroke-width="2" marker-end="url(#tpu)"><line x1="50" y1="70" x2="90" y2="80"/><line x1="150" y1="70" x2="110" y2="80"/><line x1="100" y1="45" x2="100" y2="72"/></g>
+                                    <circle cx="100" cy="90" r="13" fill="rgba(255,59,48,.15)" stroke="var(--t-red)" stroke-width="2" stroke-dasharray="3"/>
+                                    <defs><marker id="tpu" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--t-blue)"/></marker></defs></svg>
+                                    <div class="tcap">U 型：三側包圍 — 末端閉合鎖氣</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-      <!-- 12. 完成檢查 -->
-      <section class="section" data-title="12. 完成檢查">
-        <div class="card">
-          <h2>12. 完成檢查</h2>
-          <p>勾選以下項目表示你已完成 Underfill 製程訓練：</p>
-          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>我了解 Underfill 的製程目的與適用範圍</label>
-          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>我能說出 UF3808 的關鍵材料參數 (Tg/CTE/Modulus)</label>
-          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>我熟悉從 IQC 到檢驗的完整製程流程</label>
-          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>我知道 Plasma 清洗的目的與 Staging Time 管理</label>
-          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>我能列出點膠製程的關鍵參數與 KPI</label>
-          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>我了解固化製程的溫度/時間與注意事項</label>
-          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>我能根據產品條件選擇 I/L/U 點膠 Pattern</label>
-          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>我了解 Visual/X-Ray/CSAM 的檢驗標準與判定</label>
-          <label class="checkbox"><input type="checkbox" data-check /><span class="check-box"></span>我能針對常見問題 (Void/Striation) 提出排查方向</label>
-          <div style="margin-top:var(--space-4)">
-            <div class="progress"><div id="check-progress" class="progress-bar"></div></div>
-          </div>
-          <div class="callout callout--success" style="margin-top:var(--space-4)">完成後即可將所學應用於實際生產線。建議定期回訓並更新 SPC 資料庫。</div>
-        </div>
-      </section>
+                    <!-- TPanel: 原理機制 -->
+                    <div class="tpanel" id="tpanel-phys">
+                        <div class="tcard">
+                            <h2>原理機制 — 毛細流動模擬器</h2>
+                            <div class="tldr"><span class="ic">💡</span><div><b>30 秒重點：</b><p>晶片（CTE≈2.5）和基板（CTE≈16–24）冷熱伸縮不同步，焊點被反覆剪切而疲勞。Underfill 把整層膠灌進間隙，讓應力分攤到整片膠體；充填快慢由 <b>Washburn 公式</b> 決定。</p></div></div>
+                            <div class="teq"><div class="tformula">t = 3μL² / (h·γ·cosθ)</div><div class="twhere">Washburn 毛細充填時間模型</div></div>
+                            <div class="tgrid2">
+                                <div><label>黏度 μ (cP) <br><small>影響速度主因子</small></label><input type="range" id="tphys-mu" min="100" max="2000" value="348" class="trange"><span class="tval" id="tval-mu">348</span></div>
+                                <div><label>充填距離 L (mm) <br><small>die 尺寸相關</small></label><input type="range" id="tphys-L" min="2" max="25" value="12" class="trange"><span class="tval" id="tval-L">12</span></div>
+                                <div><label>間隙 h (μm) <br><small>standoff 高度</small></label><input type="range" id="tphys-h" min="20" max="150" value="80" class="trange"><span class="tval" id="tval-h">80</span></div>
+                                <div><label>接觸角 θ (°) <br><small>潤濕性</small></label><input type="range" id="tphys-theta" min="5" max="80" value="25" class="trange"><span class="tval" id="tval-theta">25</span></div>
+                                <div><label>表面張力 γ (mN/m) <br><small>膠體特性</small></label><input type="range" id="tphys-gamma" min="20" max="50" value="35" class="trange"><span class="tval" id="tval-gamma">35</span></div>
+                                <div><label>溫度 T (°C) <br><small>影響黏度</small></label><input type="range" id="tphys-T" min="25" max="120" value="85" class="trange"><span class="tval" id="tval-T">85</span></div>
+                            </div>
+                            <div class="tresult" id="tphysResult">調整滑桿後即時顯示充填評估</div>
+                        </div>
+                    </div>
 
-      <!-- 13. 個人筆記 -->
-      <section class="section" data-title="13. 個人筆記">
-        <div class="card">
-          <h2>13. 個人筆記</h2>
-          <p>記錄學習心得、實際遇到的問題與解決方案。內容保存在瀏覽器 localStorage。</p>
-          <textarea id="notes" placeholder="範例：今天在 Plasma 參數調整時發現功率從 200W 增加到 250W 後 Flow Striation 明顯改善..."></textarea>
-          <div class="actions">
-            <button class="btn btn--primary" onclick="AppNotesSave()">儲存筆記</button>
-            <button class="btn btn--ghost" onclick="AppNotesClear()">清除筆記</button>
-          </div>
-        </div>
-      </section>
+                    <!-- TPanel: 製程方法 -->
+                    <div class="tpanel" id="tpanel-method">
+                        <div class="tcard">
+                            <h2>製程方法全景 — CUF / NUF / WUF / MUF / 邊角膠</h2>
+                            <div class="tmcards" id="tmcards">
+                                <div class="tmcard sel" onclick="tutSelMethod(0)"><b>CUF</b><small>毛細式 · 最成熟</small></div>
+                                <div class="tmcard" onclick="tutSelMethod(1)"><b>NUF</b><small>無流動 · 預成型</small></div>
+                                <div class="tmcard" onclick="tutSelMethod(2)"><b>WUF</b><small>助焊劑式</small></div>
+                                <div class="tmcard" onclick="tutSelMethod(3)"><b>MUF</b><small> molded · 壓縮</small></div>
+                                <div class="tmcard" onclick="tutSelMethod(4)"><b>邊角膠</b><small>角落點膠</small></div>
+                            </div>
+                            <div class="tmdetail" id="tmdetail">
+                                <h3>CUF (Capillary Underfill)</h3>
+                                <p>最成熟、應用最廣。利用毛細力將膠體吸入晶片與基板間隙，晶片預先完成迴焊。特點：流動時間取決於 die 尺寸、standoff 與膠體黏度；需預烤與 plasma 確保潤濕；fillet 高度需控制 50–75% 元件高。</p>
+                            </div>
+                        </div>
+                    </div>
 
-    </main>
-  </div>
+                    <!-- TPanel: 缺陷失效 -->
+                    <div class="tpanel" id="tpanel-defect">
+                        <div class="tcard">
+                            <h2>缺陷與失效 — 空洞分類器</h2>
+                            <div class="tvbtns" id="tvbtns">
+                                <button class="tbtn tbtn-ghost" onclick="tutShowVoid(0)">均勻填充</button>
+                                <button class="tbtn tbtn-ghost" onclick="tutShowVoid(1)">散佈型空洞</button>
+                                <button class="tbtn tbtn-ghost" onclick="tutShowVoid(2)">界面型空洞</button>
+                                <button class="tbtn tbtn-ghost" onclick="tutShowVoid(3)">環狀連通空洞</button>
+                                <button class="tbtn tbtn-ghost" onclick="tutShowVoid(4)">角落型空洞</button>
+                                <button class="tbtn tbtn-ghost" onclick="tutShowVoid(5)">充填不足</button>
+                            </div>
+                            <div class="tvresult" id="tvresult">點擊上方按鈕查看缺陷診斷</div>
+                        </div>
+                    </div>
 
-  <!-- ============ FOOTER ============ -->
-  <footer class="footer">
-    本訓練為本機 HTML 文件，可離線開啟。資料來源：UF3808 TDS + Underfill 作業標準書。
-  </footer>
+                    <!-- TPanel: 注意事項 -->
+                    <div class="tpanel" id="tpanel-note">
+                        <div class="tcard">
+                            <h2>注意事項 — 依職能角色</h2>
+                            <div class="troles" id="troles">
+                                <button class="trolebtn active" onclick="tutSelRole(0,this)">👷 作業員</button>
+                                <button class="trolebtn" onclick="tutSelRole(1,this)">🔧 製程工程師</button>
+                                <button class="trolebtn" onclick="tutSelRole(2,this)">📋 品質工程師</button>
+                                <button class="trolebtn" onclick="tutSelRole(3,this)">⚙️ 設備工程師</button>
+                            </div>
+                            <div class="trolebody" id="trolebody">
+                                <h3>👷 作業員 — 操作要點</h3>
+                                <ul><li>材料取用：FIFO 先進先出，批號登錄</li><li>回溫：針頭朝下直立，室溫 2h 以上</li><li>預烤：100°C / 1.5h，使用計時器</li><li>點膠：確認針頭高度 0.10mm，路徑 L 型</li><li>檢驗：目視 fillet 均勻，無溢膠</li></ul>
+                            </div>
+                        </div>
+                    </div>
 
-  <script>;(function(){"use strict";const Storage=(function(){const PREFIX="uftp_";function get(key){try{return JSON.parse(localStorage.getItem(PREFIX+key));}catch{return null;}}function set(key,value){try{localStorage.setItem(PREFIX+key,JSON.stringify(value));return true;}catch{Toast.show("儲存空間已滿，請清除瀏覽器資料","error");return false;}}function remove(key){try{localStorage.removeItem(PREFIX+key);}catch{}}return{get: get,set: set,remove: remove};})();const Toast=(function(){var container=null;function ensureContainer(){if(!container){container=document.createElement("div");container.className="toast-container";document.body.appendChild(container);}return container;}function show(message,type){type=type || "info";var el=document.createElement("div");el.className="toast"+(type==="error" ? " toast--error" : "");el.textContent=message;ensureContainer().appendChild(el);setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},2600);}return{show: show};})();const State=(function(){var currentSection=0;var totalSections=0;function init(total){totalSections=total;var saved=Storage.get("section");currentSection=(saved!==null &&!isNaN(saved))? Math.min(Math.max(0,saved),totalSections-1): 0;}function getCurrent(){return currentSection;}function setCurrent(i){if(i<0 || i>=totalSections)return false;currentSection=i;Storage.set("section",i);return true;}function getTotal(){return totalSections;}return{init: init,getCurrent: getCurrent,setCurrent: setCurrent,getTotal: getTotal};})();const Navigation=(function(){var sections=[];var navEl=null;function init(navSelector,sectionSelector){navEl=document.querySelector(navSelector);if(!navEl)return;sections=[].slice.call(document.querySelectorAll(sectionSelector));if(sections.length===0)return;State.init(sections.length);sections.forEach(function(sec,i){var btn=document.createElement("button");btn.className="nav-btn";btn.setAttribute("data-index",i);btn.setAttribute("aria-label",sec.dataset.title ||("第 "+(i+1)+" 節"));var iconSpan=document.createElement("span");iconSpan.className="nav-icon";iconSpan.innerHTML=getIconHTML(i);btn.appendChild(iconSpan);var textSpan=document.createElement("span");textSpan.textContent=sec.dataset.title ||("Section "+(i+1));btn.appendChild(textSpan);btn.addEventListener("click",function(){show(i);});navEl.appendChild(btn);});show(State.getCurrent());}function getIconHTML(index){var icons=[ "M4 6h16M4 12h16M4 18h16","M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z","M9 5l7 7-7 7","M3 15a4 4 0 004 4h9a5 5 0 10-4.5-7.2A3.5 3.5 0 003 15z","M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4","M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65-1.7-2.94-2.53.64c-.56-.38-1.14-.7-1.75-.94L17 1.18h-4l-2.14 1.93c-.61.34-1.19.72-1.75 1.02l-2.52-.64L6.4 9.41 8.5 11.1c.04.32.07.65.07.98s-.03.66-.07.98l-2.1 1.65 1.7 2.94 2.52-.64c.56.38 1.14.7 1.75.94L13 22.82h4l2.14-1.93c.61-.34 1.19-.72 1.75-1.02l2.53.64 1.7-2.94-2.11-1.65zM12 16a4 4 0 100-8 4 4 0 000 8z","M12 6V2M8 18l4 4 4-4m-8-8l-4-4 4-4","M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z","M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z","M9 5l7 7-7 7","M12 15a2 2 0 100-4 2 2 0 000 4zm0 0v6m4-10a4 4 0 10-4 4","M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z","M11 4a8 8 0 100 16 8 8 0 000-16zm-3 8h6","M9 12h6m-3-3v6" ];var d=icons[index] || icons[0];return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+d+'"/></svg>';}function show(index){if(!State.setCurrent(index))return;sections.forEach(function(s){s.classList.remove("active");});var btns=navEl.querySelectorAll(".nav-btn");btns.forEach(function(b){b.classList.remove("active");});if(sections[index])sections[index].classList.add("active");if(btns[index])btns[index].classList.add("active");Progress.update(index);window.scrollTo({top: 0,behavior: "smooth"});}return{init: init,show: show};})();const Progress=(function(){var barEl=null;function init(selector){barEl=document.querySelector(selector);}function update(currentIndex){if(!barEl)return;var total=State.getTotal();var pct=total>0 ?((currentIndex+1)/total*100).toFixed(0): 0;barEl.style.width=pct+"%";}return{init: init,update: update};})();const Clipboard=(function(){function init(){document.addEventListener("click",function(e){var btn=e.target.closest("[data-copy]");if(!btn)return;var id=btn.getAttribute("data-copy");if(!id)return;copy(id);});}function copy(elementId){var el=document.getElementById(elementId);if(!el){Toast.show("複製失敗：找不到內容","error");return;}var text=el.innerText || el.textContent;if(navigator.clipboard && navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){Toast.show("已複製到剪貼簿");},function(){fallbackCopy(text);});}else{fallbackCopy(text);}}function fallbackCopy(text){var ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");Toast.show("已複製到剪貼簿");}catch{Toast.show("複製失敗，請手動選取複製","error");}document.body.removeChild(ta);}return{init: init};})();const Notes=(function(){var textarea=null;function init(selector){textarea=document.querySelector(selector);if(!textarea)return;var saved=Storage.get("notes");if(saved)textarea.value=saved;textarea.addEventListener("input",autoSave);}function autoSave(){if(textarea)Storage.set("notes",textarea.value);}function save(){if(textarea){Storage.set("notes",textarea.value);Toast.show("筆記已儲存");}}function clear_(){if(textarea){textarea.value="";Storage.remove("notes");Toast.show("筆記已清除");}}return{init: init,save: save,clear: clear_};})();const Checkbox=(function(){function init(){var checks=[].slice.call(document.querySelectorAll("[data-check]"));var saved=Storage.get("checks")||{};checks.forEach(function(c,i){c.checked=!!saved[i];c.addEventListener("change",function(){var data={};checks.forEach(function(x,idx){data[idx]=x.checked;});Storage.set("checks",data);recalcProgress(checks);});});recalcProgress(checks);}function recalcProgress(checks){var total=checks.length;var done=checks.filter(function(c){return c.checked;}).length;var pct=total>0 ?(done/total*100).toFixed(0): 0;var bar=document.getElementById("check-progress");if(bar)bar.style.width=pct+"%";}return{init: init};})();window.AppNotesSave=Notes.save;window.AppNotesClear=Notes.clear;document.addEventListener("DOMContentLoaded",function(){Navigation.init("#nav",".section");Progress.init("#bar");Clipboard.init();Notes.init("#notes");Checkbox.init();});})();</script>
+                    <!-- TPanel: 風險評估 -->
+                    <div class="tpanel" id="tpanel-risk">
+                        <div class="tcard">
+                            <h2>風險評估 — 互動式評分</h2>
+                            <div class="trisk-meter" id="triskMeter"></div>
+                            <div class="tgauge"><div class="tneedle" id="triskNeedle" style="left:20%"></div></div>
+                            <div class="tresult" id="triskResult">調整滑桿後即時顯示風險評分</div>
+                            <svg viewBox="0 0 300 240" width="100%" style="margin-top:12px" id="triskRadar">
+                                <polygon fill="rgba(0,242,254,.05)" stroke="var(--t-blue)" stroke-width="1.5" id="tradarPoly"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- TPanel: 適配判斷 -->
+                    <div class="tpanel" id="tpanel-fit">
+                        <div class="tcard">
+                            <h2>適配判斷 — 是否需要 Underfill？</h2>
+                            <div class="tgrid2" id="tfitForm">
+                                <label>封裝類型 <select id="tfit-pkg" onchange="tutEvalFit()"><option value="fc">Flip Chip</option><option value="bga">BGA</option><option value="wlcsp">WLCSP</option><option value="qfn">QFN</option></select></label>
+                                <label>Die 尺寸 <select id="tfit-size" onchange="tutEvalFit()"><option value="small">&lt; 5mm</option><option value="med" selected>5-15mm</option><option value="large">&gt; 15mm</option></select></label>
+                                <label>Standoff <select id="tfit-so" onchange="tutEvalFit()"><option value="low">&lt; 50μm</option><option value="med" selected>50-100μm</option><option value="high">&gt; 100μm</option></select></label>
+                                <label>可靠度要求 <select id="tfit-rel" onchange="tutEvalFit()"><option value="standard">一般</option><option value="high" selected>高（車規/工規）</option></select></label>
+                                <label>Bump Pitch <select id="tfit-pitch" onchange="tutEvalFit()"><option value="fine">&lt; 0.4mm</option><option value="std" selected>0.4-0.8mm</option><option value="coarse">&gt; 0.8mm</option></select></label>
+                                <label>成本敏感度 <select id="tfit-cost" onchange="tutEvalFit()"><option value="low">低</option><option value="med" selected>中</option><option value="high">高</option></select></label>
+                            </div>
+                            <div class="tverdict" id="tfitVerdict">調整條件後自動判斷</div>
+                        </div>
+                        <div class="tcard">
+                            <h3>決策樹輔助判斷</h3>
+                            <div class="ttree" id="ttree"></div>
+                        </div>
+                    </div>
+
+                    <!-- TPanel: 不適合導入 -->
+                    <div class="tpanel" id="tpanel-unfit">
+                        <div class="tcard">
+                            <h2>不適合導入 Underfill 的元件與情境</h2>
+                            <table class="ttable">
+                                <thead><tr><th>元件/情境</th><th>原因</th><th>替代方案</th></tr></thead>
+                                <tbody>
+                                    <tr><td>QFN</td><td>裸露焊墊、standoff 過大</td><td>不須 UF；底部填脂保護</td></tr>
+                                    <tr><td>被動元件 (MLCC/電阻)</td><td>間隙過大，毛細力不足</td><td>邊角膠固定即可</td></tr>
+                                    <tr><td>連接器</td><td>高 standoff &gt; 200μm</td><td>結構補強膠</td></tr>
+                                    <tr><td>PoP 封裝</td><td>雙層結構，流動路徑複雜</td><td>MUF 或底部預成型</td></tr>
+                                    <tr><td>薄型封裝 &lt; 0.3mm</td><td>翹曲風險大，膠體應力導致破裂</td><td>NUF 或邊角膠</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- TPanel: 資料視覺化 -->
+                    <div class="tpanel" id="tpanel-chart">
+                        <div class="tcard">
+                            <h2>資料視覺化 — 製程能力與可靠度</h2>
+                            <div class="tchart-grid">
+                                <div><canvas id="tchartVisco"></canvas></div>
+                                <div><canvas id="tchartReliab"></canvas></div>
+                                <div><canvas id="tchartVoid"></canvas></div>
+                                <div><canvas id="tchartCure"></canvas></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TPanel: 術語與標準 -->
+                    <div class="tpanel" id="tpanel-ref">
+                        <div class="tcard">
+                            <h2>術語表 — Glossary</h2>
+                            <table class="ttable tgloss">
+                                <thead><tr><th>縮寫</th><th>全名</th><th>定義</th></tr></thead>
+                                <tbody>
+                                    <tr><td>CUF</td><td>Capillary Underfill</td><td>毛細式底部填膠</td></tr>
+                                    <tr><td>NUF</td><td>No-Flow Underfill</td><td>預成型底部填膠</td></tr>
+                                    <tr><td>MUF</td><td>Molded Underfill</td><td>壓縮成型底部填膠</td></tr>
+                                    <tr><td>WUF</td><td>Wafer-Level Underfill</td><td>晶圓級底部填膠</td></tr>
+                                    <tr><td>UF</td><td>Underfill</td><td>底部填膠</td></tr>
+                                    <tr><td>CTE</td><td>Coefficient of Thermal Expansion</td><td>熱膨脹係數</td></tr>
+                                    <tr><td>Fillet</td><td>Fillet</td><td>晶片邊緣膠體形成的圓角</td></tr>
+                                    <tr><td>Standoff</td><td>Standoff Height</td><td>晶片與基板間隔高度</td></tr>
+                                    <tr><td>Tg</td><td>Glass Transition Temperature</td><td>玻璃轉化溫度</td></tr>
+                                    <tr><td>CSAM</td><td>C-SAM / SAT</td><td>超音波掃描聲學顯微鏡</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tcard">
+                            <h2>參考標準</h2>
+                            <table class="ttable">
+                                <thead><tr><th>標準</th><th>內容</th></tr></thead>
+                                <tbody>
+                                    <tr><td>IPC-A-610</td><td>電子組件驗收標準 — voiding ≤ 25%</td></tr>
+                                    <tr><td>IPC-7711/7721</td><td>電子組裝返修標準</td></tr>
+                                    <tr><td>JEDEC JESD22</td><td>可靠度測試方法</td></tr>
+                                    <tr><td>IPC-9201</td><td>表面絕緣電阻測試</td></tr>
+                                    <tr><td>IPC-TM-650</td><td>材料特性測試方法</td></tr>
+                                    <tr><td>ISO 9001</td><td>品質管理系統</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
-

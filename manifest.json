@@ -1,0 +1,14 @@
+{
+  "name": "Underfill Smart Dispensing & Quality Control",
+  "short_name": "Underfill IoT",
+  "description": "Interactive dashboard for Loctite UF 3808 underfill process control, simulation, and quality inspection",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0D0D11",
+  "theme_color": "#00F2FE",
+  "orientation": "any",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
