@@ -9,49 +9,52 @@
 
 ---
 
-本專案會在每次推送到 `main` 分支時，自動觸發兩個部署流程：
+本專案會在每次推送到 `main` 分支時，自動觸發兩個發布流程：
 
 | 流程 | 工作流程檔 | 發布目錄 | 需要的設定 |
 | --- | --- | --- | --- |
-| **Netlify** | `.github/workflows/deploy-netlify.yml` | `dashboard/` | `NETLIFY_SITE_ID`、`NETLIFY_AUTH_TOKEN` (GitHub Secrets) |
+| **Netlify** | Netlify GitHub App | `dashboard/` | Netlify site 連到 `chenchihcu/underfill-process-training` 的 `main` |
 | **GitHub Pages** | `.github/workflows/deploy-pages.yml` | `dashboard/` → `gh-pages` 分支 | 無需額外設定（Pages 來源為 `gh-pages` 分支） |
 
 > `dashboard/` 為預先建置好的靜態 PWA（`index.html`、`app.js`、`style.css`、`sw.js`、`manifest.json`），不需要額外的建置步驟。
 
 ---
 
-## 一、部署到 Netlify（建議流程）
+## 一、部署到 Netlify（正式流程）
 
-工作流程已經寫好，只差憑證。完成下列步驟後，每次推送到 `main` 就會自動部署。
+Netlify 是正式 production host。請使用 Netlify 原生 Git deploy，不使用
+`netlify deploy --prod` 或 GitHub Actions token deploy 作為日常發布方式。
 
-### 1. 建立 Netlify 站台
-- 前往 <https://app.netlify.com> → **Add new site**。
-- 站台一旦建立，Netlify 就會配給網址（`https://<站台名稱>.netlify.app`），之後可在 Domain settings 改名。
+### 1. Netlify site 設定
 
-### 2. 取得兩個值
-- **Site ID**：站台 → **Site configuration → General → Site information** → 複製 **Site ID**（即 API ID）。
-- **Auth token**：右上角頭像 → **User settings → Applications → Personal access tokens** → **New access token** → 複製權杖。
+- Site：`underfill-tutorial`
+- Site ID：`c9d4764d-79aa-4d43-a0d3-c8658b024e63`
+- Production branch：`main`
+- Publish directory：`dashboard`
+- Build command：空字串
 
-### 3. 加入 GitHub Secrets
-前往：`https://github.com/chenchihcu/underfill-process-training/settings/secrets/actions`
+### 2. GitHub App 連線
 
-新增兩個 **Repository secret**（名稱必須完全一致）：
-- `NETLIFY_SITE_ID` → 貼上 Site ID
-- `NETLIFY_AUTH_TOKEN` → 貼上權杖
+- Netlify site 必須連到 `chenchihcu/underfill-process-training`。
+- GitHub Netlify App 使用 **Only select repositories** 時，必須授權本 repo。
+- Netlify API 檢查時，`build_settings.installation_id` 不可為 `null`。
 
-### 4. 觸發部署
-- 最快：到 **Actions** 分頁 → **Deploy to Netlify** → 在最新一次執行按 **Re-run jobs**。
-- 或直接推送任何 commit 到 `main`。
+### 3. 驗證部署
 
-> 部署成功後，執行紀錄（log）會印出實際的網址；在此之前 log 只會顯示
-> `Netlify credentials not provided, not deployable`（代表 Secrets 尚未設定）。
-
-### （替代）從自己的電腦手動部署
 ```bash
-npx netlify-cli login            # 開啟瀏覽器，連結你的帳號
-npx netlify-cli deploy --prod --dir dashboard
+npx netlify api getSite --data '{"site_id":"c9d4764d-79aa-4d43-a0d3-c8658b024e63"}'
+npx netlify api listSiteBuilds --data '{"site_id":"c9d4764d-79aa-4d43-a0d3-c8658b024e63"}'
+npx netlify api listSiteDeploys --data '{"site_id":"c9d4764d-79aa-4d43-a0d3-c8658b024e63"}'
 ```
-指令結束時會印出線上網址。
+
+完成狀態必須符合：
+- `build_settings.provider = github`
+- `build_settings.repo_path = chenchihcu/underfill-process-training`
+- `build_settings.repo_branch = main`
+- `build_settings.dir = dashboard`
+- `build_settings.installation_id` 不是 `null`
+- 最新 production deploy 的 `branch = main`
+- 最新 production deploy 的 `commit_ref` 對到 GitHub `main`
 
 ---
 
@@ -71,3 +74,4 @@ npx netlify-cli deploy --prod --dir dashboard
 
 - **手機限制**：GitHub 與 Netlify 的 App 不會顯示「Settings」相關頁面。請改用**手機瀏覽器並切換為「電腦版網站／Desktop site」**，或直接用電腦操作。
 - **預設分支**：本專案以 `main` 為正式（canonical）分支。
+- **緊急備援**：只有 Netlify Git deploy 異常時，才考慮手動 deploy；平時不要使用 `netlify deploy --prod` 覆蓋 production。

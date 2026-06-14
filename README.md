@@ -15,7 +15,7 @@ semiconductor underfill dispensing processes and quality acceptance.
 - `dashboard/` — 已建置的靜態 PWA（部署目標）
 - `underfill-process-training/` — 教學用單頁應用 (SPA) 原始碼
 - `docs/`、`Outputs/`、`*.py` — 文件重建與素材處理工具
-- `.github/workflows/` — CI/CD（Netlify + GitHub Pages 自動部署）
+- `.github/workflows/` — GitHub Pages 自動部署；Netlify 由 Netlify GitHub App 直接部署
 
 ## 部署
 
