@@ -120,7 +120,7 @@ export class WarpageModule {
     const colors = [
       { pos: 0, hex: '#3b82f6' },
       { pos: 0.33, hex: '#10b981' },
-      { pos: 0.66, hex: '#f59e0b' },
+      { pos: 0.66, hex: '#d97706' },
       { pos: 1, hex: '#ef4444' },
     ];
 
@@ -197,7 +197,7 @@ export class WarpageModule {
           entries: [
             { color: '#3b82f6', label: 'Low Strain' },
             { color: '#10b981', label: 'Medium' },
-            { color: '#f59e0b', label: 'High' },
+            { color: '#d97706', label: 'High' },
             { color: '#ef4444', label: 'Critical' },
           ]
         }]

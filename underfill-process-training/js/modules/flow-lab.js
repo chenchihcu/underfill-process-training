@@ -260,8 +260,8 @@ export class FlowLabModule {
           type: 'legend',
           entries: [
             { color: '#3b82f6', label: 'Underfill Flow' },
-            { color: '#60a5fa', label: 'Flow Front' },
-            { color: '#475569', label: 'Die' },
+            { color: '#3B82F6', label: 'Flow Front' },
+            { color: '#CBD5E1', label: 'Die' },
           ]
         }]
       }, {

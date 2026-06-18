@@ -174,7 +174,7 @@ export class VoidModule {
           type: 'legend',
           entries: [
             { color: '#ef4444', label: 'Air Trap' },
-            { color: '#f59e0b', label: 'Outgassing' },
+            { color: '#d97706', label: 'Outgassing' },
             { color: '#f97316', label: 'Moisture' },
           ]
         }]

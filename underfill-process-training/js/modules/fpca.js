@@ -236,7 +236,7 @@ export class FPCAModule {
     g.add(tube);
 
     // Radius label
-    const label = this._makeTextSprite('R \u2265 1.0mm', '#60a5fa');
+    const label = this._makeTextSprite('R \u2265 1.0mm', '#3B82F6');
     label.position.set(r + 1.5, r, 0);
     label.scale.set(3, 1.5, 1);
     g.add(label);
@@ -370,8 +370,8 @@ export class FPCAModule {
             { color: '#cc8833', label: 'FPC Substrate' },
             { color: '#ddcc88', label: 'Stiffener' },
             { color: '#808080', label: 'Carrier Jig' },
-            { color: '#60a5fa', label: 'Bend Radius' },
-            { color: '#ef4444', label: 'Stress \u2265 Limit' },
+            { color: '#3B82F6', label: 'Bend Radius' },
+            { color: '#EF4444', label: 'Stress \u2265 Limit' },
           ]
         }]
       }, {
@@ -495,14 +495,14 @@ export class FPCAModule {
       const currentR = Math.max(0.1, 3 * (1 - bendAmt / 3));
       const label = this.bendIndicator.userData.label;
       if (label && this._texCtx) {
-        const color = currentR < 1 ? '#ef4444' : '#60a5fa';
+        const color = currentR < 1 ? '#EF4444' : '#3B82F6';
         this._texCtx.clearRect(0, 0, 256, 128);
         this._texCtx.fillStyle = color;
         this._texCtx.font = 'Bold 28px sans-serif';
         this._texCtx.textAlign = 'center';
         this._texCtx.fillText(`R ${currentR.toFixed(1)}mm`, 128, 64);
         this._texTexture.needsUpdate = true;
-        label.material.color.set(currentR < 1 ? '#ef4444' : '#60a5fa');
+        label.material.color.set(currentR < 1 ? '#EF4444' : '#3B82F6');
       }
     }
 

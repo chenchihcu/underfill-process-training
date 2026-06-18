@@ -1,5 +1,5 @@
 const MAX_SAMPLES = 300;
-const SERIES_COLORS = ['#60a5fa', '#f59e0b', '#22c55e', '#ef4444', '#a78bfa', '#ec4899'];
+const SERIES_COLORS = ['#3B82F6', '#d97706', '#10B981', '#EF4444', '#a78bfa', '#ec4899'];
 
 export let enabled = false;
 
@@ -102,7 +102,7 @@ export function createChartWidget(container, moduleName, keys, title) {
 
     // Title
     if (title) {
-      ctx.fillStyle = '#9ca3af';
+      ctx.fillStyle = '#64748B';
       ctx.font = '11px sans-serif';
       ctx.textAlign = 'left';
       ctx.fillText(title, pad.left, 14);
@@ -115,7 +115,7 @@ export function createChartWidget(container, moduleName, keys, title) {
       series.forEach(s => allVals.push(s.v));
     }
     if (allVals.length === 0) {
-      ctx.fillStyle = '#475569';
+      ctx.fillStyle = '#CBD5E1';
       ctx.font = '12px sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('No data', W / 2, H / 2);

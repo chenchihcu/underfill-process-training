@@ -435,13 +435,13 @@
 
         // Needle glow
         ctx.shadowBlur = 15;
-        ctx.shadowColor = '#00F2FE';
+        ctx.shadowColor = '#3B82F6';
         ctx.fillStyle = '#FFF';
         ctx.beginPath();
         ctx.arc(pos.x, pos.y, 6, 0, Math.PI * 2);
         ctx.fill();
         ctx.shadowBlur = 0;
-        ctx.fillStyle = '#08080C';
+        ctx.fillStyle = '#F8FAFC';
         ctx.beginPath();
         ctx.arc(pos.x, pos.y, 2, 0, Math.PI * 2);
         ctx.fill();
@@ -759,8 +759,8 @@
 
         const preheatVals = data.map(d => d.preheat);
         const speedVals = data.map(d => d.speed);
-        drawLine(preheatVals, '#00F2FE');
-        drawLine(speedVals, '#00FF87');
+        drawLine(preheatVals, '#3B82F6');
+        drawLine(speedVals, '#10B981');
 
         // Labels
         ctx.fillStyle = 'rgba(255,255,255,0.3)';
@@ -995,7 +995,7 @@
 
         // Die block (top)
         const dieY = 30, dieH = 50;
-        ctx.fillStyle = '#2D2D3B';
+        ctx.fillStyle = '#CBD5E1';
         ctx.fillRect(60, dieY, 200, dieH);
         ctx.strokeStyle = 'rgba(255,255,255,0.2)';
         ctx.strokeRect(60, dieY, 200, dieH);
@@ -1006,7 +1006,7 @@
 
         // Substrate (bottom)
         const subY = dieY + dieH + gapPx;
-        ctx.fillStyle = '#15251D';
+        ctx.fillStyle = '#D1FAE5';
         ctx.fillRect(40, subY, 240, 12);
         ctx.strokeStyle = 'rgba(0,255,135,0.2)';
         ctx.strokeRect(40, subY, 240, 12);
@@ -1048,7 +1048,7 @@
 
         // Flow direction arrow
         if (t < 1) {
-            ctx.fillStyle = '#00F2FE';
+            ctx.fillStyle = '#3B82F6';
             ctx.beginPath();
             const ax = flowX, ay = dieY + dieH + gapPx / 2;
             ctx.moveTo(ax + 4, ay);
@@ -1265,7 +1265,7 @@
             const y = pad.top + chartH - barH;
 
             const grad = ctx.createLinearGradient(x, y, x, pad.top + chartH);
-            grad.addColorStop(0, '#00F2FE');
+            grad.addColorStop(0, '#3B82F6');
             grad.addColorStop(1, 'rgba(0,242,254,0.3)');
             ctx.fillStyle = grad;
             ctx.fillRect(x, y, barW, barH);
@@ -2100,9 +2100,9 @@
         { title: '均勻填充', desc: '膠體均勻分佈於晶片下方，無明顯空洞。fillet 完整，高度 50-75%。為理想狀態。', color: 'var(--color-green)' },
         { title: '散佈型空洞', desc: '多個微小空洞隨機分佈，面積比 < 10%。通常因微量水氣或助焊劑殘留。可接受範圍內。', color: 'var(--color-amber)' },
         { title: '界面型空洞', desc: '空洞位於膠體與晶片/基板界面。因潤濕不良或 plasma 不足。需改善表面活化。', color: 'var(--color-amber)' },
-        { title: '環狀連通空洞', desc: '空洞在 bump 陣列周圍形成環狀連通。典型因流前對撞鎖氣或填充路徑不當。須重新設計點膠路徑。', color: '#FF5252' },
-        { title: '角落型空洞', desc: '空洞集中於 die 角落。因末端排氣不順或 fillet 成形過快。調整 dwell 時間或預熱。', color: '#FF5252' },
-        { title: '充填不足', desc: '大面積未填滿。因黏度過高、standoff 過小或預熱不足。須降黏或提升預熱溫度。', color: '#FF5252' }
+        { title: '環狀連通空洞', desc: '空洞在 bump 陣列周圍形成環狀連通。典型因流前對撞鎖氣或填充路徑不當。須重新設計點膠路徑。', color: '#EF4444' },
+        { title: '角落型空洞', desc: '空洞集中於 die 角落。因末端排氣不順或 fillet 成形過快。調整 dwell 時間或預熱。', color: '#EF4444' },
+        { title: '充填不足', desc: '大面積未填滿。因黏度過高、standoff 過小或預熱不足。須降黏或提升預熱溫度。', color: '#EF4444' }
     ];
 
     function tutShowVoid(i) {
@@ -2171,7 +2171,7 @@
         if (result) {
             if (avg < 35) { result.innerHTML = '✓ 低風險 — 建議導入'; result.className = 'tresult'; result.style.borderColor = 'var(--color-green)'; }
             else if (avg < 65) { result.innerHTML = '⚡ 中風險 — 需評估對策'; result.className = 'tresult'; result.style.borderColor = 'var(--color-amber)'; }
-            else { result.innerHTML = '✗ 高風險 — 不建議導入'; result.className = 'tresult'; result.style.borderColor = '#FF5252'; }
+            else { result.innerHTML = '✗ 高風險 — 不建議導入'; result.className = 'tresult'; result.style.borderColor = '#EF4444'; }
         }
         // Update radar
         tutUpdateRadar(ids.map(id => (parseInt(document.getElementById(id)?.value || 50) / 100)));
@@ -2243,7 +2243,7 @@
         } else if (node.outcome) {
             treeEl.innerHTML = '<div class="tnode">' +
                 (pathStr ? '<div class="tpath">' + pathStr + '</div>' : '') +
-                '<div class="toutcome" style="background:' + (node.ok ? 'rgba(0,255,135,0.1)' : 'rgba(255,59,48,0.1)') + ';color:' + (node.ok ? 'var(--color-green)' : '#FF5252') + '">' +
+                '<div class="toutcome" style="background:' + (node.ok ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)') + ';color:' + (node.ok ? 'var(--color-green)' : '#EF4444') + '">' +
                 node.outcome + '</div>' +
                 '<button class="tbtn tbtn-ghost" style="margin-top:8px" onclick="tutResetTree()">重新開始</button></div>';
         }

@@ -87,8 +87,8 @@ function init() {
         flowRunning = !flowRunning;
         if (flowRunning) {
           flowBtn.textContent = '⏹ Stop';
-          flowBtn.style.borderColor = '#ef4444';
-          flowBtn.style.color = '#ef4444';
+          flowBtn.style.borderColor = '#EF4444';
+          flowBtn.style.color = '#EF4444';
           flowTimeline.style.display = 'block';
           _buildFlowTimeline();
           const first = FlowController.start();
@@ -101,8 +101,8 @@ function init() {
             onComplete: (data) => {
               flowRunning = false;
               flowBtn.textContent = '▶ Flow';
-              flowBtn.style.borderColor = '#475569';
-              flowBtn.style.color = '#22c55e';
+              flowBtn.style.borderColor = '#CBD5E1';
+              flowBtn.style.color = '#10B981';
               setStatus('Flow Complete', `Lot ${data.lotId} finished. ${Object.keys(data).length - 1} stages OK`);
               _updateFlowTimeline(null, true);
             },
@@ -113,8 +113,8 @@ function init() {
         } else {
           FlowController.stop();
           flowBtn.textContent = '▶ Flow';
-          flowBtn.style.borderColor = '#475569';
-          flowBtn.style.color = '#22c55e';
+          flowBtn.style.borderColor = '#CBD5E1';
+          flowBtn.style.color = '#10B981';
           flowTimeline.style.display = 'none';
           setStatus('Flow Stopped', '');
         }
@@ -129,11 +129,11 @@ function init() {
         if (DefectLab.isActive()) {
           DefectLab.hide();
           quizBtn.textContent = '✎ Quiz';
-          quizBtn.style.borderColor = '#475569';
+          quizBtn.style.borderColor = '#CBD5E1';
         } else {
           DefectLab.show(name);
           quizBtn.textContent = '✕ Close';
-          quizBtn.style.borderColor = '#ef4444';
+          quizBtn.style.borderColor = '#EF4444';
         }
       });
     }
@@ -150,7 +150,7 @@ function showError(msg, detail) {
   if (window.showSplashError) {
     window.showSplashError(msg, detail);
   } else {
-    document.body.innerHTML = '<div style="padding:40px;color:#ef4444;font-size:18px;">' + msg + '</div>';
+    document.body.innerHTML = '<div style="padding:40px;color:#EF4444;font-size:18px;">' + msg + '</div>';
   }
 }
 
@@ -215,14 +215,14 @@ function _updateFlowTimeline(activeKey, allDone = false) {
     if (!el) return;
     if (allDone) {
       el.style.background = 'rgba(34,197,94,0.2)';
-      el.style.color = '#22c55e';
+      el.style.color = '#10B981';
     } else if (stage.key === activeKey) {
       el.style.background = stage.color + '33';
       el.style.color = stage.color;
       el.style.borderLeft = '2px solid ' + stage.color;
     } else if (FlowController.getHandoffData()[stage.key]) {
       el.style.background = 'rgba(34,197,94,0.15)';
-      el.style.color = '#22c55e';
+      el.style.color = '#10B981';
     } else {
       el.style.background = 'rgba(71,85,105,0.3)';
       el.style.color = '#64748b';
@@ -268,12 +268,12 @@ function _rebuildAnalytics() {
         const s = Analytics.getStats(label, k);
         if (!s) continue;
         const card = document.createElement('div');
-        card.style.cssText = 'background:rgba(31,41,55,0.8);border-radius:6px;padding:6px 8px;';
-        const color = { temp: '#f59e0b', pressure: '#60a5fa', progress: '#22c55e', volume: '#a78bfa', stress: '#ef4444', count: '#f59e0b', fill: '#22c55e', warpage: '#ef4444' }[k] || '#94a3b8';
+        card.style.cssText = 'background:rgba(255,255,255,0.9);border-radius:6px;padding:6px 8px;';
+        const color = { temp: '#d97706', pressure: '#3B82F6', progress: '#10B981', volume: '#a78bfa', stress: '#EF4444', count: '#d97706', fill: '#10B981', warpage: '#EF4444' }[k] || '#64748B';
         card.innerHTML = `
           <div style="font-size:10px;color:#64748b;text-transform:uppercase;">${k}</div>
           <div style="font-size:16px;font-weight:700;color:${color};">${s.latest.toFixed(1)}</div>
-          <div style="font-size:9px;color:#475569;">min ${s.min.toFixed(1)} · max ${s.max.toFixed(1)}</div>
+          <div style="font-size:9px;color:#CBD5E1;">min ${s.min.toFixed(1)} · max ${s.max.toFixed(1)}</div>
         `;
         kpiContainer.appendChild(card);
       }

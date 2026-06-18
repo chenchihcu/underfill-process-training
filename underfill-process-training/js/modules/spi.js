@@ -368,8 +368,8 @@ export class SPIModule {
           entries: [
             { color: '#8a8a8a', label: 'Solder Paste' },
             { color: '#ffd700', label: 'Cu Pad' },
-            { color: '#22c55e', label: 'OK' },
-            { color: '#ef4444', label: 'Defect' },
+            { color: '#10B981', label: 'OK' },
+            { color: '#EF4444', label: 'Defect' },
           ]
         }]
       }, {

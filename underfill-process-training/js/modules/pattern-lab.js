@@ -187,9 +187,9 @@ export class PatternLabModule {
         }, {
           type: 'legend',
           entries: [
-            { color: '#60a5fa', label: 'I-Type' },
-            { color: '#22c55e', label: 'L-Type' },
-            { color: '#f59e0b', label: 'U-Type' },
+            { color: '#3B82F6', label: 'I-Type' },
+            { color: '#10B981', label: 'L-Type' },
+            { color: '#d97706', label: 'U-Type' },
           ]
         }]
       }, {

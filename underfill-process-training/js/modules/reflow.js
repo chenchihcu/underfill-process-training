@@ -272,7 +272,7 @@ export class ReflowModule {
     canvas.width = 300;
     canvas.height = 160;
     canvas.id = 'profileCanvas';
-    canvas.style.cssText = 'width:100%;border-radius:8px;border:1px solid #334155;background:#020617;';
+    canvas.style.cssText = 'width:100%;border-radius:8px;border:1px solid #E2E8F0;background:#F8FAFC;';
     this.thermalProfile = canvas;
     this._drawProfile(0, null, null);
   }
@@ -287,7 +287,7 @@ export class ReflowModule {
     const gh = h - pad.top - pad.bottom;
 
     // Grid lines
-    ctx.strokeStyle = '#1e293b';
+    ctx.strokeStyle = '#E2E8F0';
     ctx.lineWidth = 1;
     for (let temp = 50; temp <= 250; temp += 50) {
       const y = pad.top + gh * (1 - (temp - 30) / 220);
@@ -296,11 +296,11 @@ export class ReflowModule {
       ctx.lineTo(pad.left + gw, y);
       ctx.stroke();
     }
-    ctx.strokeStyle = '#334155';
+    ctx.strokeStyle = '#E2E8F0';
     ctx.strokeRect(pad.left, pad.top, gw, gh);
 
     // Y-axis labels
-    ctx.fillStyle = '#9ca3af';
+    ctx.fillStyle = '#64748B';
     ctx.font = '10px sans-serif';
     ctx.textAlign = 'right';
     for (let temp = 50; temp <= 250; temp += 50) {
@@ -309,7 +309,7 @@ export class ReflowModule {
     }
 
     // Zone backgrounds
-    const zoneColors = ['#3b82f6', '#22c55e', '#ef4444', '#60a5fa'];
+    const zoneColors = ['#3b82f6', '#10B981', '#EF4444', '#3B82F6'];
     const zoneLabels = ['PRE', 'SOAK', 'REF', 'COOL'];
     for (let zi = 0; zi < PROFILE_ZONES.length; zi++) {
       const z = PROFILE_ZONES[zi];
@@ -326,7 +326,7 @@ export class ReflowModule {
     // Setpoint profile (thick line)
     const steps = 100;
     const spTemps = setpointTemps || [];
-    ctx.strokeStyle = '#f59e0b';
+    ctx.strokeStyle = '#d97706';
     ctx.lineWidth = 2.5;
     ctx.beginPath();
     for (let i = 0; i <= steps; i++) {
@@ -357,11 +357,11 @@ export class ReflowModule {
     if (t > 0) {
       const cx = pad.left + t * gw;
       const cy = pad.top + gh * (1 - (this.currentTemp - 30) / 220);
-      ctx.fillStyle = '#f59e0b';
+      ctx.fillStyle = '#d97706';
       ctx.beginPath();
       ctx.arc(cx, cy, 4, 0, Math.PI * 2);
       ctx.fill();
-      ctx.strokeStyle = '#f59e0b44';
+      ctx.strokeStyle = '#d9770644';
       ctx.lineWidth = 1;
       ctx.setLineDash([2, 2]);
       ctx.beginPath();
@@ -370,7 +370,7 @@ export class ReflowModule {
       ctx.stroke();
       ctx.setLineDash([]);
 
-      ctx.fillStyle = '#f59e0b';
+      ctx.fillStyle = '#d97706';
       ctx.font = '10px sans-serif';
       ctx.textAlign = 'left';
       ctx.fillText(Math.round(this.currentTemp) + '\u00B0C', cx + 6, cy - 4);
@@ -382,11 +382,11 @@ export class ReflowModule {
       const peakIdx = measuredTemps.indexOf(peakVal);
       const px = pad.left + (peakIdx / (measuredTemps.length - 1)) * gw;
       const py = pad.top + gh * (1 - (peakVal - 30) / 220);
-      ctx.fillStyle = '#ef4444';
+      ctx.fillStyle = '#EF4444';
       ctx.beginPath();
       ctx.arc(px, py, 3, 0, Math.PI * 2);
       ctx.fill();
-      ctx.fillStyle = '#ef4444';
+      ctx.fillStyle = '#EF4444';
       ctx.font = '9px sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('Peak ' + Math.round(peakVal) + '\u00B0C', px, py - 8);
@@ -461,7 +461,7 @@ export class ReflowModule {
             { color: '#ffaa33', label: 'Molten Solder' },
             { color: '#c0c0c0', label: 'Solid Joint' },
             { color: '#2a2a2a', label: 'Component' },
-            { color: '#f59e0b', label: 'Thermal Profile' },
+            { color: '#d97706', label: 'Thermal Profile' },
           ]
         }]
       }]

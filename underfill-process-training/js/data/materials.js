@@ -156,7 +156,7 @@ CATEGORIES.die = {
     { key: 'thickness', label: 'Thickness', unit: 'mm', range: [0.2, 0.8] },
   ],
   presets: {
-    Silicon: { cte: 2.6, thickness: 0.4, color: '#475569', opacity: 0.15 },
+    Silicon: { cte: 2.6, thickness: 0.4, color: '#CBD5E1', opacity: 0.15 },
     GaAs: { cte: 5.7, thickness: 0.3, color: '#3a3f4a', opacity: 0.12 },
     SiC: { cte: 4.0, thickness: 0.5, color: '#2a3040', opacity: 0.10 },
   },

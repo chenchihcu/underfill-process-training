@@ -1,8 +1,8 @@
 const STAGES = [
-  { key: 'spi', label: 'Solder Paste Print', module: 'spi', duration: 6, color: '#60a5fa' },
-  { key: 'reflow', label: 'Reflow Soldering', module: 'reflow', duration: 10, color: '#f59e0b' },
-  { key: 'underfill', label: 'Underfill Dispense', module: 'underfill', duration: 8, color: '#22c55e' },
-  { key: 'void', label: 'Void Inspection', module: 'void', duration: 5, color: '#ef4444' },
+  { key: 'spi', label: 'Solder Paste Print', module: 'spi', duration: 6, color: '#3B82F6' },
+  { key: 'reflow', label: 'Reflow Soldering', module: 'reflow', duration: 10, color: '#d97706' },
+  { key: 'underfill', label: 'Underfill Dispense', module: 'underfill', duration: 8, color: '#10B981' },
+  { key: 'void', label: 'Void Inspection', module: 'void', duration: 5, color: '#EF4444' },
   { key: 'bga', label: 'BGA Cross-Section', module: 'bga', duration: 4, color: '#a78bfa' },
 ];
 

@@ -38,29 +38,29 @@ function _buildOverlay() {
   overlay.style.cssText = `
     display:none;
     position:absolute;inset:0;z-index:200;
-    background:rgba(0,0,0,0.7);
+    background:rgba(15,23,42,0.4);
     align-items:center;justify-content:center;
     backdrop-filter:blur(4px);
   `;
   overlay.innerHTML = `
     <div id="quizCard" style="
-      background:#1f2937;border:1px solid #334155;border-radius:16px;
+      background:#F1F5F9;border:1px solid #E2E8F0;border-radius:16px;
       padding:24px;max-width:480px;width:90%;
-      box-shadow:0 20px 60px rgba(0,0,0,0.5);
+      box-shadow:0 20px 60px rgba(15,23,42,0.1);
     ">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <span id="quizModule" style="font-size:11px;color:#60a5fa;text-transform:uppercase;letter-spacing:0.5px;"></span>
+        <span id="quizModule" style="font-size:11px;color:#3B82F6;text-transform:uppercase;letter-spacing:0.5px;"></span>
         <span id="quizSeverity" style="font-size:10px;padding:2px 8px;border-radius:4px;font-weight:600;"></span>
       </div>
-      <div id="quizQuestion" style="font-size:15px;color:#e5e7eb;font-weight:600;margin-bottom:16px;line-height:1.5;"></div>
+      <div id="quizQuestion" style="font-size:15px;color:#0F172A;font-weight:600;margin-bottom:16px;line-height:1.5;"></div>
       <div id="quizOptions" style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px;"></div>
       <div id="quizResult" style="display:none;padding:12px;border-radius:8px;margin-bottom:12px;font-size:13px;line-height:1.5;"></div>
       <div id="quizHint" style="display:none;padding:10px;background:rgba(96,165,250,0.1);border-radius:8px;font-size:12px;color:#93c5fd;margin-bottom:12px;line-height:1.4;"></div>
       <div style="display:flex;gap:8px;justify-content:flex-end;">
-        <button id="quizNextBtn" style="display:none;padding:8px 20px;border:1px solid #475569;border-radius:8px;background:transparent;color:#94a3b8;font-size:13px;cursor:pointer;">Next</button>
-        <button id="quizCloseBtn" style="padding:8px 20px;border:1px solid #475569;border-radius:8px;background:rgba(96,165,250,0.15);color:#60a5fa;font-size:13px;cursor:pointer;">Close</button>
+        <button id="quizNextBtn" style="display:none;padding:8px 20px;border:1px solid #CBD5E1;border-radius:8px;background:transparent;color:#64748B;font-size:13px;cursor:pointer;">Next</button>
+        <button id="quizCloseBtn" style="padding:8px 20px;border:1px solid #CBD5E1;border-radius:8px;background:rgba(96,165,250,0.15);color:#3B82F6;font-size:13px;cursor:pointer;">Close</button>
       </div>
-      <div style="margin-top:12px;display:flex;justify-content:space-between;font-size:11px;color:#475569;">
+      <div style="margin-top:12px;display:flex;justify-content:space-between;font-size:11px;color:#CBD5E1;">
         <span id="quizScoreDisplay"></span>
       </div>
     </div>
@@ -83,8 +83,8 @@ function _renderQuestion(scenario) {
   sevEl.textContent = scenario.severity.toUpperCase();
   sevEl.style.background = scenario.severity === 'critical' ? 'rgba(239,68,68,0.2)' :
     scenario.severity === 'major' ? 'rgba(245,158,11,0.2)' : 'rgba(96,165,250,0.2)';
-  sevEl.style.color = scenario.severity === 'critical' ? '#ef4444' :
-    scenario.severity === 'major' ? '#f59e0b' : '#60a5fa';
+  sevEl.style.color = scenario.severity === 'critical' ? '#EF4444' :
+    scenario.severity === 'major' ? '#d97706' : '#3B82F6';
 
   const optionsEl = document.getElementById('quizOptions');
   optionsEl.innerHTML = '';
@@ -92,12 +92,12 @@ function _renderQuestion(scenario) {
     const btn = document.createElement('button');
     btn.textContent = String.fromCharCode(65 + i) + '. ' + opt;
     btn.style.cssText = `
-      padding:10px 14px;border:1px solid #334155;border-radius:8px;
-      background:rgba(31,41,55,0.8);color:#e5e7eb;font-size:13px;
+      padding:10px 14px;border:1px solid #E2E8F0;border-radius:8px;
+      background:rgba(255,255,255,0.9);color:#0F172A;font-size:13px;
       cursor:pointer;text-align:left;transition:all .15s;
     `;
-    btn.addEventListener('mouseenter', () => { btn.style.background = 'rgba(96,165,250,0.12)'; });
-    btn.addEventListener('mouseleave', () => { btn.style.background = 'rgba(31,41,55,0.8)'; });
+    btn.addEventListener('mouseenter', () => { btn.style.background = 'rgba(59,130,246,0.12)'; });
+    btn.addEventListener('mouseleave', () => { btn.style.background = 'rgba(255,255,255,0.9)'; });
     btn.addEventListener('click', () => _submitAnswer(i, scenario, optionsEl.querySelectorAll('button')));
     optionsEl.appendChild(btn);
   });
@@ -123,12 +123,12 @@ function _submitAnswer(selected, scenario, buttons) {
   if (correct) {
     resultEl.style.background = 'rgba(34,197,94,0.15)';
     resultEl.style.border = '1px solid rgba(34,197,94,0.3)';
-    resultEl.style.color = '#22c55e';
+    resultEl.style.color = '#10B981';
     resultEl.innerHTML = '✓ Correct! ' + scenario.options[scenario.answer];
   } else {
     resultEl.style.background = 'rgba(239,68,68,0.15)';
     resultEl.style.border = '1px solid rgba(239,68,68,0.3)';
-    resultEl.style.color = '#ef4444';
+    resultEl.style.color = '#EF4444';
     resultEl.innerHTML = `✗ Incorrect. The answer was: ${scenario.options[scenario.answer]}`;
   }
 

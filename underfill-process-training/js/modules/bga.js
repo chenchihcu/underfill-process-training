@@ -214,8 +214,8 @@ export class BGAModule {
         }, {
           type: 'legend',
           entries: [
-            { color: '#334155', label: 'Die (Silicon)' },
-            { color: '#94a3b8', label: 'Solder Ball' },
+            { color: '#E2E8F0', label: 'Die (Silicon)' },
+            { color: '#64748B', label: 'Solder Ball' },
             { color: '#1a3a5f', label: 'Substrate' },
             { color: '#3b82f6', label: 'Underfill' },
           ]
