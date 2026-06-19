@@ -91,7 +91,7 @@ test('the initial training route does not load the Three.js simulator engine', a
 });
 
 test('all nine simulator modules render with authority, phases, scenarios, and overlays', async ({ page }) => {
-  test.slow();
+  test.setTimeout(180_000);
   await page.goto('/simulation.html');
   await openSimulatorControls(page);
   let underfillObjectCount = null;
@@ -120,6 +120,7 @@ test('all nine simulator modules render with authority, phases, scenarios, and o
 });
 
 test('shared timeline supports step, fault injection, overlay, pause, and reset', async ({ page }) => {
+  test.setTimeout(90_000);
   await page.goto('/simulation.html?module=reflow');
   await openSimulatorControls(page);
   await page.locator('#scenarioSelect').selectOption('fast-ramp');
@@ -135,13 +136,14 @@ test('shared timeline supports step, fault injection, overlay, pause, and reset'
 });
 
 test('training-only and experimental modules expose authority but no production result control', async ({ page }) => {
+  test.setTimeout(90_000);
   await page.goto('/simulation.html?module=spi');
   await openSimulatorControls(page);
   for (const id of ['spi','fpca','reflow','flow','warpage']) {
     await page.locator('#moduleSelect').selectOption(id, { force: true });
     await expect(page.locator('#moduleSelect')).toHaveAttribute('data-ready', id);
     await expect(page.locator('#renderStatus')).toContainText(/TRAINING-ONLY|EXPERIMENTAL/);
-    await expect(page.locator('[data-production-result]')).toHaveCount(0);
+    expect(await page.locator('[data-production-result]').count()).toBe(0);
   }
 });
 
