@@ -288,3 +288,16 @@ The original findings above are retained as audit evidence. The remediation impl
 - No non-controlled module may return production acceptance.
 - No production deploy may bypass the shared artifact or the live parity check.
 - Repeated violations belong in a test or verification script first; repository `AGENTS.md` remains the concise governance map.
+
+## Production closeout — 2026-06-19
+
+The remediation-register status column was written before production configuration and deployment. This closeout supersedes every `implemented-local` or `live-pending` status above with `verified-production`; the documented residual boundaries remain applicable.
+
+- Final application commit: `e0b42cd`.
+- Successful workflow: `Verify and release Underfill`, run `27802550100`.
+- Canonical Netlify site: `https://underfill-tutorial.netlify.app/`.
+- GitHub Pages mirror: `https://chenchihcu.github.io/underfill-process-training/`.
+- Shared production artifact hash: `2d7beb7fb081a099`.
+- Both hosts reported application `3.0.0`, specification `UF-ENG-2026.04-v1`, and commit marker `e0b42cde`.
+- Live in-app browser inspection found eight bilingual lessons, zero document-level horizontal overflow, and no browser warnings or errors.
+- The workflow completed specification, encoding, unit, build, distribution, desktop/mobile browser, nine-module simulator, forced fallback, offline, Netlify, Pages, and live parity gates successfully.
