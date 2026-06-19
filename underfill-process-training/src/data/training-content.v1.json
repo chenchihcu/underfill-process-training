@@ -1,0 +1,256 @@
+{
+  "schemaVersion": "1.0.0",
+  "contentVersion": "UF-LEARN-2026.06-v1",
+  "topics": [
+    {
+      "id": "reliability-strategy",
+      "moduleId": "bga",
+      "authority": "controlled",
+      "title": {"zh-Hant":"可靠度目的與封裝策略","en":"Reliability purpose and package strategy"},
+      "summary": {"zh-Hant":"從 CTE mismatch、焊點疲勞與封裝型態判斷 Underfill 的角色，先做可靠度策略，再談點膠。","en":"Start from CTE mismatch, solder-joint fatigue, and package architecture to define the role of underfill before discussing dispensing."},
+      "principle": {"zh-Hant":"Underfill 是焊點與界面應力的重新分配層，不是單純把空隙填滿。","en":"Underfill is a stress-redistribution layer for joints and interfaces, not merely a gap filler."},
+      "controlledRuleIds": ["UF-PKG-001","UF-PKG-002","UF-PKG-003","UF-PKG-004"],
+      "actions": [
+        {"zh-Hant":"辨識 WLCSP、Flip Chip、BGA、QFN 的結構與主要失效載荷。","en":"Identify WLCSP, Flip Chip, BGA, and QFN structures and their dominant loads."},
+        {"zh-Hant":"建立產品環境、可靠度等級與封裝幾何的證據鏈。","en":"Build an evidence chain across environment, reliability class, and package geometry."},
+        {"zh-Hant":"將條件式建議與受控放行明確分開。","en":"Separate conditional guidance from controlled release decisions."}
+      ],
+      "evidence": [
+        {"zh-Hant":"封裝剖面、焊點位置與 DNP 應力分布。","en":"Package cross-section, joint location, and DNP stress distribution."},
+        {"zh-Hant":"產品級熱循環、跌落或振動需求。","en":"Product-level thermal-cycle, drop, or vibration requirements."}
+      ],
+      "failureModes": [
+        {"zh-Hant":"未驗證即對 QFN 全填充，導致散熱、出氣或返修風險。","en":"Full-underfilling QFN without validation, creating thermal, outgassing, or rework risk."},
+        {"zh-Hant":"把訓練矩陣誤當成產品放行依據。","en":"Treating a training matrix as product-release authority."}
+      ],
+      "caseStudy": {"prompt":{"zh-Hant":"一個高振動 BGA 產品只提供封裝名稱，下一步是什麼？","en":"A high-vibration BGA product provides only the package name. What is the next step?"},"resolution":{"zh-Hant":"補齊幾何、環境、可靠度與製程證據，未完成前維持條件式建議。","en":"Complete geometry, environment, reliability, and process evidence; keep the decision conditional until then."}},
+      "mediaIds": ["fillet-section","dispense-overview"],
+      "quiz": {"question":{"zh-Hant":"哪一項最能支持工程判定？","en":"Which item best supports an engineering decision?"},"options":[{"zh-Hant":"只有封裝名稱","en":"Package name alone"},{"zh-Hant":"受控規格、幾何與可靠度證據","en":"Controlled specification, geometry, and reliability evidence"},{"zh-Hant":"3D 畫面看起來完整","en":"A complete-looking 3D scene"}],"answerIndex":1,"explanation":{"zh-Hant":"工程判定需要可追溯證據，視覺模擬不能取代驗證。","en":"Engineering decisions require traceable evidence; visual simulation cannot replace validation."}}
+    },
+    {
+      "id": "material-handling",
+      "moduleId": "underfill",
+      "authority": "controlled",
+      "title": {"zh-Hant":"材料物性、儲存與回溫","en":"Material properties, storage, and thawing"},
+      "summary": {"zh-Hant":"把批號、冷凍儲存、回溫姿態、冷凝與 pot life 串成材料履歷。","en":"Connect lot genealogy, frozen storage, thaw orientation, condensation, and pot life into one material history."},
+      "principle": {"zh-Hant":"材料狀態會先於設備參數決定黏度、潤濕與氣泡風險。","en":"Material condition influences viscosity, wetting, and bubble risk before equipment settings do."},
+      "controlledRuleIds": ["UF-MAT-001","UF-MAT-002","UF-MAT-003A","UF-MAT-003B","UF-MAT-003C"],
+      "actions": [
+        {"zh-Hant":"核對批號、效期、CoA、外觀與冷鏈紀錄。","en":"Verify lot, expiry, CoA, appearance, and cold-chain records."},
+        {"zh-Hant":"依容器容量選擇受控回溫規則並避免開封冷凝。","en":"Select the controlled thaw rule by container size and prevent condensation on opening."},
+        {"zh-Hant":"記錄開封時間並阻止超過 pot life 的材料投入。","en":"Record opening time and prevent material beyond pot life from entering production."}
+      ],
+      "evidence": [
+        {"zh-Hant":"冷凍儲位趨勢、材料標籤與開封時間。","en":"Freezer trend, material label, and opening time."},
+        {"zh-Hant":"回溫姿態、表面結露與針筒內氣泡觀察。","en":"Thaw orientation, surface condensation, and syringe bubble observation."}
+      ],
+      "failureModes": [
+        {"zh-Hant":"未完全回溫即開封，水氣進入造成流動或附著異常。","en":"Opening before full thaw allows moisture ingress and causes flow or adhesion anomalies."},
+        {"zh-Hant":"回溫後劇烈搖晃或重複冷凍，導入材料氣泡與履歷斷點。","en":"Agitation or refreezing after thaw introduces bubbles and breaks genealogy."}
+      ],
+      "caseStudy": {"prompt":{"zh-Hant":"同批材料流動時間突然變長，先查什麼？","en":"Flow time suddenly rises within the same lot. What should be checked first?"},"resolution":{"zh-Hant":"先核對回溫、開封、pot life 與實際板溫，再檢查設備。","en":"Check thaw, opening, pot life, and actual board temperature before adjusting equipment."}},
+      "mediaIds": ["dispense-overview"],
+      "quiz": {"question":{"zh-Hant":"回溫後最不應該做什麼？","en":"What should never be done after thawing?"},"options":[{"zh-Hant":"確認批號","en":"Verify the lot"},{"zh-Hant":"記錄開封時間","en":"Record opening time"},{"zh-Hant":"重新冷凍或劇烈搖晃","en":"Refreeze or agitate vigorously"}],"answerIndex":2,"explanation":{"zh-Hant":"這會破壞材料履歷並提高冷凝與氣泡風險。","en":"This breaks material genealogy and increases condensation and bubble risk."}}
+    },
+    {
+      "id": "surface-preparation",
+      "moduleId": "fpca",
+      "authority": "training-only",
+      "title": {"zh-Hant":"PCB 前處理、Plasma 與 staging","en":"PCB preparation, plasma, and staging"},
+      "summary": {"zh-Hant":"用潔淨度、含水、表面活性與等待時間建立可重複的潤濕條件。","en":"Use cleanliness, moisture, surface activation, and staging to create repeatable wetting conditions."},
+      "principle": {"zh-Hant":"表面能與污染狀態會改變接觸角、流痕、空洞與分層。","en":"Surface energy and contamination alter contact angle, flow striation, voiding, and delamination."},
+      "controlledRuleIds": [],
+      "actions": [
+        {"zh-Hant":"依產品風險確認烘烤、清潔與 Plasma 適用性。","en":"Determine bake, cleaning, and plasma applicability from product risk."},
+        {"zh-Hant":"記錄 recipe、完成時間與進入點膠的 staging。","en":"Record recipe, completion time, and staging before dispense."},
+        {"zh-Hant":"超時後依核准規則重烘或重新清潔，不直接放行。","en":"After staging expiry, rebake or reclean per approved rules rather than releasing directly."}
+      ],
+      "evidence": [
+        {"zh-Hant":"Plasma 設備 recipe、時間戳與表面潔淨紀錄。","en":"Plasma recipe, timestamps, and surface-cleanliness records."},
+        {"zh-Hant":"CSAM 或剖面顯示的界面附著狀態。","en":"Interface adhesion observed by CSAM or cross-section."}
+      ],
+      "failureModes": [
+        {"zh-Hant":"表面再污染造成流動條紋、局部不潤濕或分層。","en":"Surface recontamination creates flow striation, local non-wetting, or delamination."},
+        {"zh-Hant":"把未受控 Plasma 數值寫成生產配方。","en":"Promoting unsourced plasma values into a production recipe."}
+      ],
+      "caseStudy": {"prompt":{"zh-Hant":"CSAM 缺陷由外緣向內延伸，前段優先查什麼？","en":"CSAM defects extend inward from the edge. Which upstream evidence is first?"},"resolution":{"zh-Hant":"回查含水、清潔、Plasma 與 staging 履歷，再以界面證據驗證。","en":"Review moisture, cleaning, plasma, and staging history, then verify with interface evidence."}},
+      "mediaIds": ["csam-comparison"],
+      "quiz": {"question":{"zh-Hant":"Plasma 完成後最重要的追溯資訊是什麼？","en":"What trace information is most important after plasma?"},"options":[{"zh-Hant":"只有作業員姓名","en":"Operator name only"},{"zh-Hant":"Recipe、完成時間與 staging","en":"Recipe, completion time, and staging"},{"zh-Hant":"3D 模型顏色","en":"3D model color"}],"answerIndex":1,"explanation":{"zh-Hant":"表面活性會隨時間衰退，recipe 與時間必須同時可追溯。","en":"Surface activation decays over time, so both recipe and timing must be traceable."}}
+    },
+    {
+      "id": "equipment-setup",
+      "moduleId": "spi",
+      "authority": "training-only",
+      "title": {"zh-Hant":"預熱、設備設定與量測追溯","en":"Preheat, equipment setup, and measurement traceability"},
+      "summary": {"zh-Hant":"用實際板溫、針頭狀態、出膠重量與流率確認設備設定真正落地。","en":"Verify equipment setup through actual board temperature, needle condition, dispense weight, and flow rate."},
+      "principle": {"zh-Hant":"機台設定值不是產品實際狀態；量測回授才是穩定製程的入口。","en":"Machine setpoints are not product reality; measurement feedback is the entrance to a stable process."},
+      "controlledRuleIds": ["UF-PRO-001","UF-PRO-002","UF-PRO-003","UF-PRO-004"],
+      "actions": [
+        {"zh-Hant":"量測板面溫度而不是只讀取平台設定。","en":"Measure board temperature instead of relying only on platen setpoint."},
+        {"zh-Hant":"確認針頭、Z 間距、邊距與首件膠重。","en":"Confirm needle, Z clearance, edge distance, and first-piece weight."},
+        {"zh-Hant":"把壓力與流率趨勢納入首件和換料確認。","en":"Include pressure and flow trends in first-piece and material-change verification."}
+      ],
+      "evidence": [
+        {"zh-Hant":"板溫量測、點膠重量、流率與設備趨勢。","en":"Board-temperature measurement, dispense weight, flow rate, and equipment trends."},
+        {"zh-Hant":"首件線形、位置與針頭清潔狀態。","en":"First-piece bead shape, placement, and needle cleanliness."}
+      ],
+      "failureModes": [
+        {"zh-Hant":"把目標範圍與容許範圍混為一談。","en":"Confusing the target range with the accepted engineering window."},
+        {"zh-Hant":"壓力漂移或堵針造成出膠量不穩。","en":"Pressure drift or needle blockage destabilizes dispense volume."}
+      ],
+      "caseStudy": {"prompt":{"zh-Hant":"Fillet 變大但壓力設定沒變，應先比較什麼？","en":"Fillet grows while pressure setpoint is unchanged. What should be compared first?"},"resolution":{"zh-Hant":"比較實際板溫、膠重、流率與針頭狀態，不先盲目改壓力。","en":"Compare actual board temperature, weight, flow, and needle condition before changing pressure."}},
+      "mediaIds": ["dispense-overview"],
+      "quiz": {"question":{"zh-Hant":"哪個信號最能證明實際出膠穩定？","en":"Which signal best demonstrates stable dispensing?"},"options":[{"zh-Hant":"設定壓力沒有改","en":"Pressure setpoint is unchanged"},{"zh-Hant":"重量與流率趨勢穩定","en":"Weight and flow trends are stable"},{"zh-Hant":"畫面動畫平順","en":"The animation is smooth"}],"answerIndex":1,"explanation":{"zh-Hant":"實際輸出量測比單一設定值更接近製程真實。","en":"Measured output is closer to process reality than a setpoint alone."}}
+    },
+    {
+      "id": "geometry-path",
+      "moduleId": "pattern",
+      "authority": "controlled",
+      "title": {"zh-Hant":"封裝幾何、點膠路徑與排氣","en":"Package geometry, dispense path, and venting"},
+      "summary": {"zh-Hant":"把 pitch、ball、standoff、尺寸與 clearance 轉換成 I/L/U 路徑及排氣策略。","en":"Translate pitch, ball size, standoff, package size, and clearance into I/L/U path and vent strategies."},
+      "principle": {"zh-Hant":"流前必須連續推進並保留空氣出口；封閉迴圈會放大 Air Lock。","en":"The flow front must advance continuously while preserving an air exit; closed loops amplify air lock."},
+      "controlledRuleIds": ["UF-PRO-004","UF-PKG-001","UF-PKG-002","UF-PKG-003","UF-PKG-004"],
+      "actions": [
+        {"zh-Hant":"先判斷流道阻力與排氣方向，再選路徑。","en":"Evaluate flow resistance and vent direction before selecting a path."},
+        {"zh-Hant":"低 gap 或大尺寸時使用分段與等待，避免外側先封閉。","en":"Use segmented dispense and dwell for low-gap or large packages to avoid early edge closure."},
+        {"zh-Hant":"首件以 flow front 與缺陷位置驗證路徑，而非只看總填充量。","en":"Validate the path from flow-front and defect location, not total fill alone."}
+      ],
+      "evidence": [
+        {"zh-Hant":"封裝圖、焊球分布、禁布區與實際 flow front。","en":"Package drawing, ball layout, keep-out zone, and actual flow front."},
+        {"zh-Hant":"X-Ray 缺陷是否集中於匯合線或末端閉合區。","en":"Whether X-Ray defects concentrate at convergence lines or terminal closure."}
+      ],
+      "failureModes": [
+        {"zh-Hant":"U 型或四邊路徑過早閉合，產生 capture void。","en":"U-shaped or four-side paths close too early and create capture voids."},
+        {"zh-Hant":"無焊球區 Racing Effect 使兩個流前包住空氣。","en":"Racing through ball-free regions causes converging fronts to trap air."}
+      ],
+      "caseStudy": {"prompt":{"zh-Hant":"空洞集中在兩個流前匯合線，優先改什麼？","en":"Voids cluster along the convergence line. What changes first?"},"resolution":{"zh-Hant":"先調整排氣方向、路徑、分段與等待，再評估出膠參數。","en":"Adjust vent direction, path, segmentation, and dwell before dispense parameters."}},
+      "mediaIds": ["l-path","xray-voids"],
+      "quiz": {"question":{"zh-Hant":"哪個路徑原則最重要？","en":"Which path principle matters most?"},"options":[{"zh-Hant":"最快完成四邊封閉","en":"Close all four sides quickly"},{"zh-Hant":"保持流前連續且保留排氣","en":"Maintain a continuous front and preserve venting"},{"zh-Hant":"膠量越多越安全","en":"More material is always safer"}],"answerIndex":1,"explanation":{"zh-Hant":"排氣路徑決定是否形成 Air Lock。","en":"The vent path determines whether air lock forms."}}
+    },
+    {
+      "id": "dispense-control",
+      "moduleId": "flow",
+      "authority": "experimental",
+      "title": {"zh-Hant":"出膠量、流率、Jetting 與多道點膠","en":"Dispense volume, flow, jetting, and multi-pass strategy"},
+      "summary": {"zh-Hant":"把壓力、出膠量、速度、延遲與多道時序視為一個流動控制系統。","en":"Treat pressure, volume, speed, delay, and multi-pass timing as one flow-control system."},
+      "principle": {"zh-Hant":"穩定的材料輸出與受控流前比追求單一最快節拍更重要。","en":"Stable material output and a controlled flow front matter more than the fastest single cycle."},
+      "controlledRuleIds": ["UF-PRO-003"],
+      "actions": [
+        {"zh-Hant":"用膠重與流率驗證壓力輸出。","en":"Verify pressure output through dispense weight and flow rate."},
+        {"zh-Hant":"多道點膠保留每段流前推進與排氣時間。","en":"Allow each multi-pass segment time to advance and vent."},
+        {"zh-Hant":"把 heuristic 估算標示為實驗，不輸出生產結果。","en":"Label heuristic estimates as experimental and never emit production results."}
+      ],
+      "evidence": [
+        {"zh-Hant":"重量、流率、節拍與 flow front 影片。","en":"Weight, flow rate, cycle time, and flow-front video."},
+        {"zh-Hant":"不同道次後的 X-Ray 位置型態。","en":"X-Ray location patterns after different pass sequences."}
+      ],
+      "failureModes": [
+        {"zh-Hant":"單次大量注膠造成溢流或封住排氣。","en":"A large single shot causes overflow or closes the vent."},
+        {"zh-Hant":"把未校準流動時間當成產品允收。","en":"Using an uncalibrated flow-time estimate as product acceptance."}
+      ],
+      "caseStudy": {"prompt":{"zh-Hant":"流動太慢時，為何不能直接增加膠量？","en":"Why not simply add more material when flow is slow?"},"resolution":{"zh-Hant":"先確認板溫、材料狀態、gap 與潤濕；增加膠量可能封住排氣。","en":"First verify board temperature, material condition, gap, and wetting; more material can close the vent."}},
+      "mediaIds": ["dispense-overview","l-path"],
+      "quiz": {"question":{"zh-Hant":"實驗模型可以輸出什麼？","en":"What may an experimental model output?"},"options":[{"zh-Hant":"生產 PASS","en":"Production PASS"},{"zh-Hant":"訓練趨勢與假設","en":"Training trends and assumptions"},{"zh-Hant":"免驗證放行","en":"Release without validation"}],"answerIndex":1,"explanation":{"zh-Hant":"未校準模型只能說明趨勢與假設。","en":"An uncalibrated model can only explain trends and assumptions."}}
+    },
+    {
+      "id": "cure-stress",
+      "moduleId": "warpage",
+      "authority": "experimental",
+      "title": {"zh-Hant":"固化、熱歷程、殘餘應力與翹曲","en":"Cure, thermal history, residual stress, and warpage"},
+      "summary": {"zh-Hant":"從產品實際溫度、持溫、冷卻與材料收縮理解固化後應力。","en":"Understand post-cure stress through actual product temperature, dwell, cooling, and material shrinkage."},
+      "principle": {"zh-Hant":"固化完成不等於應力最小；熱歷程決定最終形變與界面負荷。","en":"Complete cure does not imply minimum stress; thermal history determines final deformation and interface load."},
+      "controlledRuleIds": ["UF-PRO-005A","UF-PRO-005B"],
+      "actions": [
+        {"zh-Hant":"選用受控 cure profile 並量測產品實際溫度。","en":"Use a controlled cure profile and measure actual product temperature."},
+        {"zh-Hant":"保留升溫、持溫與冷卻的熱歷程。","en":"Retain ramp, dwell, and cooling history."},
+        {"zh-Hant":"大尺寸或薄板產品同步觀察 warpage 與界面分層。","en":"Monitor warpage and interface delamination for large or thin assemblies."}
+      ],
+      "evidence": [
+        {"zh-Hant":"產品熱電偶曲線、板彎量測與 CSAM。","en":"Product thermocouple profile, board-warpage measurement, and CSAM."},
+        {"zh-Hant":"固化前後尺寸與界面影像比較。","en":"Pre/post-cure dimensional and interface image comparison."}
+      ],
+      "failureModes": [
+        {"zh-Hant":"只看爐溫設定，產品未達受控熱歷程。","en":"Relying on oven setpoint while the product misses the controlled thermal history."},
+        {"zh-Hant":"過快冷卻鎖住殘餘應力並加劇翹曲或裂紋。","en":"Fast cooling locks residual stress and amplifies warpage or cracking."}
+      ],
+      "caseStudy": {"prompt":{"zh-Hant":"固化後電性正常但 CSAM 外緣分層增加，應比較什麼？","en":"Electrical test passes after cure but edge delamination grows in CSAM. What should be compared?"},"resolution":{"zh-Hant":"比較實際熱歷程、冷卻、前處理與材料相容性，不以電性正常結案。","en":"Compare actual thermal history, cooling, preparation, and compatibility; electrical pass is not closure."}},
+      "mediaIds": ["fillet-section","csam-comparison"],
+      "quiz": {"question":{"zh-Hant":"固化驗證最應依據什麼？","en":"What should cure verification rely on?"},"options":[{"zh-Hant":"爐子設定值","en":"Oven setpoint"},{"zh-Hant":"產品實際熱歷程","en":"Actual product thermal history"},{"zh-Hant":"動畫顏色","en":"Animation color"}],"answerIndex":1,"explanation":{"zh-Hant":"受控條件必須落在產品本體，而不只設備設定。","en":"The controlled condition must be achieved on the product, not merely at the equipment setpoint."}}
+    },
+    {
+      "id": "inspection-evidence",
+      "moduleId": "void",
+      "authority": "controlled",
+      "title": {"zh-Hant":"Visual、X-Ray、AXI 與 CSAM","en":"Visual, X-Ray, AXI, and CSAM"},
+      "summary": {"zh-Hant":"把外觀、單顆焊點 Void、位置拓撲與界面分層整合成證據鏈。","en":"Combine appearance, per-joint voiding, location topology, and interface delamination into an evidence chain."},
+      "principle": {"zh-Hant":"不同檢驗看到不同物理層；單一總面積不能取代逐顆與界面判讀。","en":"Each inspection method sees a different physical layer; total area cannot replace per-joint and interface interpretation."},
+      "controlledRuleIds": ["UF-INS-001","UF-INS-002","UF-INS-003","UF-INS-004","UF-INS-005","UF-INS-006"],
+      "actions": [
+        {"zh-Hant":"Visual 確認 Fillet 高度、連續性、裂紋、污染與 clearance。","en":"Use Visual to confirm fillet height, continuity, cracking, contamination, and clearance."},
+        {"zh-Hant":"X-Ray/AXI 逐顆判讀 Void 面積、位置與連通型態。","en":"Use X-Ray/AXI to evaluate each joint's void area, location, and connectivity."},
+        {"zh-Hant":"CSAM 確認外緣向內延伸的分層與界面失效。","en":"Use CSAM to confirm edge-inward delamination and interface failure."}
+      ],
+      "evidence": [
+        {"zh-Hant":"帶倍率、位置、樣品與判定的原始影像。","en":"Original images with magnification, location, sample, and disposition."},
+        {"zh-Hant":"同批次 Visual、X-Ray 與 CSAM 的關聯紀錄。","en":"Correlated Visual, X-Ray, and CSAM records for the same lot."}
+      ],
+      "failureModes": [
+        {"zh-Hant":"平均總面積掩蓋單顆焊點超標或連通 Void。","en":"Average total area hides a failed joint or connected void."},
+        {"zh-Hant":"把畫面預覽誤記為正式檢驗樣品。","en":"Counting a preview as a formal inspection sample."}
+      ],
+      "caseStudy": {"prompt":{"zh-Hant":"Void 面積不大但沿界面連成帶狀，應如何處置？","en":"Void area is modest but forms a connected interface band. How should it be handled?"},"resolution":{"zh-Hant":"依位置與拓撲升級處置，不能只看面積門檻。","en":"Escalate based on location and topology; area threshold alone is insufficient."}},
+      "mediaIds": ["xray-voids","fillet-section","csam-comparison"],
+      "quiz": {"question":{"zh-Hant":"哪一種證據最適合確認界面分層？","en":"Which evidence is best for interface delamination?"},"options":[{"zh-Hant":"Visual 頂視","en":"Top-view Visual"},{"zh-Hant":"CSAM 或剖面","en":"CSAM or cross-section"},{"zh-Hant":"壓力設定","en":"Pressure setpoint"}],"answerIndex":1,"explanation":{"zh-Hant":"界面失效需要能看見深度或剖面的證據。","en":"Interface failure needs depth-resolved or cross-sectional evidence."}}
+    },
+    {
+      "id": "defect-rca",
+      "moduleId": "reflow",
+      "authority": "training-only",
+      "title": {"zh-Hant":"Void、分層、Flux 相容性與根因分析","en":"Void, delamination, flux compatibility, and RCA"},
+      "summary": {"zh-Hant":"依缺陷型態區分流動、出氣、材料氣泡與界面相容性問題。","en":"Classify defects into flow, outgassing, material-bubble, and interface-compatibility mechanisms."},
+      "principle": {"zh-Hant":"缺陷位置與形態是根因線索；先保全證據，再做受控驗證。","en":"Defect location and morphology are RCA clues; preserve evidence before controlled validation."},
+      "controlledRuleIds": ["UF-INS-003","UF-INS-004","UF-INS-005","UF-INS-006"],
+      "actions": [
+        {"zh-Hant":"比較預期與觀察，建立可被證偽的原因假設。","en":"Compare expected and observed behavior and form falsifiable cause hypotheses."},
+        {"zh-Hant":"先確認環境、前處理與路徑，再微調出膠。","en":"Verify environment, preparation, and path before tuning dispense."},
+        {"zh-Hant":"材料或 Flux 變更必須重做界面與可靠度驗證。","en":"Material or flux changes require renewed interface and reliability validation."}
+      ],
+      "evidence": [
+        {"zh-Hant":"缺陷分布、批次履歷、環境與材料變更紀錄。","en":"Defect distribution, lot genealogy, environment, and material-change records."},
+        {"zh-Hant":"X-Ray、CSAM、剖面與受控 DOE 結果。","en":"X-Ray, CSAM, cross-section, and controlled DOE results."}
+      ],
+      "failureModes": [
+        {"zh-Hant":"把 outgassing 誤判為單純壓力問題並持續調參。","en":"Misclassifying outgassing as pressure alone and repeatedly tuning settings."},
+        {"zh-Hant":"Flux 或供應商變更後只做電性測試。","en":"Performing only electrical test after a flux or supplier change."}
+      ],
+      "caseStudy": {"prompt":{"zh-Hant":"空洞呈蛇形且跨多顆焊點，哪個假設優先？","en":"Voids form a snake-like pattern across joints. Which hypothesis comes first?"},"resolution":{"zh-Hant":"優先檢查含水與出氣證據，再與流前匯合缺陷區分。","en":"Prioritize moisture and outgassing evidence, then distinguish it from flow-front convergence."}},
+      "mediaIds": ["xray-voids","csam-comparison"],
+      "quiz": {"question":{"zh-Hant":"RCA 第一個動作是什麼？","en":"What is the first RCA action?"},"options":[{"zh-Hant":"立即提高壓力","en":"Immediately increase pressure"},{"zh-Hant":"保全履歷與原始缺陷證據","en":"Preserve genealogy and original defect evidence"},{"zh-Hant":"刪除異常樣品","en":"Discard the anomalous sample"}],"answerIndex":1,"explanation":{"zh-Hant":"沒有原始證據就無法驗證根因。","en":"Root cause cannot be validated without original evidence."}}
+    },
+    {
+      "id": "rework-audit",
+      "moduleId": "underfill",
+      "authority": "training-only",
+      "title": {"zh-Hant":"返修、每日稽核與閉環改善","en":"Rework, daily audit, and closed-loop improvement"},
+      "summary": {"zh-Hant":"把返修風險、日常點檢、變更驗證與復驗串成閉環。","en":"Connect rework risk, daily checks, change validation, and reinspection into a closed loop."},
+      "principle": {"zh-Hant":"返修是新的高風險製程；異常結案必須包含復驗與文件化。","en":"Rework is a new high-risk process; closure requires reinspection and documentation."},
+      "controlledRuleIds": [],
+      "actions": [
+        {"zh-Hant":"返修前定義適用條件、熱歷程、清膠與界面驗證。","en":"Define applicability, thermal history, residue removal, and interface validation before rework."},
+        {"zh-Hant":"每日確認材料、冷鏈、回溫、板溫與首件檢驗。","en":"Daily verify material, cold chain, thaw, board temperature, and first-piece inspection."},
+        {"zh-Hant":"每次調整都保留原因、結果、復驗與規格版本。","en":"For every adjustment retain rationale, outcome, revalidation, and specification version."}
+      ],
+      "evidence": [
+        {"zh-Hant":"返修前後外觀、X-Ray/CSAM、板彎與功能證據。","en":"Pre/post-rework Visual, X-Ray/CSAM, warpage, and functional evidence."},
+        {"zh-Hant":"每日點檢、異常單、驗證結果與核准變更。","en":"Daily checks, anomaly record, validation results, and approved change."}
+      ],
+      "failureModes": [
+        {"zh-Hant":"返修加熱與清膠造成 pad、阻焊或板層二次損傷。","en":"Rework heating and residue removal create secondary pad, mask, or laminate damage."},
+        {"zh-Hant":"調參後未復驗，異常在下一批重現。","en":"Changes are not revalidated and the anomaly recurs in the next lot."}
+      ],
+      "caseStudy": {"prompt":{"zh-Hant":"返修後功能正常，是否可以直接結案？","en":"Function passes after rework. Can the case close immediately?"},"resolution":{"zh-Hant":"不可以；仍須完成界面、外觀、板彎與產品規定的復驗。","en":"No; interface, appearance, warpage, and product-required reinspection remain necessary."}},
+      "mediaIds": ["fillet-section","dispense-overview"],
+      "quiz": {"question":{"zh-Hant":"閉環改善最後缺一不可的是什麼？","en":"What is indispensable at the end of closed-loop improvement?"},"options":[{"zh-Hant":"口頭說明","en":"Verbal explanation"},{"zh-Hant":"復驗與文件化","en":"Revalidation and documentation"},{"zh-Hant":"只調整畫面","en":"Changing the display only"}],"answerIndex":1,"explanation":{"zh-Hant":"沒有復驗與文件化，改善無法成為可重複的製程知識。","en":"Without revalidation and documentation, improvement cannot become repeatable process knowledge."}}
+    }
+  ]
+}

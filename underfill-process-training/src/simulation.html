@@ -3,44 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#123a3a">
-  <title>Underfill / SMT Engineering Simulator</title>
+  <meta name="theme-color" content="#0c3335">
+  <title>Underfill / SMT High-Fidelity Training Twin</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="stylesheet" href="./css/simulator.css">
 </head>
 <body class="sim-body">
   <header class="sim-header">
-    <div><p class="eyebrow">3D · 2D FALLBACK</p><h1 data-i18n="sim.title"></h1><p id="moduleAuthority" class="authority"></p></div>
-    <div class="sim-header-actions"><label><span class="sr-only">Language</span><select id="languageSelect"><option value="zh-Hant">繁體中文</option><option value="en">English</option></select></label><a class="button button-secondary" href="./index.html" data-i18n="sim.back"></a></div>
+    <div class="sim-brand"><div class="sim-mark" aria-hidden="true"><i></i><i></i><i></i></div><div><p class="eyebrow">HIGH-FIDELITY TRAINING TWIN</p><h1 data-i18n="sim.title"></h1><p id="moduleAuthority" class="authority"></p></div></div>
+    <div class="sim-header-actions"><label><span class="sr-only">Language</span><select id="languageSelect" aria-label="Language"><option value="zh-Hant">繁體中文</option><option value="en">English</option></select></label><a class="button button-secondary" href="./index.html" data-i18n="sim.back"></a></div>
   </header>
+
   <main class="sim-shell">
-    <aside class="sim-controls" aria-label="Simulation controls">
-      <label><span data-i18n="sim.module"></span><select id="moduleSelect">
-        <option value="underfill">Underfill Dispensing</option><option value="spi">SPI</option><option value="fpca">FPCA</option><option value="reflow">Reflow</option><option value="bga">BGA Cross-Section</option><option value="flow">Capillary Flow Lab</option><option value="pattern">Pattern Lab</option><option value="void">Void Simulation</option><option value="warpage">Warpage Analysis</option>
-      </select></label>
-      <div class="control-group"><label><span data-i18n="sim.temperature"></span><output id="temperatureValue">85</output><input id="temperature" type="range" min="25" max="160" value="85"></label></div>
-      <div class="control-group"><label><span data-i18n="sim.pressure"></span><output id="pressureValue">0.20</output><input id="pressure" type="range" min="0.10" max="0.35" step="0.01" value="0.20"></label></div>
-      <div class="control-group"><label><span data-i18n="sim.clearance"></span><output id="clearanceValue">0.3</output><input id="clearance" type="range" min="0.2" max="0.5" step="0.1" value="0.3"></label></div>
-      <div class="control-group"><label><span data-i18n="sim.progress"></span><output id="progressValue">45</output><input id="progress" type="range" min="0" max="100" value="45"></label></div>
-      <div class="view-presets" aria-label="Camera presets"><button class="view-button active" data-view="process" type="button" data-i18n="sim.processView"></button><button class="view-button" data-view="cross" type="button" data-i18n="sim.crossView"></button><button class="view-button" data-view="top" type="button" data-i18n="sim.topView"></button></div>
-      <button id="resetCamera" class="button button-primary" type="button" data-i18n="sim.reset"></button>
-      <section class="model-card" aria-labelledby="estimateHeading"><h2 id="estimateHeading" data-i18n="sim.estimate"></h2><strong id="estimateValue">—</strong><p data-i18n="sim.notCalibrated"></p><dl><dt>Model</dt><dd id="modelVersion"></dd><dt>Status</dt><dd>EXPERIMENTAL</dd></dl></section>
-      <section class="legend-card"><h2 data-i18n="sim.scale"></h2><dl><dt>PCB</dt><dd>30 × 24 × 0.8 mm</dd><dt>Package</dt><dd>12 × 12 × 0.8 mm</dd><dt>Ball</dt><dd>Ø 0.45 mm</dd><dt>Standoff</dt><dd>0.35 mm</dd></dl></section>
-    </aside>
     <section class="viewport-panel" aria-label="Engineering model viewport">
       <div id="viewport" class="viewport"></div>
       <div id="fallback" class="fallback" hidden>
-        <div class="notice notice-warning" data-i18n="sim.fallback"></div>
+        <div class="fallback-note" data-i18n="sim.fallback"></div>
         <svg viewBox="0 0 900 500" role="img" aria-labelledby="fallbackTitle fallbackDescription">
           <title id="fallbackTitle">Underfill package cross-section</title><desc id="fallbackDescription">Interactive two-dimensional engineering cross-section of a PCB, solder balls, package, die, underfill and dispensing nozzle.</desc>
-          <rect x="80" y="360" width="740" height="70" rx="5" fill="#176f65"/><rect x="80" y="355" width="740" height="8" fill="#c78b2d"/>
-          <g id="fallbackBalls" fill="#b8c2c5"></g><rect x="270" y="185" width="360" height="120" rx="6" fill="#263f50"/><rect x="350" y="145" width="200" height="42" rx="4" fill="#708c99"/>
-          <path id="fallbackUnderfill" d="M270 305 H630 V347 H270 Z" fill="#d58b38" opacity=".78"/><path d="M170 80 h44 v140 h-44z" fill="#9caeb5"/><path d="M175 220 h34 l-9 76 h-16z" fill="#7f929a"/>
-          <g stroke="#234" stroke-width="2" fill="none"><path d="M270 455H630"/><path d="M270 447v16M630 447v16"/></g><text x="405" y="482" fill="#234" font-size="20">12.0 mm package</text>
+          <defs><linearGradient id="fallbackBoard" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2bb69d"/><stop offset="1" stop-color="#0d665b"/></linearGradient><linearGradient id="fallbackResin" x1="0" x2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#d65f08"/></linearGradient></defs>
+          <rect x="80" y="360" width="740" height="70" rx="8" fill="url(#fallbackBoard)"/><rect x="80" y="352" width="740" height="10" fill="#c78b2d"/><g id="fallbackBalls" fill="#d9e2e5"></g><rect x="270" y="185" width="360" height="120" rx="10" fill="#213f51"/><rect x="350" y="145" width="200" height="42" rx="6" fill="#7895a4"/><path id="fallbackUnderfill" d="M270 305 H430 V347 H270 Z" fill="url(#fallbackResin)" opacity=".84"/><g id="fallbackNozzle"><path d="M170 70 h44 v150 h-44z" fill="#9caeb5"/><path d="M175 220 h34 l-9 76 h-16z" fill="#7f929a"/></g><g stroke="#b7d6d1" stroke-width="2" fill="none"><path d="M270 455H630"/><path d="M270 447v16M630 447v16"/></g><text id="fallbackDimension" x="450" y="482" text-anchor="middle" fill="#d9f4ef" font-size="20">Illustrative package cross-section</text>
         </svg>
       </div>
-      <div class="viewport-overlay"><span id="moduleName"></span><span id="renderStatus" role="status" aria-live="polite"></span></div>
+      <div class="viewport-topbar"><span id="moduleName"></span><span id="renderStatus" role="status" aria-live="polite"></span></div>
+      <div class="phase-hud"><span id="phaseIndex">01</span><div><small data-i18n="sim.phase"></small><strong id="phaseName">—</strong></div></div>
+      <div class="viewport-legend"><span><i class="legend-controlled"></i>CONTROLLED</span><span><i class="legend-training"></i>TRAINING</span><span><i class="legend-experimental"></i>EXPERIMENTAL</span></div>
+      <button id="controlsToggle" class="controls-toggle" type="button" aria-controls="simControls" aria-expanded="false" data-i18n="sim.showControls"></button>
     </section>
+
+    <aside id="simControls" class="sim-controls" aria-label="Simulation controls">
+      <div class="control-head"><div><p class="eyebrow" data-i18n="sim.controls"></p><h2 data-i18n="sim.lab"></h2></div><button id="closeControls" type="button" class="close-controls" aria-label="Close">×</button></div>
+      <label class="module-field"><span data-i18n="sim.module"></span><select id="moduleSelect"></select></label>
+      <p id="moduleSummary" class="module-summary"></p>
+
+      <section class="timeline-card" aria-labelledby="timelineTitle">
+        <div class="card-title"><h3 id="timelineTitle" data-i18n="sim.timeline"></h3><span id="timelineStatus">READY</span></div>
+        <div id="phaseTrack" class="phase-track"></div>
+        <label class="progress-field"><span data-i18n="sim.progress"></span><output id="progressValue">0</output><input id="progress" type="range" min="0" max="100" value="0"></label>
+        <div class="transport"><button id="playTimeline" class="transport-primary" type="button" data-i18n="sim.play"></button><button id="pauseTimeline" type="button" data-i18n="sim.pause"></button><button id="stepTimeline" type="button" data-i18n="sim.step"></button><button id="resetTimeline" type="button" data-i18n="sim.resetTimeline"></button></div>
+      </section>
+
+      <div class="scenario-grid"><label><span data-i18n="sim.scenario"></span><select id="scenarioSelect"></select></label><label><span data-i18n="sim.overlay"></span><select id="overlaySelect"></select></label></div>
+
+      <details class="engineering-controls" open><summary data-i18n="sim.engineeringControls"></summary>
+        <div class="control-group"><label><span data-i18n="sim.temperature"></span><output id="temperatureValue">—</output><input id="temperature" type="range"></label></div>
+        <div class="control-group"><label><span data-i18n="sim.pressure"></span><output id="pressureValue">—</output><input id="pressure" type="range"></label></div>
+        <div class="control-group"><label><span data-i18n="sim.clearance"></span><output id="clearanceValue">—</output><input id="clearance" type="range"></label></div>
+      </details>
+
+      <div class="view-presets" aria-label="Camera presets"><button class="view-button active" data-view="process" type="button" data-i18n="sim.processView"></button><button class="view-button" data-view="cross" type="button" data-i18n="sim.crossView"></button><button class="view-button" data-view="top" type="button" data-i18n="sim.topView"></button></div>
+      <button id="resetCamera" class="button button-primary" type="button" data-i18n="sim.reset"></button>
+
+      <section class="model-card" aria-labelledby="estimateHeading"><div class="card-title"><h3 id="estimateHeading" data-i18n="sim.estimate"></h3><span>EXPERIMENTAL</span></div><strong id="estimateValue">—</strong><p data-i18n="sim.notCalibrated"></p><dl><dt>Model</dt><dd id="modelVersion"></dd><dt>Spec</dt><dd id="modelSpec"></dd></dl></section>
+      <section class="legend-card"><h3 data-i18n="sim.diagnostics"></h3><dl><dt>Renderer</dt><dd id="rendererType">—</dd><dt>Objects</dt><dd id="objectCount">—</dd><dt>Model</dt><dd id="twinVersion">—</dd></dl></section>
+    </aside>
   </main>
   <script type="module" src="./js/simulator.js"></script>
 </body>

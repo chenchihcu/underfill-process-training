@@ -26,6 +26,7 @@ export default defineConfig({
     outDir: resolve(import.meta.dirname, 'dist'),
     emptyOutDir: true,
     sourcemap: true,
+    chunkSizeWarningLimit: 700,
     rollupOptions: {
       input: {
         training: resolve(import.meta.dirname, 'src/index.html'),

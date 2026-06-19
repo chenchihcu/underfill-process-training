@@ -4,15 +4,15 @@ The maintained product is the Vite multi-page application in `underfill-process-
 
 It combines:
 
-- Bilingual Underfill process training.
+- Ten bilingual, theme-based engineering learning paths with cases, evidence, failure mechanisms, experiments, and immediate quizzes.
 - Versioned, sourced engineering limits.
 - Fail-closed package recommendations.
 - Explicit Visual/X-Ray/CSAM inspection records stored in IndexedDB.
 - JSON/CSV record export and JSON import.
-- Nine engineering-realistic SMT/Underfill simulator modules.
+- Nine engineering-realistic SMT/Underfill training twins with a shared timeline, fault injection, overlays, and camera presets.
 - Offline operation with a verified 2D fallback.
 
-SPI, FPCA, and Reflow are training-only until controlled module-specific specifications are approved.
+The simulator targets high-fidelity training, not a calibrated one-to-one digital twin. SPI, FPCA, and Reflow remain training-only; capillary-flow and warpage models remain experimental. None can issue production PASS/REJECT.
 
 ## Local development
 
@@ -29,6 +29,8 @@ cd underfill-process-training
 npm run check
 npm run test:e2e
 ```
+
+`process-spec.v1.json` is the only source for engineering values. Training, simulation, and media structure live in separate validated manifests and may reference—but never duplicate—those values.
 
 ## Public sites
 

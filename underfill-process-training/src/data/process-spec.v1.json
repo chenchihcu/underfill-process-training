@@ -72,7 +72,7 @@
     "QFN": {"id":"UF-PKG-004","status":"controlled","decision":"conditional","fullUnderfillDecision":"discouraged","source":"package-matrix","reference":"QFN row"}
   },
   "trainingModels": {
-    "flowEstimate": {"id":"UF-MOD-001","status":"experimental","version":"heuristic-1.0","calibrated":false,"assumptions":["Newtonian approximation","uniform gap","constant substrate temperature"]},
+    "flowEstimate": {"id":"UF-MOD-001","status":"experimental","version":"heuristic-1.0","calibrated":false,"source":"blueprint","reference":"Illustrative simulation geometry; replace with calibrated material and package data","assumptions":["Newtonian approximation","uniform gap","constant substrate temperature"],"illustrativeInputs":{"viscosityPaS":{"value":8,"unit":"Pa·s"},"distanceMm":{"value":12,"unit":"mm"}}},
     "spi": {"id":"SMT-MOD-001","status":"training-only","calibrated":false},
     "fpca": {"id":"SMT-MOD-002","status":"training-only","calibrated":false},
     "reflow": {"id":"SMT-MOD-003","status":"training-only","calibrated":false}

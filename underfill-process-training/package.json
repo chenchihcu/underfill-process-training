@@ -1,6 +1,6 @@
 {
   "name": "underfill-process-training",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -10,6 +10,7 @@
     "dev": "vite --host 127.0.0.1",
     "preview": "vite preview --host 127.0.0.1",
     "validate:spec": "node scripts/validate-spec.mjs",
+    "validate:experience": "node scripts/validate-experience.mjs",
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
     "test:visual": "playwright test --grep @visual",
@@ -17,7 +18,7 @@
     "build": "npm run validate:spec && vite build && node scripts/postbuild.mjs",
     "verify:dist": "node scripts/verify-dist.mjs",
     "verify:release": "node scripts/verify-release.mjs",
-    "check": "npm run test:encoding && npm run validate:spec && npm run test:unit && npm run build && npm run verify:dist"
+    "check": "npm run test:encoding && npm run validate:spec && npm run validate:experience && npm run test:unit && npm run build && npm run verify:dist"
   },
   "dependencies": {
     "ajv": "8.20.0",

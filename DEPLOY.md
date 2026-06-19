@@ -44,4 +44,8 @@ IndexedDB records are not rolled back. Record readers remain forward-compatible 
 
 ## Go/no-go
 
-Release is blocked when specification validation, unit tests, encoding checks, build verification, browser tests, offline tests, Pages deployment, Netlify deployment, or live parity verification fails.
+Release is blocked when specification/experience validation, unit tests, encoding checks, build verification, desktop/mobile browser tests, nine-module offline tests, visual inspection, Pages deployment, Netlify deployment, or live parity verification fails.
+
+Before release, confirm the initial training route does not request the simulator engine, the compressed offline asset set remains below 30 MB, and no training-only/experimental/disputed module exposes a production result control.
+
+Known-good rollback baseline for this redesign: commit `e0b42cde`, artifact `2d7beb7fb081a099`. Re-run the workflow with that commit as `release_ref`, then verify both public hosts report the rollback hash before reopening production use.

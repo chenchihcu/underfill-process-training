@@ -301,3 +301,16 @@ The remediation-register status column was written before production configurati
 - Both hosts reported application `3.0.0`, specification `UF-ENG-2026.04-v1`, and commit marker `e0b42cde`.
 - Live in-app browser inspection found eight bilingual lessons, zero document-level horizontal overflow, and no browser warnings or errors.
 - The workflow completed specification, encoding, unit, build, distribution, desktop/mobile browser, nine-module simulator, forced fallback, offline, Netlify, Pages, and live parity gates successfully.
+
+## High-fidelity thematic redesign — 2026-06-19 follow-up
+
+This section supersedes the former eight-lesson experience description while preserving the original audit as historical evidence.
+
+- The redesigned release is versioned as application `3.1.0`; specification authority remains `UF-ENG-2026.04-v1`.
+- Training is now organized as ten fixed bilingual engineering themes. Every theme includes principle, controlled-rule references, shop-floor actions, evidence, normal/abnormal mechanisms, a case, an immediate quiz, and a simulator deep link.
+- `training-content.v1.json`, `simulation-modules.v1.json`, and `media-manifest.v1.json` separate learning structure, simulator behavior, and media provenance from `process-spec.v1.json`, which remains the only engineering-value source.
+- The nine simulators now share ready/run/pause/step/fault/inspection/reset state semantics, route-level dynamic loading, PBR materials, ACES tone mapping, environment lighting, instanced solder balls, transparent sections, overlays, camera presets, adaptive software-render quality, and switch-time 2D recovery.
+- The home route no longer loads Three.js. The previous single 567 kB initial simulator warning is removed from the training route; the simulator engine is an isolated dynamic chunk.
+- Desktop 1280×720 and mobile 390×844 acceptance covers theme depth, module authority, timelines, fault/overlay controls, mobile model-first layout, explicit record side effects, safe imported/user text, offline nine-module switching, and object-count parity after a full module cycle.
+- This remains a high-fidelity training twin. It is not described as a calibrated one-to-one digital twin or production predictor without machine, fixture, package CAD, DOE, CFD/FEA, and calibration data.
+- Media provenance and rights holders are recorded. Vendor-image copyright and trademark exposure remains an explicitly accepted release risk, not an authorization claim.

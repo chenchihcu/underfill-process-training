@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0f766e">
+  <meta name="theme-color" content="#123f3a">
   <title>Underfill Process Learning & Engineering Decision Support</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="stylesheet" href="./css/app.css">
@@ -11,10 +11,13 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="topbar">
-    <div>
-      <p class="eyebrow"><span data-i18n="app.training"></span> + <span data-i18n="app.controlled"></span></p>
-      <h1 data-i18n="app.title"></h1>
-      <p class="subtitle" data-i18n="app.subtitle"></p>
+    <div class="brand-block">
+      <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div>
+        <p class="eyebrow"><span data-i18n="app.training"></span> · <span data-i18n="app.controlled"></span></p>
+        <h1 data-i18n="app.title"></h1>
+        <p class="subtitle" data-i18n="app.subtitle"></p>
+      </div>
     </div>
     <div class="topbar-actions">
       <div class="version-block" aria-label="Build information">
@@ -23,10 +26,7 @@
       </div>
       <label class="language-control">
         <span class="sr-only">Language</span>
-        <select id="languageSelect" aria-label="Language">
-          <option value="zh-Hant">繁體中文</option>
-          <option value="en">English</option>
-        </select>
+        <select id="languageSelect" aria-label="Language"><option value="zh-Hant">繁體中文</option><option value="en">English</option></select>
       </label>
     </div>
   </header>
@@ -42,111 +42,94 @@
       <button class="nav-item" type="button" data-section="inspection"><span class="nav-icon">05</span><span data-i18n="nav.inspection"></span></button>
       <button class="nav-item" type="button" data-section="records"><span class="nav-icon">06</span><span data-i18n="nav.records"></span><span class="nav-badge" id="recordBadge">0</span></button>
       <a class="nav-item nav-item-primary" href="./simulation.html"><span class="nav-icon">3D</span><span data-i18n="nav.simulator"></span></a>
+      <div class="sidebar-foot"><span class="live-dot" aria-hidden="true"></span><span>UF-TWIN-TRAINING-1.0</span></div>
     </nav>
 
     <main id="main" class="main-content" tabindex="-1">
       <section id="overview" class="page active" aria-labelledby="overviewTitle">
         <div class="hero-panel">
-          <div>
+          <div class="hero-copy">
             <p class="eyebrow" data-i18n="app.controlled"></p>
             <h2 id="overviewTitle" data-i18n="overview.title"></h2>
             <p class="lead" data-i18n="overview.body"></p>
+            <div class="hero-actions"><button type="button" class="button button-primary" data-jump="learning" data-i18n="nav.learning"></button><a class="button button-ghost" href="./simulation.html" data-i18n="nav.simulator"></a></div>
           </div>
-          <a class="button button-primary" href="./simulation.html" data-i18n="nav.simulator"></a>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="digital-package"><div class="die"></div><div class="flow-line flow-a"></div><div class="flow-line flow-b"></div><div class="ball-row"></div></div>
+            <div class="hero-signal"><span></span><strong>10</strong><small>THEMES</small></div>
+            <div class="hero-signal signal-second"><span></span><strong>9</strong><small>TWINS</small></div>
+          </div>
         </div>
+
+        <div class="search-panel">
+          <label for="experienceSearch" data-i18n="overview.search"></label>
+          <div class="search-box"><span aria-hidden="true">⌕</span><input id="experienceSearch" type="search" autocomplete="off" data-i18n-placeholder="overview.searchPlaceholder"><kbd>Ctrl K</kbd></div>
+          <div id="searchResults" class="search-results" hidden></div>
+        </div>
+
         <div class="metric-grid">
-          <article class="metric-card"><span class="metric-number">1</span><h3 data-i18n="overview.card1"></h3><p id="overviewSpec"></p></article>
+          <article class="metric-card"><span class="metric-number">10</span><h3 data-i18n="overview.cardTopics"></h3><p>Mechanism · Evidence · Case</p></article>
           <article class="metric-card"><span class="metric-number">ID</span><h3 data-i18n="overview.card2"></h3><p>IndexedDB · JSON · CSV</p></article>
-          <article class="metric-card"><span class="metric-number">9</span><h3 data-i18n="overview.card3"></h3><p>Underfill · SMT · Defects</p></article>
+          <article class="metric-card"><span class="metric-number">9</span><h3 data-i18n="overview.card3"></h3><p>Timeline · Fault · Overlay</p></article>
           <article class="metric-card"><span class="metric-number">≈</span><h3 data-i18n="overview.card4"></h3><p data-i18n="sim.notCalibrated"></p></article>
         </div>
+
+        <section class="dashboard-section" aria-labelledby="pathTitle"><div class="section-heading"><div><p class="eyebrow" data-i18n="app.training"></p><h3 id="pathTitle" data-i18n="overview.pathTitle"></h3></div><button class="text-button" type="button" data-jump="learning" data-i18n="overview.viewAll"></button></div><div id="topicPath" class="topic-path"></div></section>
+        <section class="dashboard-section" aria-labelledby="modulesTitle"><div class="section-heading"><div><p class="eyebrow">DIGITAL TRAINING TWIN</p><h3 id="modulesTitle" data-i18n="overview.modulesTitle"></h3></div><a class="text-button" href="./simulation.html" data-i18n="overview.openLab"></a></div><div id="moduleGrid" class="module-grid"></div></section>
         <div class="notice notice-warning" role="note"><strong>Boundary</strong><span data-i18n="overview.trainingNotice"></span></div>
       </section>
 
       <section id="learning" class="page" aria-labelledby="learningTitle" hidden>
-        <div class="page-heading"><div><p class="eyebrow" data-i18n="app.training"></p><h2 id="learningTitle" data-i18n="learning.title"></h2><p data-i18n="learning.subtitle"></p></div><span class="status-chip">8 MODULES</span></div>
-        <div id="lessonGrid" class="lesson-grid"></div>
+        <div class="page-heading"><div><p class="eyebrow" data-i18n="app.training"></p><h2 id="learningTitle" data-i18n="learning.title"></h2><p data-i18n="learning.subtitle"></p></div><span class="status-chip">10 THEMES</span></div>
+        <div class="learning-layout"><aside class="topic-rail" aria-label="Training topics"><div class="topic-rail-head"><strong data-i18n="learning.topicMenu"></strong><span>01—10</span></div><div id="topicNav" class="topic-nav"></div></aside><article id="topicWorkspace" class="topic-workspace" aria-live="polite"></article></div>
       </section>
 
       <section id="specifications" class="page" aria-labelledby="specTitle" hidden>
-        <div class="page-heading"><div><p class="eyebrow" data-i18n="app.controlled"></p><h2 id="specTitle" data-i18n="spec.title"></h2></div><span class="status-chip status-controlled">CONTROLLED</span></div>
+        <div class="page-heading"><div><p class="eyebrow" data-i18n="app.controlled"></p><h2 id="specTitle" data-i18n="spec.title"></h2><p data-i18n="spec.subtitle"></p></div><span class="status-chip status-controlled">CONTROLLED</span></div>
+        <div class="toolbar"><label><span data-i18n="spec.search"></span><input id="specSearch" type="search" data-i18n-placeholder="spec.searchPlaceholder"></label><label><span data-i18n="spec.filter"></span><select id="specAuthority"><option value="all" data-i18n="spec.all"></option><option value="controlled">CONTROLLED</option></select></label></div>
         <div id="specCards" class="spec-groups"></div>
       </section>
 
       <section id="recommendation" class="page" aria-labelledby="recommendationTitle" hidden>
-        <div class="page-heading"><div><p class="eyebrow" data-i18n="app.controlled"></p><h2 id="recommendationTitle" data-i18n="recommendation.title"></h2></div></div>
-        <form id="recommendationForm" class="form-card">
-          <div class="form-grid">
+        <div class="page-heading"><div><p class="eyebrow" data-i18n="app.controlled"></p><h2 id="recommendationTitle" data-i18n="recommendation.title"></h2><p data-i18n="recommendation.subtitle"></p></div><div class="mini-steps" aria-hidden="true"><span class="active">1</span><i></i><span>2</span><i></i><span>3</span></div></div>
+        <div class="decision-layout"><form id="recommendationForm" class="form-card">
+          <h3 data-i18n="recommendation.geometry"></h3><div class="form-grid">
             <label><span data-i18n="recommendation.package"></span><select name="packageType" required><option value="">—</option><option value="WLCSP">WLCSP</option><option value="FLIP_CHIP">Flip Chip</option><option value="BGA">BGA</option><option value="QFN">QFN</option></select></label>
-            <label><span data-i18n="recommendation.pitch"></span><input name="pitchMm" type="number" min="0.01" step="0.01"></label>
-            <label><span data-i18n="recommendation.ball"></span><input name="ballSizeMm" type="number" min="0.01" step="0.01"></label>
-            <label><span data-i18n="recommendation.standoff"></span><input name="standoffMm" type="number" min="0.01" step="0.01"></label>
-            <label><span data-i18n="recommendation.width"></span><input name="packageWidthMm" type="number" min="0.1" step="0.1"></label>
-            <label><span data-i18n="recommendation.length"></span><input name="packageLengthMm" type="number" min="0.1" step="0.1"></label>
-            <label><span data-i18n="recommendation.clearance"></span><input name="edgeClearanceMm" type="number" min="0" step="0.1"></label>
-            <label><span data-i18n="recommendation.reliability"></span><select name="reliabilityClass"><option value="">—</option><option>Consumer</option><option>Industrial</option><option>Automotive</option></select></label>
-            <label><span data-i18n="recommendation.environment"></span><select name="environment"><option value="">—</option><option>Controlled indoor</option><option>Thermal cycling</option><option>High vibration</option></select></label>
-            <label><span data-i18n="recommendation.material"></span><input name="material" value="UF3808"></label>
-            <label><span data-i18n="recommendation.profile"></span><input name="processProfile" value="UF-Standard"></label>
-            <label class="check-label"><input name="fullUnderfill" type="checkbox"><span data-i18n="recommendation.full"></span></label>
-          </div>
-          <button class="button button-primary" type="submit" data-i18n="recommendation.run"></button>
-        </form>
-        <div id="recommendationResult" class="result-panel" aria-live="polite" hidden></div>
+            <label><span data-i18n="recommendation.pitch"></span><input name="pitchMm" type="number" min="0.01" step="0.01"></label><label><span data-i18n="recommendation.ball"></span><input name="ballSizeMm" type="number" min="0.01" step="0.01"></label><label><span data-i18n="recommendation.standoff"></span><input name="standoffMm" type="number" min="0.01" step="0.01"></label><label><span data-i18n="recommendation.width"></span><input name="packageWidthMm" type="number" min="0.1" step="0.1"></label><label><span data-i18n="recommendation.length"></span><input name="packageLengthMm" type="number" min="0.1" step="0.1"></label><label><span data-i18n="recommendation.clearance"></span><input name="edgeClearanceMm" type="number" min="0" step="0.1"></label>
+          </div><h3 data-i18n="recommendation.context"></h3><div class="form-grid">
+            <label><span data-i18n="recommendation.reliability"></span><select name="reliabilityClass"><option value="">—</option><option>Consumer</option><option>Industrial</option><option>Automotive</option></select></label><label><span data-i18n="recommendation.environment"></span><select name="environment"><option value="">—</option><option>Controlled indoor</option><option>Thermal cycling</option><option>High vibration</option></select></label><label><span data-i18n="recommendation.material"></span><input name="material" value="UF3808"></label><label><span data-i18n="recommendation.profile"></span><input name="processProfile" value="UF-Standard"></label><label class="check-label"><input name="fullUnderfill" type="checkbox"><span data-i18n="recommendation.full"></span></label>
+          </div><button class="button button-primary" type="submit" data-i18n="recommendation.run"></button>
+        </form><aside class="decision-explainer"><div class="explainer-graphic" aria-hidden="true"><div class="package-outline"><span></span><i></i><b></b></div></div><h3 data-i18n="recommendation.explainTitle"></h3><p data-i18n="recommendation.explainBody"></p><div id="recommendationResult" class="result-panel" aria-live="polite" hidden></div></aside></div>
       </section>
 
       <section id="inspection" class="page" aria-labelledby="inspectionTitle" hidden>
-        <div class="page-heading"><div><p class="eyebrow" data-i18n="app.controlled"></p><h2 id="inspectionTitle" data-i18n="inspection.title"></h2></div></div>
-        <form id="inspectionForm" class="form-card">
-          <div class="form-grid">
-            <label><span data-i18n="inspection.sample"></span><input name="sampleId" maxlength="80" required></label>
-            <label><span data-i18n="inspection.batch"></span><input name="batchId" maxlength="80" required></label>
-            <label><span data-i18n="inspection.lot"></span><input name="materialLot" maxlength="80" required></label>
-            <label><span data-i18n="inspection.fillet"></span><input name="filletHeightPercent" type="number" min="0" max="100" value="60" required></label>
-            <label><span data-i18n="inspection.perimeter"></span><input name="perimeterPercent" type="number" min="0" max="100" value="100" required></label>
-            <label><span data-i18n="inspection.void"></span><input name="voidAreaPercent" type="number" min="0" max="100" step="0.1" value="10" required></label>
-          </div>
+        <div class="page-heading"><div><p class="eyebrow" data-i18n="app.controlled"></p><h2 id="inspectionTitle" data-i18n="inspection.title"></h2><p data-i18n="inspection.subtitle"></p></div><span class="status-chip status-controlled">VISUAL · X-RAY · CSAM</span></div>
+        <div class="inspection-layout"><form id="inspectionForm" class="form-card">
+          <div class="form-grid"><label><span data-i18n="inspection.sample"></span><input name="sampleId" maxlength="80" required></label><label><span data-i18n="inspection.batch"></span><input name="batchId" maxlength="80" required></label><label><span data-i18n="inspection.lot"></span><input name="materialLot" maxlength="80" required></label><label><span data-i18n="inspection.fillet"></span><input name="filletHeightPercent" type="number" min="0" max="100" step="0.1" required></label><label><span data-i18n="inspection.perimeter"></span><input name="perimeterPercent" type="number" min="0" max="100" step="0.1" required></label><label><span data-i18n="inspection.void"></span><input name="voidAreaPercent" type="number" min="0" max="100" step="0.1" required></label></div>
           <fieldset><legend data-i18n="inspection.requiredTrace"></legend><div id="traceFields" class="form-grid compact"></div></fieldset>
-          <div class="check-grid">
-            <label class="check-label"><input name="crack" type="checkbox"><span data-i18n="inspection.crack"></span></label>
-            <label class="check-label"><input name="contamination" type="checkbox"><span data-i18n="inspection.contamination"></span></label>
-            <label class="check-label"><input name="clearanceBreach" type="checkbox"><span data-i18n="inspection.clearance"></span></label>
-            <label class="check-label"><input name="topologyAcceptable" type="checkbox" checked><span data-i18n="inspection.topology"></span></label>
-            <label class="check-label"><input name="locationAcceptable" type="checkbox" checked><span data-i18n="inspection.location"></span></label>
-            <label class="check-label"><input name="csamAcceptable" type="checkbox" checked><span data-i18n="inspection.csam"></span></label>
-          </div>
-          <div class="form-grid">
-            <label><span data-i18n="inspection.csamDisposition"></span><input name="csamDisposition" maxlength="120"></label>
-            <label><span data-i18n="inspection.notes"></span><textarea name="notes" maxlength="1000" rows="3"></textarea></label>
-          </div>
-          <div class="inspection-actions">
-            <div id="inspectionPreview" class="preview-card" aria-live="polite"></div>
-            <button id="recordInspectionButton" class="button button-primary" type="submit" data-i18n="app.save"></button>
-          </div>
+          <div class="check-grid"><label class="check-label"><input name="crack" type="checkbox"><span data-i18n="inspection.crack"></span></label><label class="check-label"><input name="contamination" type="checkbox"><span data-i18n="inspection.contamination"></span></label><label class="check-label"><input name="clearanceBreach" type="checkbox"><span data-i18n="inspection.clearance"></span></label><label class="check-label"><input name="topologyAcceptable" type="checkbox" checked><span data-i18n="inspection.topology"></span></label><label class="check-label"><input name="locationAcceptable" type="checkbox" checked><span data-i18n="inspection.location"></span></label><label class="check-label"><input name="csamAcceptable" type="checkbox" checked><span data-i18n="inspection.csam"></span></label></div>
+          <div class="form-grid"><label><span data-i18n="inspection.csamDisposition"></span><input name="csamDisposition" maxlength="120"></label><label><span data-i18n="inspection.notes"></span><textarea name="notes" maxlength="500"></textarea></label></div><button id="recordInspectionButton" class="button button-primary" type="submit" data-i18n="app.save"></button>
         </form>
+        <aside class="inspection-visual"><div class="visual-tabs" role="tablist"><button type="button" class="active" data-visual="fillet">VISUAL</button><button type="button" data-visual="xray">X-RAY</button><button type="button" data-visual="csam">CSAM</button></div><div class="visual-stage">
+          <svg id="filletVisual" class="inspection-svg active" viewBox="0 0 640 360" role="img" aria-label="Fillet cross-section preview"><defs><linearGradient id="pcbGradient" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#1fa68c"/><stop offset="1" stop-color="#0a5a51"/></linearGradient><linearGradient id="resinGradient" x1="0" x2="1"><stop offset="0" stop-color="#f6ad3c"/><stop offset="1" stop-color="#b45309"/></linearGradient></defs><rect x="40" y="270" width="560" height="54" rx="8" fill="url(#pcbGradient)"/><rect x="150" y="115" width="340" height="125" rx="12" fill="#243b53"/><rect x="230" y="75" width="180" height="40" rx="8" fill="#7993a4"/><g id="previewBalls" fill="#cad5d9"></g><path id="previewUnderfill" d="M150 240 H490 V270 H150 Z" fill="url(#resinGradient)" opacity=".88"/><path id="previewFillet" d="M490 240 C535 240 548 257 556 270 H490Z" fill="url(#resinGradient)"/><line x1="575" y1="240" x2="575" y2="270" stroke="#f59e0b" stroke-width="4"/><text id="filletPercentLabel" x="565" y="225" text-anchor="end" fill="#e8fffb">—</text></svg>
+          <svg id="xrayVisual" class="inspection-svg" viewBox="0 0 640 360" role="img" aria-label="X-Ray void preview"><rect x="80" y="35" width="480" height="290" rx="18" fill="#17212b"/><g id="xrayBalls"></g><circle id="voidIndicator" cx="320" cy="180" r="18" fill="#f8fafc" opacity=".92"/><text id="voidPercentLabel" x="320" y="188" text-anchor="middle" fill="#17212b" font-weight="800">—</text></svg>
+          <svg id="csamVisual" class="inspection-svg" viewBox="0 0 640 360" role="img" aria-label="CSAM interface preview"><defs><radialGradient id="csamField"><stop offset="0" stop-color="#69f0d0"/><stop offset=".55" stop-color="#1f8f85"/><stop offset="1" stop-color="#173e4a"/></radialGradient></defs><rect x="90" y="45" width="460" height="270" rx="22" fill="url(#csamField)"/><path id="csamDefect" d="M410 65 C520 82 545 145 522 205 C500 260 462 282 420 300 C450 225 430 172 410 65Z" fill="#fff" opacity=".08"/><text id="csamLabel" x="320" y="188" text-anchor="middle" fill="#fff" font-size="28" font-weight="800">INTERFACE</text></svg>
+        </div><div id="inspectionPreview" class="preview-card" aria-live="polite"></div><p class="visual-note" data-i18n="inspection.previewBoundary"></p></aside></div>
       </section>
 
       <section id="records" class="page" aria-labelledby="recordsTitle" hidden>
-        <div class="page-heading"><div><p class="eyebrow" data-i18n="app.controlled"></p><h2 id="recordsTitle" data-i18n="records.title"></h2></div></div>
-        <div class="notice notice-warning"><span data-i18n="app.storageWarning"></span></div>
-        <div class="record-summary">
-          <div><span data-i18n="records.total"></span><strong id="totalCount">0</strong></div>
-          <div class="pass"><span data-i18n="records.pass"></span><strong id="passCount">0</strong></div>
-          <div class="reject"><span data-i18n="records.reject"></span><strong id="rejectCount">0</strong></div>
-        </div>
-        <div class="toolbar">
-          <button id="exportJson" class="button button-secondary" type="button" data-i18n="app.exportJson"></button>
-          <button id="exportCsv" class="button button-secondary" type="button" data-i18n="app.exportCsv"></button>
-          <label class="button button-secondary file-button"><span data-i18n="app.import"></span><input id="importJson" type="file" accept="application/json,.json"></label>
-        </div>
-        <div class="table-wrap"><table><thead><tr><th>ID</th><th data-i18n="inspection.sample"></th><th data-i18n="inspection.batch"></th><th data-i18n="app.spec"></th><th>Result</th><th>Time</th></tr></thead><tbody id="recordRows"></tbody></table></div>
+        <div class="page-heading"><div><p class="eyebrow" data-i18n="app.controlled"></p><h2 id="recordsTitle" data-i18n="records.title"></h2><p data-i18n="app.storageWarning"></p></div><div class="record-actions"><button id="exportJson" class="button button-secondary" type="button" data-i18n="app.exportJson"></button><button id="exportCsv" class="button button-secondary" type="button" data-i18n="app.exportCsv"></button><label class="button button-secondary file-button"><span data-i18n="app.import"></span><input id="importJson" type="file" accept="application/json"></label></div></div>
+        <div class="record-summary"><article><span data-i18n="records.total"></span><strong id="totalCount">0</strong></article><article><span data-i18n="records.pass"></span><strong id="passCount">0</strong></article><article><span data-i18n="records.reject"></span><strong id="rejectCount">0</strong></article></div>
+        <div class="toolbar"><label><span data-i18n="records.search"></span><input id="recordsSearch" type="search" data-i18n-placeholder="records.searchPlaceholder"></label><label><span data-i18n="records.filter"></span><select id="recordsFilter"><option value="all" data-i18n="records.all"></option><option value="pass" data-i18n="inspection.pass"></option><option value="reject" data-i18n="inspection.reject"></option></select></label></div>
+        <div class="table-wrap"><table><thead><tr><th>ID</th><th data-i18n="inspection.sample"></th><th data-i18n="inspection.batch"></th><th data-i18n="app.spec"></th><th>Status</th><th>Time</th></tr></thead><tbody id="recordRows"></tbody></table></div>
       </section>
     </main>
   </div>
 
-  <dialog id="sourceDialog" class="source-dialog"><form method="dialog"><div class="dialog-heading"><h2 data-i18n="app.source"></h2><button class="icon-button" value="close" aria-label="Close">×</button></div><dl id="sourceDetails"></dl><button class="button button-primary" value="close" data-i18n="app.close"></button></form></dialog>
+  <dialog id="sourceDialog" class="source-dialog"><div class="dialog-head"><h2 data-i18n="app.source"></h2><button id="closeSource" type="button" class="icon-button" aria-label="Close">×</button></div><dl id="sourceDetails"></dl></dialog>
+  <dialog id="mediaDialog" class="media-dialog"><button id="closeMedia" type="button" class="icon-button" aria-label="Close">×</button><img id="mediaDialogImage" alt=""><div><h2 id="mediaDialogTitle"></h2><p id="mediaDialogCaption"></p><a id="mediaDialogSource" target="_blank" rel="noreferrer" data-i18n="app.source"></a></div></dialog>
+  <div id="updateNotice" class="update-notice" hidden><span>New verified build available.</span><button id="reloadApp" type="button">Reload</button></div>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
-  <div id="updateNotice" class="update-notice" role="status" hidden><span>A new verified version is ready.</span><button id="reloadApp" type="button">Reload</button></div>
   <script type="module" src="./js/app.js"></script>
 </body>
 </html>
