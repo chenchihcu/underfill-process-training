@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://underfill.local/schemas/process-spec.v1.json",
+  "type": "object",
+  "required": ["metadata", "sources", "materialControls", "processControls", "inspectionControls", "componentStrategy", "trainingModels"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["schemaVersion", "specVersion", "effectiveDate", "status", "material", "authorityOrder"],
+      "properties": {
+        "schemaVersion": {"const": "1.0.0"},
+        "specVersion": {"type": "string", "minLength": 1},
+        "effectiveDate": {"type": "string", "format": "date"},
+        "status": {"enum": ["controlled", "training-only", "experimental", "disputed"]},
+        "material": {"type": "string", "minLength": 1},
+        "supersedes": {"type": ["string", "null"]},
+        "authorityOrder": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "sources": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/source"}},
+    "materialControls": {"type": "object", "required": ["storageTemperature", "potLife", "thawing"], "properties": {"storageTemperature":{"$ref":"#/$defs/rangeRule"},"potLife":{"$ref":"#/$defs/valueRule"},"thawing":{"type":"object","minProperties":3,"additionalProperties":{"$ref":"#/$defs/rangeRule"}}}},
+    "processControls": {"type": "object", "required": ["preheatTarget", "preheatTolerance", "dispensePressure", "needleClearance", "cureProfiles", "requiredTraceInputs"], "properties": {"preheatTarget":{"$ref":"#/$defs/rangeRule"},"preheatTolerance":{"$ref":"#/$defs/rangeRule"},"dispensePressure":{"$ref":"#/$defs/rangeRule"},"needleClearance":{"$ref":"#/$defs/rangeRule"},"cureProfiles":{"type":"array","minItems":1,"items":{"$ref":"#/$defs/cureRule"}},"requiredTraceInputs":{"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string"}}}},
+    "inspectionControls": {"type": "object", "required": ["fillet", "void", "csam"], "properties": {"fillet":{"type":"object"},"void":{"type":"object"},"csam":{"type":"object"}}},
+    "componentStrategy": {"type": "object", "required": ["WLCSP", "FLIP_CHIP", "BGA", "QFN"], "properties": {"WLCSP":{"$ref":"#/$defs/decisionRule"},"FLIP_CHIP":{"$ref":"#/$defs/decisionRule"},"BGA":{"$ref":"#/$defs/decisionRule"},"QFN":{"$ref":"#/$defs/decisionRule"}}},
+    "trainingModels": {"type": "object", "required": ["flowEstimate", "spi", "fpca", "reflow"], "properties": {"flowEstimate":{"$ref":"#/$defs/modelRule"},"spi":{"$ref":"#/$defs/modelRule"},"fpca":{"$ref":"#/$defs/modelRule"},"reflow":{"$ref":"#/$defs/modelRule"}}}
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "required": ["title", "role", "location"],
+      "properties": {"title":{"type":"string"},"role":{"type":"string"},"location":{"type":"string"}},
+      "additionalProperties": false
+    },
+    "ruleBase": {"type":"object","required":["id","status","source","reference"],"properties":{"id":{"type":"string","minLength":1},"status":{"enum":["controlled","training-only","experimental","disputed"]},"source":{"type":"string","minLength":1},"reference":{"type":"string","minLength":1}}},
+    "rangeRule": {"allOf":[{"$ref":"#/$defs/ruleBase"},{"type":"object","required":["min","max","unit","precision"],"properties":{"min":{"type":"number"},"max":{"type":"number"},"unit":{"type":"string"},"precision":{"type":"integer","minimum":0}}}]},
+    "valueRule": {"allOf":[{"$ref":"#/$defs/ruleBase"},{"type":"object","required":["value","unit","precision"],"properties":{"value":{"type":"number"},"unit":{"type":"string"},"precision":{"type":"integer","minimum":0},"condition":{"type":"string"}}}]},
+    "cureRule": {"allOf":[{"$ref":"#/$defs/ruleBase"},{"type":"object","required":["temperature","minimumMinutes"],"properties":{"temperature":{"type":"number"},"minimumMinutes":{"type":"number"}}}]},
+    "decisionRule": {"allOf":[{"$ref":"#/$defs/ruleBase"},{"type":"object","required":["decision"],"properties":{"decision":{"enum":["mandatory","recommended-after-validation","conditional","discouraged","insufficient-evidence"]},"fullUnderfillDecision":{"enum":["mandatory","recommended-after-validation","conditional","discouraged","insufficient-evidence"]}}}]},
+    "modelRule": {"type":"object","required":["id","status","calibrated"],"properties":{"id":{"type":"string"},"status":{"enum":["controlled","training-only","experimental","disputed"]},"calibrated":{"type":"boolean"},"version":{"type":"string"},"assumptions":{"type":"array","items":{"type":"string"}}}}
+  }
+}

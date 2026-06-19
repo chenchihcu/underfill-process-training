@@ -1,6 +1,23 @@
 [build]
-  publish = "dashboard"
-  command = ""
+  base = "underfill-process-training"
+  command = "npm run build"
+  publish = "dist"
+  ignore = "node -e \"process.exit(0)\""
 
 [build.environment]
-  NODE_VERSION = "22"
+  NODE_VERSION = "24"
+
+[[headers]]
+  for = "/build-meta.json"
+  [headers.values]
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/asset-manifest.json"
+  [headers.values]
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"

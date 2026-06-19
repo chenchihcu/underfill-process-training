@@ -1,23 +1,40 @@
-# Underfill Smart Dispensing & Quality Control Dashboard
+# Underfill Process Learning & Engineering Decision Support
 
-An industrial IoT-style interactive dashboard for managing Loctite UF 3808
-semiconductor underfill dispensing processes and quality acceptance.
+The maintained product is the Vite multi-page application in `underfill-process-training/`.
 
-## 線上網址 (Live URLs)
+It combines:
 
-| 平台 | 網址 |
-| --- | --- |
-| **Netlify** | <https://underfill-tutorial.netlify.app/> |
-| **GitHub Pages** | <https://chenchihcu.github.io/underfill-process-training/> |
+- Bilingual Underfill process training.
+- Versioned, sourced engineering limits.
+- Fail-closed package recommendations.
+- Explicit Visual/X-Ray/CSAM inspection records stored in IndexedDB.
+- JSON/CSV record export and JSON import.
+- Nine engineering-realistic SMT/Underfill simulator modules.
+- Offline operation with a verified 2D fallback.
 
-## 專案結構
+SPI, FPCA, and Reflow are training-only until controlled module-specific specifications are approved.
 
-- `dashboard/` — 已建置的靜態 PWA（部署目標）
-- `underfill-process-training/` — 教學用單頁應用 (SPA) 原始碼
-- `docs/`、`Outputs/`、`*.py` — 文件重建與素材處理工具
-- `.github/workflows/` — GitHub Pages 自動部署；Netlify 由 Netlify GitHub App 直接部署
+## Local development
 
-## 部署
+```powershell
+cd underfill-process-training
+npm ci
+npm run dev
+```
 
-推送到 `main` 會自動部署到 Netlify 與 GitHub Pages。
-詳細步驟與設定見 [`DEPLOY.md`](./DEPLOY.md)。
+## Required gates
+
+```powershell
+cd underfill-process-training
+npm run check
+npm run test:e2e
+```
+
+## Public sites
+
+- Canonical: https://underfill-tutorial.netlify.app/
+- Mirror: https://chenchihcu.github.io/underfill-process-training/
+
+Both sites must report the same commit, specification version, application version, and artifact hash in `build-meta.json` before a release is accepted.
+
+See [DEPLOY.md](DEPLOY.md) for release and rollback procedures and [docs/underfill-website-audit-2026-06-19.md](docs/underfill-website-audit-2026-06-19.md) for the audit remediation register.

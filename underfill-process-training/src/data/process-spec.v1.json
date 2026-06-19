@@ -1,0 +1,80 @@
+{
+  "metadata": {
+    "schemaVersion": "1.0.0",
+    "specVersion": "UF-ENG-2026.04-v1",
+    "effectiveDate": "2026-04-13",
+    "status": "controlled",
+    "material": "UF3808",
+    "supersedes": null,
+    "authorityOrder": ["engineering-edition", "concise-sop", "package-matrix", "blueprint"]
+  },
+  "sources": {
+    "engineering-edition": {
+      "title": "Underfill_作業標準書 工程版.docx",
+      "role": "primary controlled authority",
+      "location": "docs/reference/Underfill_作業標準書 工程版.docx"
+    },
+    "concise-sop": {
+      "title": "Underfill作業標準書.docx / PDF",
+      "role": "secondary where primary is silent",
+      "location": "docs/reference/Underfill作業標準書.docx"
+    },
+    "package-matrix": {
+      "title": "Underfill_Matrix.xlsx",
+      "role": "package strategy where primary is silent",
+      "location": "docs/reference/Underfill_Matrix.xlsx#Underfill Matrix!A1:F7"
+    },
+    "blueprint": {
+      "title": "Underfill_Engineering_Blueprint.pptx",
+      "role": "explanation and visualization only",
+      "location": "docs/reference/Underfill_Engineering_Blueprint.pptx"
+    }
+  },
+  "materialControls": {
+    "storageTemperature": {"id":"UF-MAT-001","status":"controlled","min":-25,"max":-15,"unit":"°C","precision":0,"source":"engineering-edition","reference":"Storage and handling"},
+    "potLife": {"id":"UF-MAT-002","status":"controlled","value":72,"unit":"h","condition":"25°C; 25% viscosity rise criterion","precision":0,"source":"engineering-edition","reference":"Material life"},
+    "thawing": {
+      "10": {"id":"UF-MAT-003A","status":"controlled","min":60,"max":60,"unit":"min","precision":0,"source":"engineering-edition","reference":"Thaw table — 10 cc"},
+      "30": {"id":"UF-MAT-003B","status":"controlled","min":90,"max":90,"unit":"min","precision":0,"source":"engineering-edition","reference":"Thaw table — 30 cc"},
+      "55": {"id":"UF-MAT-003C","status":"controlled","min":120,"max":180,"unit":"min","precision":0,"source":"engineering-edition","reference":"Thaw table — 55 cc"}
+    }
+  },
+  "processControls": {
+    "preheatTarget": {"id":"UF-PRO-001","status":"controlled","min":75,"max":90,"unit":"°C","precision":0,"source":"engineering-edition","reference":"Preheat target"},
+    "preheatTolerance": {"id":"UF-PRO-002","status":"controlled","min":70,"max":90,"unit":"°C","precision":0,"source":"engineering-edition","reference":"Accepted engineering window"},
+    "dispensePressure": {"id":"UF-PRO-003","status":"controlled","min":0.10,"max":0.35,"unit":"MPa","precision":2,"source":"engineering-edition","reference":"Dispensing parameters"},
+    "needleClearance": {"id":"UF-PRO-004","status":"controlled","min":0.2,"max":0.5,"unit":"mm","precision":1,"source":"engineering-edition","reference":"Needle-to-component clearance"},
+    "cureProfiles": [
+      {"id":"UF-PRO-005A","status":"controlled","temperature":130,"minimumMinutes":8,"source":"engineering-edition","reference":"Cure profile A"},
+      {"id":"UF-PRO-005B","status":"controlled","temperature":150,"minimumMinutes":5,"source":"engineering-edition","reference":"Cure profile B"}
+    ],
+    "requiredTraceInputs": ["needleGauge","edgeDistanceMm","dispenseDelaySec","dispensedWeightMg","flowRateMgSec","stagingMinutes","plasmaRecipe","materialLot"]
+  },
+  "inspectionControls": {
+    "fillet": {
+      "heightPercent": {"id":"UF-INS-001","status":"controlled","min":50,"max":75,"unit":"%","precision":0,"source":"engineering-edition","reference":"Visual fillet acceptance"},
+      "perimeterPercent": {"id":"UF-INS-002","status":"controlled","min":100,"max":100,"unit":"%","precision":0,"source":"engineering-edition","reference":"Full perimeter continuity"},
+      "prohibitedConditions": ["crack","contamination","clearance-breach"]
+    },
+    "void": {
+      "individualJointAreaPercent": {"id":"UF-INS-003","status":"controlled","min":0,"max":25,"unit":"%","precision":1,"source":"engineering-edition","reference":"X-ray individual solder-joint projected area"},
+      "topologyRule": {"id":"UF-INS-004","status":"controlled","source":"engineering-edition","reference":"Void topology disposition"},
+      "locationRule": {"id":"UF-INS-005","status":"controlled","source":"engineering-edition","reference":"Void location disposition"}
+    },
+    "csam": {
+      "dispositionRule": {"id":"UF-INS-006","status":"controlled","source":"engineering-edition","reference":"CSAM extent and disposition"}
+    }
+  },
+  "componentStrategy": {
+    "WLCSP": {"id":"UF-PKG-001","status":"controlled","decision":"mandatory","source":"package-matrix","reference":"WLCSP row"},
+    "FLIP_CHIP": {"id":"UF-PKG-002","status":"controlled","decision":"mandatory","source":"package-matrix","reference":"Flip Chip row"},
+    "BGA": {"id":"UF-PKG-003","status":"controlled","decision":"recommended-after-validation","source":"package-matrix","reference":"Standard BGA row"},
+    "QFN": {"id":"UF-PKG-004","status":"controlled","decision":"conditional","fullUnderfillDecision":"discouraged","source":"package-matrix","reference":"QFN row"}
+  },
+  "trainingModels": {
+    "flowEstimate": {"id":"UF-MOD-001","status":"experimental","version":"heuristic-1.0","calibrated":false,"assumptions":["Newtonian approximation","uniform gap","constant substrate temperature"]},
+    "spi": {"id":"SMT-MOD-001","status":"training-only","calibrated":false},
+    "fpca": {"id":"SMT-MOD-002","status":"training-only","calibrated":false},
+    "reflow": {"id":"SMT-MOD-003","status":"training-only","calibrated":false}
+  }
+}

@@ -1,0 +1,106 @@
+name: Verify and release Underfill
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "underfill-process-training/**"
+      - ".github/workflows/release-underfill.yml"
+      - "netlify.toml"
+  workflow_dispatch:
+    inputs:
+      release_ref:
+        description: "Commit SHA or tag to release; leave blank for the selected branch"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: underfill-production
+  cancel-in-progress: false
+
+jobs:
+  verify-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out release source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.release_ref || github.sha }}
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: underfill-process-training/package-lock.json
+      - name: Record immutable checked-out commit
+        shell: bash
+        run: echo "BUILD_COMMIT=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+      - name: Install locked dependencies
+        working-directory: underfill-process-training
+        run: npm ci
+      - name: Run deterministic gates
+        working-directory: underfill-process-training
+        run: npm run check
+      - name: Install browser runtime
+        working-directory: underfill-process-training
+        run: npx playwright install --with-deps chromium
+      - name: Run browser, responsive, visual, and offline gates
+        working-directory: underfill-process-training
+        env:
+          CI: "true"
+        run: npm run test:e2e
+      - name: Upload immutable product artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: underfill-dist
+          path: underfill-process-training/dist
+          if-no-files-found: error
+          retention-days: 30
+      - name: Package the same artifact for Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: underfill-process-training/dist
+
+  deploy-pages:
+    needs: verify-build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy verified artifact to Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  deploy-netlify:
+    needs: verify-build
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Download verified artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: underfill-dist
+          path: dist
+      - name: Deploy verified artifact to Netlify
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: npx --yes netlify-cli@26.1.0 deploy --prod --no-build --dir=dist --site "$NETLIFY_SITE_ID" --auth "$NETLIFY_AUTH_TOKEN" --message "Underfill ${{ inputs.release_ref || github.sha }}"
+
+  verify-live-parity:
+    needs: [deploy-pages, deploy-netlify]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out release verifier
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.release_ref || github.sha }}
+      - name: Verify both public hosts serve the same release
+        working-directory: underfill-process-training
+        run: node scripts/verify-release.mjs https://underfill-tutorial.netlify.app https://chenchihcu.github.io/underfill-process-training

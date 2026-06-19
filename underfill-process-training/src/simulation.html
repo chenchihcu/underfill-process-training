@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#123a3a">
+  <title>Underfill / SMT Engineering Simulator</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./css/simulator.css">
+</head>
+<body class="sim-body">
+  <header class="sim-header">
+    <div><p class="eyebrow">3D · 2D FALLBACK</p><h1 data-i18n="sim.title"></h1><p id="moduleAuthority" class="authority"></p></div>
+    <div class="sim-header-actions"><label><span class="sr-only">Language</span><select id="languageSelect"><option value="zh-Hant">繁體中文</option><option value="en">English</option></select></label><a class="button button-secondary" href="./index.html" data-i18n="sim.back"></a></div>
+  </header>
+  <main class="sim-shell">
+    <aside class="sim-controls" aria-label="Simulation controls">
+      <label><span data-i18n="sim.module"></span><select id="moduleSelect">
+        <option value="underfill">Underfill Dispensing</option><option value="spi">SPI</option><option value="fpca">FPCA</option><option value="reflow">Reflow</option><option value="bga">BGA Cross-Section</option><option value="flow">Capillary Flow Lab</option><option value="pattern">Pattern Lab</option><option value="void">Void Simulation</option><option value="warpage">Warpage Analysis</option>
+      </select></label>
+      <div class="control-group"><label><span data-i18n="sim.temperature"></span><output id="temperatureValue">85</output><input id="temperature" type="range" min="25" max="160" value="85"></label></div>
+      <div class="control-group"><label><span data-i18n="sim.pressure"></span><output id="pressureValue">0.20</output><input id="pressure" type="range" min="0.10" max="0.35" step="0.01" value="0.20"></label></div>
+      <div class="control-group"><label><span data-i18n="sim.clearance"></span><output id="clearanceValue">0.3</output><input id="clearance" type="range" min="0.2" max="0.5" step="0.1" value="0.3"></label></div>
+      <div class="control-group"><label><span data-i18n="sim.progress"></span><output id="progressValue">45</output><input id="progress" type="range" min="0" max="100" value="45"></label></div>
+      <div class="view-presets" aria-label="Camera presets"><button class="view-button active" data-view="process" type="button" data-i18n="sim.processView"></button><button class="view-button" data-view="cross" type="button" data-i18n="sim.crossView"></button><button class="view-button" data-view="top" type="button" data-i18n="sim.topView"></button></div>
+      <button id="resetCamera" class="button button-primary" type="button" data-i18n="sim.reset"></button>
+      <section class="model-card" aria-labelledby="estimateHeading"><h2 id="estimateHeading" data-i18n="sim.estimate"></h2><strong id="estimateValue">—</strong><p data-i18n="sim.notCalibrated"></p><dl><dt>Model</dt><dd id="modelVersion"></dd><dt>Status</dt><dd>EXPERIMENTAL</dd></dl></section>
+      <section class="legend-card"><h2 data-i18n="sim.scale"></h2><dl><dt>PCB</dt><dd>30 × 24 × 0.8 mm</dd><dt>Package</dt><dd>12 × 12 × 0.8 mm</dd><dt>Ball</dt><dd>Ø 0.45 mm</dd><dt>Standoff</dt><dd>0.35 mm</dd></dl></section>
+    </aside>
+    <section class="viewport-panel" aria-label="Engineering model viewport">
+      <div id="viewport" class="viewport"></div>
+      <div id="fallback" class="fallback" hidden>
+        <div class="notice notice-warning" data-i18n="sim.fallback"></div>
+        <svg viewBox="0 0 900 500" role="img" aria-labelledby="fallbackTitle fallbackDescription">
+          <title id="fallbackTitle">Underfill package cross-section</title><desc id="fallbackDescription">Interactive two-dimensional engineering cross-section of a PCB, solder balls, package, die, underfill and dispensing nozzle.</desc>
+          <rect x="80" y="360" width="740" height="70" rx="5" fill="#176f65"/><rect x="80" y="355" width="740" height="8" fill="#c78b2d"/>
+          <g id="fallbackBalls" fill="#b8c2c5"></g><rect x="270" y="185" width="360" height="120" rx="6" fill="#263f50"/><rect x="350" y="145" width="200" height="42" rx="4" fill="#708c99"/>
+          <path id="fallbackUnderfill" d="M270 305 H630 V347 H270 Z" fill="#d58b38" opacity=".78"/><path d="M170 80 h44 v140 h-44z" fill="#9caeb5"/><path d="M175 220 h34 l-9 76 h-16z" fill="#7f929a"/>
+          <g stroke="#234" stroke-width="2" fill="none"><path d="M270 455H630"/><path d="M270 447v16M630 447v16"/></g><text x="405" y="482" fill="#234" font-size="20">12.0 mm package</text>
+        </svg>
+      </div>
+      <div class="viewport-overlay"><span id="moduleName"></span><span id="renderStatus" role="status" aria-live="polite"></span></div>
+    </section>
+  </main>
+  <script type="module" src="./js/simulator.js"></script>
+</body>
+</html>

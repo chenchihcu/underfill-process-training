@@ -1,0 +1,32 @@
+{
+  "name": "underfill-process-training",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "preview": "vite preview --host 127.0.0.1",
+    "validate:spec": "node scripts/validate-spec.mjs",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
+    "test:visual": "playwright test --grep @visual",
+    "test:encoding": "node scripts/check-encoding.mjs",
+    "build": "npm run validate:spec && vite build && node scripts/postbuild.mjs",
+    "verify:dist": "node scripts/verify-dist.mjs",
+    "verify:release": "node scripts/verify-release.mjs",
+    "check": "npm run test:encoding && npm run validate:spec && npm run test:unit && npm run build && npm run verify:dist"
+  },
+  "dependencies": {
+    "ajv": "8.20.0",
+    "three": "0.184.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.0",
+    "fake-indexeddb": "6.2.5",
+    "vite": "8.0.16",
+    "vitest": "4.1.9"
+  }
+}
